@@ -69,6 +69,6 @@ export async function createThread({
     }
     revalidatePath(path);
   } catch (error: any) {
-    throw new Error(`Failed to update user: ${error.message}`);
+    throw new Error(`Failed to update thread: ${error.message}`);
   }
 }

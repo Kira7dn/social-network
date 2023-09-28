@@ -6,8 +6,7 @@ import { connectDB } from "../mongoose";
 export async function fetchUser(userId: string) {
   try {
     connectDB();
-    const user = await User.findOne({ id: userId });
-    return user;
+    return await User.findOne({ id: userId }).populate("communities");
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
