@@ -24,25 +24,24 @@ import { Textarea } from "../ui/textarea";
 type Props = {
   user: {
     id: string;
-    objectId: string;
+    // objectId: string;
     username: string | null;
     name: string;
     bio: string | undefined;
     image: string | undefined;
   };
   btnTitle: string;
-  currentUser: any;
 };
 
-function AccountProfile({ user, btnTitle, currentUser }: Props) {
+function AccountProfile({ user, btnTitle }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const { startUpload } = useUploadThing("media");
-  const [files, setFile] = useState<File[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      profile_photo: user.image?.toString() || "",
+      profile_photo: user?.image ? user.image : "",
       name: user.name || "",
       username: user.username || "",
       bio: user.bio || "",
@@ -50,9 +49,10 @@ function AccountProfile({ user, btnTitle, currentUser }: Props) {
   });
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
     const blob = values.profile_photo;
-    const hasImageChanged = isBase64Image(blob);
+    const hasImageChanged = isBase64Image(blob) && files.length > 0;
     if (hasImageChanged) {
       const imgRes = await startUpload(files);
+
       if (imgRes && imgRes[0].fileUrl) {
         values.profile_photo = imgRes[0].fileUrl;
       }
@@ -70,9 +70,6 @@ function AccountProfile({ user, btnTitle, currentUser }: Props) {
     } else {
       router.push("/");
     }
-    // currentUser.update({
-    //   imageUrl: values.profile_photo,
-    // });
   };
 
   const handleImage = (
@@ -83,7 +80,7 @@ function AccountProfile({ user, btnTitle, currentUser }: Props) {
     const fileReader = new FileReader();
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      setFile(Array.from(e.target.files));
+      setFiles(Array.from(e.target.files));
       if (!file.type.includes("image")) return;
       fileReader.onload = async (event) => {
         const imageDataUrl = event.target?.result?.toString() || "";

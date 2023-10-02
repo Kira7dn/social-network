@@ -7,6 +7,6 @@ export function cn(...inputs: ClassValue[]) {
 
 // create isBase64 function
 export function isBase64Image(imageData: string) {
-  const regex = /^data:image\/(png|jpeg|jpg|svg\+xml);base64,/;
-  return regex.test(imageData);
+  const base64Regex = /^data:image\/(png|jpe?g|gif|webp);base64,/;
+  return base64Regex.test(imageData);
 }

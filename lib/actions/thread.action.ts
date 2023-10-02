@@ -72,3 +72,53 @@ export async function createThread({
     throw new Error(`Failed to update thread: ${error.message}`);
   }
 }
+async function fetchAllChildThreads(threadId: string): Promise<any[]> {
+  const childThreads = await Thread.find({ parentId: threadId });
+  const decendantThreads = [];
+  for (const childThread of childThreads) {
+    const decendants = await fetchAllChildThreads(childThread._id);
+    decendantThreads.push(childThread, ...decendants);
+  }
+  return decendantThreads;
+}
+
+export async function deleteThread(threadId: string, path: string) {
+  try {
+    connectDB();
+    const mainThread =
+      await Thread.findById(threadId).populate("author community");
+    if (!mainThread) throw new Error("Thread not found");
+    // Fetch all child threads and their descendants recursively
+
+    const decendantThreads = await fetchAllChildThreads(threadId);
+    const decendantThreadIds = [
+      threadId,
+      ...decendantThreads.map((thread) => thread._id),
+    ];
+    // Extract the authorIds and communityIds to update User and Community models respectively
+
+    const uniqueAuthorIds = new Set(
+      [
+        ...decendantThreads.map((thread) => thread.author?._id?.toString()),
+        mainThread.author?._id?.toString(),
+      ].filter((id) => id !== undefined)
+    );
+    const uniqueCommunityIds = new Set(
+      [
+        ...decendantThreads.map((thread) => thread.community?._id?.toString()),
+      ].filter((id) => id !== undefined)
+    );
+    await Thread.deleteMany({ _id: { $in: decendantThreadIds } });
+    await User.updateMany(
+      { _id: { $in: Array.from(uniqueAuthorIds) } },
+      { $pull: { threads: { $in: decendantThreadIds } } }
+    );
+    await Community.updateMany(
+      { _id: { $in: Array.from(uniqueCommunityIds) } },
+      { $pull: { threads: { $in: decendantThreadIds } } }
+    );
+    revalidatePath(path);
+  } catch (error: any) {
+    throw new Error(`Fail to delete thread: ${error.message}`);
+  }
+}
