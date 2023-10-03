@@ -1,5 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { Thread } from "../models/thread.model";
 import User from "../models/user.model";
 import { connectDB } from "../mongoose";
 
@@ -48,5 +49,26 @@ export async function updateUser({
     }
   } catch (error: any) {
     throw new Error(`Failed to update user: ${error.message}`);
+  }
+}
+
+export async function getActivity(userId: string) {
+  try {
+    connectDB();
+    const threads = await Thread.find({ userId: userId });
+    const childrenThreadIds = threads.reduce((acc, thread) => {
+      return acc.concat(thread.children);
+    }, []);
+    const replies = await Thread.find({
+      _id: { $in: childrenThreadIds },
+      userId: { $ne: userId },
+    }).populate({
+      path: "authors",
+      model: "User",
+      select: "name image _id",
+    });
+    return replies;
+  } catch (error) {
+    console.error("Error fetching replies: ", error);
   }
 }
