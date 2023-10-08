@@ -26,6 +26,23 @@ export const sidebarLinks = [
     label: "Profile",
   },
 ];
+export const workspaceLinks = [
+  {
+    imgURL: "/assets/huawei.png",
+    route: "/",
+    label: "Huawei Phone Y23",
+  },
+  {
+    imgURL: "/assets/PnG.png",
+    route: "/",
+    label: "Procter & Gamle AAJ",
+  },
+  {
+    imgURL: "/assets/mcDonald.png",
+    route: "/",
+    label: "McDonalds's chain",
+  },
+];
 
 export const profileTabs = [
   { value: "threads", label: "Threads", icon: "/assets/reply.svg" },

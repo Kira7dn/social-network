@@ -17,9 +17,8 @@ export default async function Home({
   const pageNumber = Number(searchParams.page ? searchParams.page : 1);
   const threads = await fetchPosts(pageNumber, 30);
   return (
-    <div>
-      <h1 className="head-text text-left">Home</h1>
-      <section className="mt-9 flex flex-col gap-10">
+    <div className="">
+      <section className="flex flex-col gap-10">
         {threads.posts.length === 0 ? (
           <p>No threads found</p>
         ) : (
