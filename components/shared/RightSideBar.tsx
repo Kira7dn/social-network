@@ -1,16 +1,17 @@
 import React from "react";
+import Messenger from "../sections/Messenger";
 
 type Props = {};
 
 const RightSideBar = (props: Props) => {
   return (
-    <section className="custom-scrollbar rightsidebar">
-      <div className="text-heading4-medium text-light-1">
-        <h3>Suggested Communities</h3>
-      </div>
-      <div className="text-heading4-medium text-light-1">
-        <h3>Similar Minds</h3>
-      </div>
+    <section className="custom-scrollbar rightsidebar w-3/12">
+      <article className="bg-light-1 mx-2 rounded-lg ">
+        <Messenger />
+      </article>
+      <article className="bg-light-1 mx-2 rounded-lg ">
+        <h3>Events</h3>
+      </article>
     </section>
   );
 };

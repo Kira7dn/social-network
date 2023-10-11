@@ -11,13 +11,15 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import SearchBar from "../forms/SearchBar";
 
 type Props = {};
 
 const Topbar = async (props: Props) => {
+  let userInfo = null;
   const user = await currentUser();
   if (!user) return null;
-  const userInfo = await fetchUser(user.id);
+  if (user) userInfo = await fetchUser(user.id);
   return (
     <nav className="topbar">
       <Link href="/" className="flex items-center gap-4">
@@ -26,6 +28,7 @@ const Topbar = async (props: Props) => {
           Workspace
         </p>
       </Link>
+      <SearchBar />
       <div className="flex items-center gap-1">
         <div className="md:block hidden ">
           <div className="flex gap-5 items-center">
@@ -58,9 +61,11 @@ const Topbar = async (props: Props) => {
                     },
                   }}
                 />
-                <span className="text-base-semibold text-dark-1">
-                  {userInfo.name}
-                </span>
+                {userInfo && (
+                  <span className="text-base-semibold text-dark-1">
+                    {userInfo.name}
+                  </span>
+                )}
               </div>
             </SignedIn>
             <SignedOut>

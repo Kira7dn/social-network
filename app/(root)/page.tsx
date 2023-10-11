@@ -1,4 +1,5 @@
 import ThreadCard from "@/components/cards/ThreadCard";
+import NewPost from "@/components/forms/NewPost";
 import Pagination from "@/components/shared/Pagination";
 import { fetchPosts } from "@/lib/actions/thread.action";
 import { fetchUser } from "@/lib/actions/user.action";
@@ -17,7 +18,8 @@ export default async function Home({
   const pageNumber = Number(searchParams.page ? searchParams.page : 1);
   const threads = await fetchPosts(pageNumber, 30);
   return (
-    <div className="">
+    <div className="flex flex-col gap-7">
+      <NewPost />
       <section className="flex flex-col gap-10">
         {threads.posts.length === 0 ? (
           <p>No threads found</p>

@@ -13,8 +13,8 @@ const MyNavigator = (props: Props) => {
   const { userId } = useAuth();
 
   return (
-    <div className="flex w-full flex-1 flex-col gap-2 px-6 py-4">
-      <div className="flex w-full flex-1 flex-col gap-2">
+    <div className="flex flex-col justify-between px-6 py-4 h-full">
+      <div className="flex flex-col justify-between border-b-[1px] h-3/5 py-2">
         {sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
@@ -47,10 +47,9 @@ const MyNavigator = (props: Props) => {
           );
         })}
       </div>
-      <div className="w-full h-px bg-dark-2"></div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3 h-2/5 py-2 justify-start">
         <div className="text-base-semibold text-dark-2">WorkSpace</div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2">
           {workspaceLinks.map((link) => {
             return (
               <Link
@@ -69,7 +68,7 @@ const MyNavigator = (props: Props) => {
             );
           })}
         </div>
-        <div className="text-subtle-medium-regular text-dark-2 cursor-pointer">
+        <div className="text-small-medium text-dark-2 cursor-pointer">
           View all
         </div>
       </div>

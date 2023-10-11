@@ -12,7 +12,7 @@ const MySignOut = (props: Props) => {
   return (
     <SignedIn>
       <SignOutButton signOutCallback={() => router.push("/sign-in")}>
-        <div className="flex cursor-pointer gap-4 p-2">
+        <div className="flex justify-start cursor-pointer gap-4 p-2">
           <Image src="/assets/logout.svg" alt="logout" width={24} height={24} />
           <p className="text-dark-2 max-lg:hidden">Logout</p>
         </div>
