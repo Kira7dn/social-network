@@ -13,8 +13,8 @@ const Bottombar = (props: Props) => {
   const pathname = usePathname();
   const { userId } = useAuth();
   return (
-    <section className="bottombar">
-      <div className="bottombar_container ">
+    <section className="md:hidden">
+      <div className="">
         {sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||

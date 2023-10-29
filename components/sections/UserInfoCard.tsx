@@ -1,4 +1,3 @@
-import { fetchUser } from "@/lib/actions/user.action";
 import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import React from "react";
@@ -9,10 +8,9 @@ const UserInfoCard = async (props: Props) => {
   const user = await currentUser();
   if (!user) return null;
 
-  const userInfo = await fetchUser(user.id);
   return (
     <div className="flex flex-col my-4 mx-4 py-2 px-2 gap-6">
-      <div className="flex justify-start gap-2 items-start">
+      {/* <div className="flex justify-start gap-2 items-start">
         <div className="items-center">
           <Image
             src={userInfo.image}
@@ -34,7 +32,7 @@ const UserInfoCard = async (props: Props) => {
           </div>
           <p className="text-subtle-medium text-gray-500">@{user.username}</p>
         </div>
-      </div>
+      </div> */}
       <div className="flex justify-between">
         <div className="flex flex-col items-center">
           <p className="text-subtle-semibold text-dark-1">2.5k</p>
