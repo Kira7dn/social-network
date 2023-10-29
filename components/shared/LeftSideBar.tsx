@@ -7,7 +7,7 @@ type Props = {};
 
 const LeftSideBar = (props: Props) => {
   return (
-    <section className="custom-scrollbar leftsidebar w-3/12">
+    <section className="min-h-full w-3/12">
       <article className="bg-light-1 mx-2 rounded-lg">
         <UserInfoCard />
       </article>

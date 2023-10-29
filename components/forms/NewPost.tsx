@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 
@@ -19,7 +20,10 @@ const NewPost = (props: Props) => {
           <div className="grow h-full ">
             <div className="flex gap-2 items-center justify-between ">
               <div className="rounded-xl bg-[#ECE6EB] grow hover:bg-light-2">
-                <p className="flex items-center cursor-pointer ml-2 h-10 bg-transparent flex-1 w-full p-1 rounded-lg shadow-xs text-base text-dark-2 focus:outline-none">
+                <p
+                  onClick={() => console.log("clicked")}
+                  className="flex items-center cursor-pointer ml-2 h-10 bg-transparent flex-1 w-full p-1 rounded-lg shadow-xs text-base text-dark-2 focus:outline-none"
+                >
                   What is on your mind?
                 </p>
               </div>

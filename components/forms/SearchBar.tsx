@@ -1,9 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-type Props = {};
-
-function SearchBar({}: Props) {
+function SearchBar() {
   return (
     <div className="flex-1 max-w-lg h-full">
       <form
