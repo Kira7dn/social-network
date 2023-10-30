@@ -7,15 +7,9 @@ type Props = {};
 
 const LeftSideBar = (props: Props) => {
   return (
-    <section className="min-h-full w-3/12">
-      <article className="bg-light-1 mx-2 rounded-lg">
-        <UserInfoCard />
-      </article>
-      <article className="bg-light-1 mx-2 my-2 rounded-lg grow">
+    <section className="w-3/12 h-full">
+      <article className="rounded-lg grow h-full">
         <MyNavigator />
-      </article>
-      <article className="mx-2 my-2 px-6">
-        <MySignOut />
       </article>
     </section>
   );

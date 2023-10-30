@@ -49,7 +49,7 @@ export default function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-            storageKey="jotion-theme-2"
+            storageKey="theme"
           >
             <Toaster position="bottom-center" />
             {/* <ModalProvider /> */}
@@ -59,7 +59,7 @@ export default function RootLayout({
                 <div className="flex flex-row h-full w-full justify-between max-w-screen-2xl">
                   <LeftSideBar />
                   <section className="flex-1 w-6/12 max-w-4xl">
-                    <div className="p-4">{children}</div>
+                    {children}
                   </section>
                   <RightSideBar />
                 </div>

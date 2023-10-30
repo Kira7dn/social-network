@@ -6,15 +6,12 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 
-type Props = {};
-
-const MyNavigator = (props: Props) => {
+const MyNavigator = () => {
   const pathname = usePathname();
   const { userId } = useAuth();
-
   return (
-    <div className="flex flex-col justify-between px-6 py-4 h-full">
-      <div className="flex flex-col justify-between border-b-[1px] h-3/5 py-2">
+    <div className="h-full flex flex-col justify-between px-6 py-4">
+      <div className="flex flex-col border-b-[1px] h-3/5 py-2 gap-2">
         {sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
@@ -26,20 +23,25 @@ const MyNavigator = (props: Props) => {
             <Link
               href={link.route}
               key={link.label}
-              className={`leftsidebar_link ${isActive && "bg-primary-500"}`}
+              className={`rounded-xl flex gap-2 py-2 px-2 ${
+                isActive && "bg-primary-300 dark:bg-light-1"
+              }`}
             >
-              <Image
-                src={`/assets/${link.label.toLocaleLowerCase()}${
-                  isActive ? "" : "-gray"
-                }.svg`}
-                alt={link.label}
-                width={24}
-                height={24}
-              />
+              <div
+                className={`${
+                  isActive
+                    ? "text-light-1 dark:text-dark-1"
+                    : "text-dark-2 dark:text-light-1"
+                }`}
+              >
+                {link.component}
+              </div>
               <p
                 className={`${
-                  isActive ? "text-light-1" : "text-dark-2"
-                } max-lg:hidden text-base-semibold`}
+                  isActive
+                    ? "text-light-1 dark:text-dark-1"
+                    : "text-dark-2 dark:text-light-1"
+                } max-md:hidden text-base-semibold`}
               >
                 {link.label}
               </p>
@@ -47,8 +49,10 @@ const MyNavigator = (props: Props) => {
           );
         })}
       </div>
-      <div className="flex flex-col gap-3 h-2/5 py-2 justify-start">
-        <div className="text-base-semibold text-dark-2">WorkSpace</div>
+      <div className="flex flex-col gap-3 py-2 justify-start">
+        <div className="text-base-semibold text-dark-2 dark:text-light-1">
+          WorkSpace
+        </div>
         <div className="flex flex-col gap-2">
           {workspaceLinks.map((link) => {
             return (
@@ -63,12 +67,14 @@ const MyNavigator = (props: Props) => {
                   width={20}
                   height={20}
                 />
-                <p className="text-small-medium text-dark-2">{link.label}</p>
+                <p className="text-small-medium text-dark-2 dark:text-light-1">
+                  {link.label}
+                </p>
               </Link>
             );
           })}
         </div>
-        <div className="text-small-medium text-dark-2 cursor-pointer">
+        <div className="text-small-medium text-dark-2 cursor-pointer dark:text-light-1">
           View all
         </div>
       </div>
