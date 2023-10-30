@@ -1,7 +1,5 @@
 import React from "react";
-import UserInfoCard from "../sections/UserInfoCard";
 import MyNavigator from "../sections/MyNavigator";
-import MySignOut from "../sections/MySignOut";
 
 type Props = {};
 

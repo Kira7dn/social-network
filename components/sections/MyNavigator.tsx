@@ -5,13 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
+import Workspaces from "./Workspaces";
 
 const MyNavigator = () => {
   const pathname = usePathname();
   const { userId } = useAuth();
   return (
-    <div className="h-full flex flex-col justify-between px-6 py-4">
-      <div className="flex flex-col border-b-[1px] h-3/5 py-2 gap-2">
+    <div className="h-full flex flex-col gap-2 px-6 py-4">
+      <div className="flex flex-col border-b-[1px] py-2 gap-2">
         {sidebarLinks.map((link) => {
           const isActive =
             (pathname.includes(link.route) && link.route.length > 1) ||
@@ -49,35 +50,7 @@ const MyNavigator = () => {
           );
         })}
       </div>
-      <div className="flex flex-col gap-3 py-2 justify-start">
-        <div className="text-base-semibold text-dark-2 dark:text-light-1">
-          WorkSpace
-        </div>
-        <div className="flex flex-col gap-2">
-          {workspaceLinks.map((link) => {
-            return (
-              <Link
-                href={link.route}
-                key={link.label}
-                className="flex gap-2 cursor-pointer"
-              >
-                <Image
-                  src={link.imgURL}
-                  alt={link.label}
-                  width={20}
-                  height={20}
-                />
-                <p className="text-small-medium text-dark-2 dark:text-light-1">
-                  {link.label}
-                </p>
-              </Link>
-            );
-          })}
-        </div>
-        <div className="text-small-medium text-dark-2 cursor-pointer dark:text-light-1">
-          View all
-        </div>
-      </div>
+      <Workspaces />
     </div>
   );
 };

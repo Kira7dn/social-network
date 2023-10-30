@@ -5,12 +5,9 @@ type Props = {};
 
 const RightSideBar = (props: Props) => {
   return (
-    <section className="custom-scrollbar rightsidebar w-3/12 ">
-      <article className="bg-light-1 mx-2 rounded-lg ">
+    <section className="w-3/12 ">
+      <article className=" mx-2 rounded-lg ">
         <Messenger />
-      </article>
-      <article className="bg-light-1 mx-2 rounded-lg ">
-        <h3>Events</h3>
       </article>
     </section>
   );

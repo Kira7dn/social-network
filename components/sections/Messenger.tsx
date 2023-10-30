@@ -1,95 +1,48 @@
-"use client";
+import { Edit, Search } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { clerkClient } from "@clerk/nextjs";
 
-type Props = {};
+async function Messenger() {
+  const users = await clerkClient.users.getUserList();
+  console.log(users);
 
-function Messenger({}: Props) {
-  // give me some fake user
-  const friends = [
-    {
-      id: 1,
-      name: "John Doe",
-      avatar: "/assets/user.png",
-      status: "online",
-    },
-    {
-      id: 2,
-      name: "Paul Doe",
-      avatar: "/assets/user.png",
-      status: "offline",
-    },
-    {
-      id: 3,
-      name: "Patrick Doe",
-      avatar: "/assets/user.png",
-      status: "offline",
-    },
-    {
-      id: 4,
-      name: "James Eric",
-      avatar: "/assets/user.png",
-      status: "online",
-    },
-    {
-      id: 5,
-      name: "Park Jimin",
-      avatar: "/assets/user.png",
-      status: "online",
-    },
-    {
-      id: 6,
-      name: "John Doe",
-      avatar: "/assets/user.png",
-      status: "online",
-    },
-    {
-      id: 7,
-      name: "John Doe",
-      avatar: "/assets/user.png",
-      status: "offline",
-    },
-  ];
   return (
     <section className="flex flex-col gap-4 p-6 rounded-xl">
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
-          <p className="text-base-semibold text-dark-1">Messages</p>
-          <Image
-            src="/assets/edit-gray.svg"
-            alt=" edit message"
-            width={20}
-            height={20}
-          />
+          <p className="text-base-semibold text-dark-1 dark:text-light-1">
+            Messages
+          </p>
+          <Edit size={16} />
         </div>
         <div>
           <form
             action=""
-            className="px-4 rounded-3xl flex justify-between bg-[#ECE6EB]"
+            className="px-4 rounded-3xl flex justify-between bg-sky-50 hover:bg-sky-200 grow dark:hover:bg-neutral-100 dark:bg-neutral-300"
           >
             <input
               type="text"
               placeholder="Search"
-              className="h-10 bg-transparent flex-1 w-full p-1 rounded-lg shadow-xs text-base text-dark-1 placeholder-dark-2 focus:outline-none"
+              className="cursor-pointer h-8 bg-transparent flex-1 w-full p-1 rounded-md shadow-xs text-base  text-dark-1 placeholder-dark-2 focus:outline-none"
             />
-            <button type="submit">
-              <Image
-                src="/assets/search-message.svg"
-                alt="search"
-                width={20}
-                height={20}
-              />
+            <button type="submit" className="text-dark-1">
+              <Search size={16} />
             </button>
           </form>
         </div>
       </div>
       <div className="flex flex-col gap-2 ">
         <div className="flex justify-between border-b-[1px] pb-2 border-dark-2">
-          <p className="text-small-semibold text-dark-1">Friends</p>
-          <p className="text-small-semibold text-primary-500">Request(4)</p>
+          <p className="text-small-semibold text-dark-1 dark:text-light-1">
+            Friends
+          </p>
+          <p className="text-small-semibold text-primary-500 dark:text-light-1">
+            Request(4)
+          </p>
         </div>
         <div className="flex flex-col gap-2">
-          {friends.map((friend) => (
+          {users.map((friend) => (
             <div
               className="flex justify-between items-center gap-2"
               key={friend.id}
@@ -97,20 +50,22 @@ function Messenger({}: Props) {
               <div className="flex items-center gap-2">
                 <div className="relative">
                   <Image
-                    src={friend.avatar}
-                    alt={friend.name}
+                    src={friend.profileImageUrl}
+                    alt={friend?.username || ""}
                     width={40}
                     height={40}
                     className="rounded-full"
                   />
                   <div
-                    className={`w-2.5 h-2.5 absolute right-0.5 bottom-0.5 rounded-full bg-primary-500`}
+                    className={`w-2.5 h-2.5 absolute right-0.5 bottom-0.5 rounded-full bg-sky-500 dark:bg-light-1`}
                   ></div>
                 </div>
 
                 <div className="flex flex-col">
-                  <p className="text-small-semibold text-dark-1">
-                    {friend.name}
+                  <p className="text-small-semibold text-dark-1 dark:text-light-1">
+                    {friend.firstName && friend.lastName
+                      ? friend.firstName + " " + friend.lastName
+                      : friend.username}
                   </p>
                 </div>
               </div>
