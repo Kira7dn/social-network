@@ -5,7 +5,6 @@ import { clerkClient } from "@clerk/nextjs";
 
 async function Messenger() {
   const users = await clerkClient.users.getUserList();
-  console.log(users);
 
   return (
     <section className="flex flex-col gap-4 p-6 rounded-xl">
@@ -50,7 +49,7 @@ async function Messenger() {
               <div className="flex items-center gap-2">
                 <div className="relative">
                   <Image
-                    src={friend.profileImageUrl}
+                    src={friend.imageUrl}
                     alt={friend?.username || ""}
                     width={40}
                     height={40}
