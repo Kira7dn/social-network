@@ -122,8 +122,8 @@ export const Navigation = () => {
   };
 
   const handleCreate = () => {
-    const promise = create({ title: "Untitled" }).then((documentId) =>
-      router.push(`/workspaces/${documentId}`)
+    const promise = create({ title: "Untitled" }).then((workspaceId) =>
+      router.push(`/workspaces/${workspaceId}`)
     );
 
     toast.promise(promise, {
@@ -153,10 +153,10 @@ export const Navigation = () => {
         >
           <ChevronsLeft className="h-6 w-6" />
         </div>
-        <div>
-          <UserItem />
+        <div className="pt-10">
+          {/* <UserItem /> */}
           <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
-          <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
+          {/* <Item label="Settings" icon={Settings} onClick={settings.onOpen} /> */}
           <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
         <div className="mt-4">
@@ -183,12 +183,12 @@ export const Navigation = () => {
       <div
         ref={navbarRef}
         className={cn(
-          "absolute top-0 z-[99999] left-60 w-[calc(100%-240px)]",
+          "absolute top-0 z-[1] left-60 w-[calc(100%-240px)]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "left-0 w-full"
         )}
       >
-        {!!params.documentId ? (
+        {!!params.workspaceId ? (
           <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
         ) : (
           <nav className="bg-transparent px-3 py-2 w-full">

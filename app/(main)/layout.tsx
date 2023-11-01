@@ -4,15 +4,19 @@ import type { Metadata } from "next";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
-// import { EdgeStoreProvider } from "@/lib/edgestore";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 import "../globals.css";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { Topbar } from "@/components/shared/Topbar";
+import LeftSideBar from "@/components/shared/LeftSideBar";
+import RightSideBar from "@/components/shared/RightSideBar";
+import Bottombar from "@/components/shared/Bottombar";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Jotion",
+  title: "Workspace",
   description: "The connected workspace where better, faster work happens.",
   icons: {
     icon: [
@@ -39,19 +43,29 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ConvexClientProvider>
-          {/* <EdgeStoreProvider> */}
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-            storageKey="theme"
-          >
-            <Toaster position="bottom-center" />
-            <ModalProvider />
-            {children}
-          </ThemeProvider>
-          {/* </EdgeStoreProvider> */}
+          <EdgeStoreProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              storageKey="theme"
+            >
+              <Toaster position="bottom-center" />
+              <ModalProvider />
+              <div className="h-full">
+                <Topbar />
+                <main className="flex justify-center h-full pt-[72px] ">
+                  <div className="flex flex-row h-full w-full justify-between">
+                    <LeftSideBar />
+                    {children}
+                    <RightSideBar />
+                  </div>
+                </main>
+                <Bottombar />
+              </div>
+            </ThemeProvider>
+          </EdgeStoreProvider>
         </ConvexClientProvider>
       </body>
     </html>

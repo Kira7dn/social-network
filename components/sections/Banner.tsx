@@ -10,17 +10,17 @@ import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "../modals/ConfirmModal";
 
 interface BannerProps {
-  documentId: Id<"documents">;
+  workspaceId: Id<"documents">;
 }
 
-export const Banner = ({ documentId }: BannerProps) => {
+export const Banner = ({ workspaceId }: BannerProps) => {
   const router = useRouter();
 
   const remove = useMutation(api.documents.remove);
   const restore = useMutation(api.documents.restore);
 
   const onRemove = () => {
-    const promise = remove({ id: documentId });
+    const promise = remove({ id: workspaceId });
 
     toast.promise(promise, {
       loading: "Deleting note...",
@@ -32,7 +32,7 @@ export const Banner = ({ documentId }: BannerProps) => {
   };
 
   const onRestore = () => {
-    const promise = restore({ id: documentId });
+    const promise = restore({ id: workspaceId });
 
     toast.promise(promise, {
       loading: "Restoring note...",

@@ -12,6 +12,7 @@ import { useUser } from "@clerk/clerk-react";
 import { redirect } from "next/navigation";
 import { Search } from "lucide-react";
 import SearchBar from "../forms/SearchBar";
+import { UserItem } from "../sections/UserItem";
 
 export const Topbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -25,22 +26,23 @@ export const Topbar = () => {
     >
       <div className="max-w-screen-2xl w-full flex justify-between items-center">
         <Logo />
-        <SearchBar />
+        {/* <SearchBar /> */}
         <div className="md:justify-end justify-between flex items-center gap-x-8">
           {isLoading && <Spinner />}
           {!isAuthenticated && !isLoading && redirect("/log-in")}
           {isAuthenticated && !isLoading && (
-            <>
-              <UserButton
-                afterSignOutUrl="/"
-                showName
-                appearance={{
-                  elements: {
-                    userButtonOuterIdentifier: "dark:text-white",
-                  },
-                }}
-              />
-            </>
+            <UserItem />
+            // <>
+            //   <UserButton
+            //     afterSignOutUrl="/"
+            //     showName
+            //     appearance={{
+            //       elements: {
+            //         userButtonOuterIdentifier: "dark:text-white",
+            //       },
+            //     }}
+            //   />
+            // </>
           )}
           <ModeToggle />
         </div>

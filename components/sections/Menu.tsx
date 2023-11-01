@@ -19,17 +19,17 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface MenuProps {
-  documentId: Id<"documents">;
+  workspaceId: Id<"documents">;
 }
 
-export const Menu = ({ documentId }: MenuProps) => {
+export const Menu = ({ workspaceId }: MenuProps) => {
   const router = useRouter();
   const { user } = useUser();
 
   const archive = useMutation(api.documents.archive);
 
   const onArchive = () => {
-    const promise = archive({ id: documentId });
+    const promise = archive({ id: workspaceId });
 
     toast.promise(promise, {
       loading: "Moving to trash...",

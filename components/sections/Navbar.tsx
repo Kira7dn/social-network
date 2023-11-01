@@ -21,7 +21,7 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
   const params = useParams();
 
   const document = useQuery(api.documents.getById, {
-    documentId: params.documentId as Id<"documents">,
+    workspaceId: params.workspaceId as Id<"documents">,
   });
 
   if (document === undefined) {
@@ -53,11 +53,11 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
           <Title initialData={document} />
           <div className="flex items-center gap-x-2">
             <Publish initialData={document} />
-            <Menu documentId={document._id} />
+            <Menu workspaceId={document._id} />
           </div>
         </div>
       </nav>
-      {document.isArchived && <Banner documentId={document._id} />}
+      {document.isArchived && <Banner workspaceId={document._id} />}
     </>
   );
 };

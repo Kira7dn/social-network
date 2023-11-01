@@ -78,11 +78,11 @@ export const Item = ({
     event.stopPropagation();
     if (!id) return;
     const promise = create({ title: "Untitled", parentDocument: id }).then(
-      (documentId) => {
+      (workspaceId) => {
         if (!expanded) {
           onExpand?.();
         }
-        router.push(`/workspaces/${documentId}`);
+        router.push(`/workspaces/${workspaceId}`);
       }
     );
 

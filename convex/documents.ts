@@ -24,14 +24,12 @@ export const archive = mutation({
       throw new Error("Unauthorized");
     }
 
-    const recursiveArchive = async (documentId: Id<"documents">) => {
+    const recursiveArchive = async (workspaceId: Id<"documents">) => {
       const children = await ctx.db
         .query("documents")
-        .withIndex("by_user_parent", (q) => (
-          q
-            .eq("userId", userId)
-            .eq("parentDocument", documentId)
-        ))
+        .withIndex("by_user_parent", (q) =>
+          q.eq("userId", userId).eq("parentDocument", workspaceId)
+        )
         .collect();
 
       for (const child of children) {
@@ -41,7 +39,7 @@ export const archive = mutation({
 
         await recursiveArchive(child._id);
       }
-    }
+    };
 
     const document = await ctx.db.patch(args.id, {
       isArchived: true,
@@ -50,12 +48,12 @@ export const archive = mutation({
     recursiveArchive(args.id);
 
     return document;
-  }
-})
+  },
+});
 
 export const getSidebar = query({
   args: {
-    parentDocument: v.optional(v.id("documents"))
+    parentDocument: v.optional(v.id("documents")),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -69,13 +67,9 @@ export const getSidebar = query({
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_user_parent", (q) =>
-        q
-          .eq("userId", userId)
-          .eq("parentDocument", args.parentDocument)
+        q.eq("userId", userId).eq("parentDocument", args.parentDocument)
       )
-      .filter((q) =>
-        q.eq(q.field("isArchived"), false)
-      )
+      .filter((q) => q.eq(q.field("isArchived"), false))
       .order("desc")
       .collect();
 
@@ -86,7 +80,7 @@ export const getSidebar = query({
 export const create = mutation({
   args: {
     title: v.string(),
-    parentDocument: v.optional(v.id("documents"))
+    parentDocument: v.optional(v.id("documents")),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -106,7 +100,7 @@ export const create = mutation({
     });
 
     return document;
-  }
+  },
 });
 
 export const getTrash = query({
@@ -122,14 +116,12 @@ export const getTrash = query({
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_user", (q) => q.eq("userId", userId))
-      .filter((q) =>
-        q.eq(q.field("isArchived"), true),
-      )
+      .filter((q) => q.eq(q.field("isArchived"), true))
       .order("desc")
       .collect();
 
     return documents;
-  }
+  },
 });
 
 export const restore = mutation({
@@ -153,14 +145,12 @@ export const restore = mutation({
       throw new Error("Unauthorized");
     }
 
-    const recursiveRestore = async (documentId: Id<"documents">) => {
+    const recursiveRestore = async (workspaceId: Id<"documents">) => {
       const children = await ctx.db
         .query("documents")
-        .withIndex("by_user_parent", (q) => (
-          q
-            .eq("userId", userId)
-            .eq("parentDocument", documentId)
-        ))
+        .withIndex("by_user_parent", (q) =>
+          q.eq("userId", userId).eq("parentDocument", workspaceId)
+        )
         .collect();
 
       for (const child of children) {
@@ -170,7 +160,7 @@ export const restore = mutation({
 
         await recursiveRestore(child._id);
       }
-    }
+    };
 
     const options: Partial<Doc<"documents">> = {
       isArchived: false,
@@ -188,7 +178,7 @@ export const restore = mutation({
     recursiveRestore(args.id);
 
     return document;
-  }
+  },
 });
 
 export const remove = mutation({
@@ -215,7 +205,7 @@ export const remove = mutation({
     const document = await ctx.db.delete(args.id);
 
     return document;
-  }
+  },
 });
 
 export const getSearch = query({
@@ -231,22 +221,20 @@ export const getSearch = query({
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_user", (q) => q.eq("userId", userId))
-      .filter((q) =>
-        q.eq(q.field("isArchived"), false),
-      )
+      .filter((q) => q.eq(q.field("isArchived"), false))
       .order("desc")
-      .collect()
+      .collect();
 
     return documents;
-  }
+  },
 });
 
 export const getById = query({
-  args: { documentId: v.id("documents") },
+  args: { workspaceId: v.id("documents") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
 
-    const document = await ctx.db.get(args.documentId);
+    const document = await ctx.db.get(args.workspaceId);
 
     if (!document) {
       throw new Error("Not found");
@@ -267,7 +255,7 @@ export const getById = query({
     }
 
     return document;
-  }
+  },
 });
 
 export const update = mutation({
@@ -277,7 +265,7 @@ export const update = mutation({
     content: v.optional(v.string()),
     coverImage: v.optional(v.string()),
     icon: v.optional(v.string()),
-    isPublished: v.optional(v.boolean())
+    isPublished: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -330,11 +318,11 @@ export const removeIcon = mutation({
     }
 
     const document = await ctx.db.patch(args.id, {
-      icon: undefined
+      icon: undefined,
     });
 
     return document;
-  }
+  },
 });
 
 export const removeCoverImage = mutation({
@@ -363,5 +351,5 @@ export const removeCoverImage = mutation({
     });
 
     return document;
-  }
+  },
 });

@@ -25,16 +25,16 @@ export const TrashBox = () => {
     return document.title.toLowerCase().includes(search.toLowerCase());
   });
 
-  const onClick = (documentId: string) => {
-    router.push(`/workspaces/${documentId}`);
+  const onClick = (workspaceId: string) => {
+    router.push(`/workspaces/${workspaceId}`);
   };
 
   const onRestore = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    documentId: Id<"documents">
+    workspaceId: Id<"documents">
   ) => {
     event.stopPropagation();
-    const promise = restore({ id: documentId });
+    const promise = restore({ id: workspaceId });
 
     toast.promise(promise, {
       loading: "Restoring note...",
@@ -43,8 +43,8 @@ export const TrashBox = () => {
     });
   };
 
-  const onRemove = (documentId: Id<"documents">) => {
-    const promise = remove({ id: documentId });
+  const onRemove = (workspaceId: Id<"documents">) => {
+    const promise = remove({ id: workspaceId });
 
     toast.promise(promise, {
       loading: "Deleting note...",
@@ -52,7 +52,7 @@ export const TrashBox = () => {
       error: " Failed to delete note.",
     });
 
-    if (params.documentId === documentId) {
+    if (params.workspaceId === workspaceId) {
       router.push("/workspaces");
     }
   };

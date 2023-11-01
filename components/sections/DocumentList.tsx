@@ -24,10 +24,10 @@ export const DocumentList = ({
   const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  const onExpand = (documentId: string) => {
+  const onExpand = (workspaceId: string) => {
     setExpanded((prevExpanded) => ({
       ...prevExpanded,
-      [documentId]: !prevExpanded[documentId],
+      [workspaceId]: !prevExpanded[workspaceId],
     }));
   };
 
@@ -35,8 +35,8 @@ export const DocumentList = ({
     parentDocument: parentDocumentId,
   });
 
-  const onRedirect = (documentId: string) => {
-    router.push(`/workspaces/${documentId}`);
+  const onRedirect = (workspaceId: string) => {
+    router.push(`/workspaces/${workspaceId}`);
   };
 
   if (documents === undefined) {
@@ -75,7 +75,7 @@ export const DocumentList = ({
             label={document.title}
             icon={FileIcon}
             documentIcon={document.icon}
-            active={params.documentId === document._id}
+            active={params.workspaceId === document._id}
             level={level}
             onExpand={() => onExpand(document._id)}
             expanded={expanded[document._id]}

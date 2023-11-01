@@ -39,7 +39,7 @@ export const CoverImageModal = () => {
       });
 
       await update({
-        id: params.documentId as Id<"documents">,
+        id: params.workspaceId as Id<"documents">,
         coverImage: res.url,
       });
 
