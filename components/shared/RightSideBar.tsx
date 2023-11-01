@@ -5,11 +5,9 @@ type Props = {};
 
 const RightSideBar = (props: Props) => {
   return (
-    <section className="w-3/12 ">
-      <article className=" mx-2 rounded-lg ">
-        <Messenger />
-      </article>
-    </section>
+    <aside className="border-l-2 border-secondary bg-background dark:bg-[#1F1F1F] overflow-y-auto w-60">
+      <Messenger />
+    </aside>
   );
 };
 

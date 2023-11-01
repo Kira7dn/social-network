@@ -1,18 +1,15 @@
 "use client";
 
 import { useConvexAuth } from "convex/react";
-import { UserButton } from "@clerk/clerk-react";
 
 import { useScrollTop } from "@/hooks/use-scroll-top";
 import { ModeToggle } from "@/components/mode-toggle";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { Spinner } from "../spinner";
-import { useUser } from "@clerk/clerk-react";
 import { redirect } from "next/navigation";
-import { Search } from "lucide-react";
-import SearchBar from "../forms/SearchBar";
 import { UserItem } from "../sections/UserItem";
+import Link from "next/link";
 
 export const Topbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -25,25 +22,14 @@ export const Topbar = () => {
       )}
     >
       <div className="max-w-screen-2xl w-full flex justify-between items-center">
-        <Logo />
+        <Link href="/">
+          <Logo />
+        </Link>
         {/* <SearchBar /> */}
         <div className="md:justify-end justify-between flex items-center gap-x-8">
           {isLoading && <Spinner />}
           {!isAuthenticated && !isLoading && redirect("/log-in")}
-          {isAuthenticated && !isLoading && (
-            <UserItem />
-            // <>
-            //   <UserButton
-            //     afterSignOutUrl="/"
-            //     showName
-            //     appearance={{
-            //       elements: {
-            //         userButtonOuterIdentifier: "dark:text-white",
-            //       },
-            //     }}
-            //   />
-            // </>
-          )}
+          {isAuthenticated && !isLoading && <UserItem />}
           <ModeToggle />
         </div>
       </div>

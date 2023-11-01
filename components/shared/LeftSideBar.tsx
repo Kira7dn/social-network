@@ -12,9 +12,9 @@ const LeftSideBar = (props: Props) => {
 
   return (
     <section className={`w-3/12 h-full ${!isHome && "hidden"}`}>
-      <article className="rounded-lg grow h-full">
+      <aside className="rounded-lg grow h-full bg-background dark:bg-[#1F1F1F] overflow-y-auto w-60">
         <MyNavigator />
-      </article>
+      </aside>
     </section>
   );
 };

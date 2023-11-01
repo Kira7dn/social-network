@@ -7,11 +7,9 @@ import React from "react";
 function Workspaces() {
   return (
     <div className="flex flex-col gap-3 py-2 justify-start">
-      <div className="text-base-semibold text-dark-2 dark:text-light-1">
-        WorkSpace
-      </div>
+      <div className="text-base-semibold">WorkSpace</div>
       <div className="flex justify-start p-2 cursor-pointer">
-        <div className="hover:text-primary-500 flex items-center gap-2 text-dark-1 dark:text-light-1">
+        <div className="hover:text-primary flex items-center gap-2">
           <PlusCircle />
           <span className="text-subtle-semibold">Create new</span>
         </div>
@@ -37,9 +35,7 @@ function Workspaces() {
           );
         })} */}
       </div>
-      <div className="text-small-medium text-dark-2 cursor-pointer dark:text-light-1">
-        View all
-      </div>
+      <div className="text-small-medium cursor-pointer ">View all</div>
     </div>
   );
 }

@@ -2,7 +2,6 @@
 import React from "react";
 import { sidebarLinks, workspaceLinks } from "@/constants";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
 import Workspaces from "./Workspaces";
@@ -25,23 +24,15 @@ const MyNavigator = () => {
               href={link.route}
               key={link.label}
               className={`rounded-xl flex gap-2 py-2 px-2 ${
-                isActive && "bg-primary-300 dark:bg-light-1"
+                isActive && "bg-primary"
               }`}
             >
-              <div
-                className={`${
-                  isActive
-                    ? "text-light-1 dark:text-dark-1"
-                    : "text-dark-2 dark:text-light-1"
-                }`}
-              >
+              <div className={`${isActive && "text-primary-foreground"}`}>
                 {link.component}
               </div>
               <p
                 className={`${
-                  isActive
-                    ? "text-light-1 dark:text-dark-1"
-                    : "text-dark-2 dark:text-light-1"
+                  isActive && "text-primary-foreground"
                 } max-md:hidden text-base-semibold`}
               >
                 {link.label}

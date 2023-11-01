@@ -10,35 +10,29 @@ async function Messenger() {
     <section className="flex flex-col gap-4 p-6 rounded-xl">
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
-          <p className="text-base-semibold text-dark-1 dark:text-light-1">
-            Messages
-          </p>
-          <Edit size={16} />
+          <p className="text-base-semibold ">Messages</p>
+          <Edit size={16} className="text-primary cursor-pointer" />
         </div>
         <div>
           <form
             action=""
-            className="px-4 rounded-3xl flex justify-between bg-sky-50 hover:bg-sky-200 grow dark:hover:bg-neutral-100 dark:bg-neutral-300"
+            className="px-4 rounded-3xl flex justify-between border-[1px] border-secondary hover:bg-secondary grow"
           >
             <input
               type="text"
               placeholder="Search"
-              className="cursor-pointer h-8 bg-transparent flex-1 w-full p-1 rounded-md shadow-xs text-base  text-dark-1 placeholder-dark-2 focus:outline-none"
+              className="cursor-pointer h-6 bg-transparent flex-1 w-full p-1 rounded-md shadow-xs text-subtle-medium focus:outline-none"
             />
-            <button type="submit" className="text-dark-1">
+            <button type="submit" className="text-primary">
               <Search size={16} />
             </button>
           </form>
         </div>
       </div>
       <div className="flex flex-col gap-2 ">
-        <div className="flex justify-between border-b-[1px] pb-2 border-dark-2">
-          <p className="text-small-semibold text-dark-1 dark:text-light-1">
-            Friends
-          </p>
-          <p className="text-small-semibold text-primary-500 dark:text-light-1">
-            Request(4)
-          </p>
+        <div className="flex justify-between border-b-[1px] pb-2 border-primary/20">
+          <p className="text-small-semibold ">Friends</p>
+          <p className="text-small-semibold ">Request(4)</p>
         </div>
         <div className="flex flex-col gap-2">
           {users.map((friend) => (
@@ -56,12 +50,12 @@ async function Messenger() {
                     className="rounded-full"
                   />
                   <div
-                    className={`w-2.5 h-2.5 absolute right-0.5 bottom-0.5 rounded-full bg-sky-500 dark:bg-light-1`}
+                    className={`w-2.5 h-2.5 absolute right-0.5 bottom-0.5 rounded-full bg-sky-500 `}
                   ></div>
                 </div>
 
                 <div className="flex flex-col">
-                  <p className="text-small-semibold text-dark-1 dark:text-light-1">
+                  <p className="text-small-semibold ">
                     {friend.firstName && friend.lastName
                       ? friend.firstName + " " + friend.lastName
                       : friend.username}
@@ -71,7 +65,7 @@ async function Messenger() {
             </div>
           ))}
         </div>
-        <div className="text-subtle-medium text-dark-2">View all</div>
+        <div className="text-subtle-medium cursor-pointer">View all</div>
       </div>
     </section>
   );
