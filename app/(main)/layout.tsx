@@ -56,7 +56,7 @@ export default function RootLayout({
               <div className="h-full">
                 <Topbar />
                 <main className="flex justify-center h-full pt-[72px] ">
-                  <div className="flex flex-row h-full w-full justify-between">
+                  <div className="flex flex-row h-full w-full justify-between max-w-screen-2xl">
                     <LeftSideBar />
                     {children}
                     <RightSideBar />

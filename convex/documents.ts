@@ -229,6 +229,18 @@ export const getSearch = query({
   },
 });
 
+export const getPublish = query({
+  handler: async (ctx) => {
+    const documents = await ctx.db
+      .query("documents")
+      .filter((q) => q.eq(q.field("isPublished"), true))
+      .order("desc")
+      .collect();
+
+    return documents;
+  },
+});
+
 export const getById = query({
   args: { workspaceId: v.id("documents") },
   handler: async (ctx, args) => {

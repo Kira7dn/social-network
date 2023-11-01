@@ -17,11 +17,11 @@ export const Topbar = () => {
   return (
     <div
       className={cn(
-        "z-50 bg-background dark:bg-[#1F1F1F] fixed top-0  w-full px-6 py-4 flex justify-center items-center transition-all duration-300",
+        "z-50 bg-background dark:bg-[#1F1F1F] fixed top-0 w-full  flex justify-center items-center transition-all duration-300",
         scrolled && "border-b shadow-sm"
       )}
     >
-      <div className="max-w-screen-2xl w-full flex justify-between items-center">
+      <div className="px-6 py-4 max-w-screen-2xl w-full flex justify-between items-center">
         <Link href="/">
           <Logo />
         </Link>
