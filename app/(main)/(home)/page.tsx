@@ -1,9 +1,9 @@
 "use client";
-import Editor from "@/components/editor";
-import NewPost from "@/components/forms/NewPost";
+import NewPost from "@/app/(main)/(home)/_components/NewPost";
 import Pagination from "@/components/shared/Pagination";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
+import Post from "./_components/Post";
 
 export default function Home({
   searchParams,
@@ -15,17 +15,10 @@ export default function Home({
   console.log(published);
 
   return (
-    <div className="min-h-full flex flex-col gap-7 px-6 py-4 grow">
+    <div className="relative flex flex-col gap-7 px-6 py-4 grow items-center max-w-3xl">
       <NewPost />
-      {published && (
-        <Editor
-          editable={false}
-          onChange={(content: string) => {
-            console.log(content);
-          }}
-          initialContent={published[0].content}
-        />
-      )}
+      {published?.map((post) => <Post key={post._id} post={post} />)}
+
       <Pagination pageNumber={pageNumber} iSNext={true} path="/" />
     </div>
   );

@@ -13,7 +13,7 @@ async function Messenger() {
           <p className="text-base-semibold ">Messages</p>
           <Edit size={16} className="text-primary cursor-pointer" />
         </div>
-        <div>
+        {/* <div>
           <form
             action=""
             className="px-4 rounded-3xl flex justify-between border-[1px] border-secondary hover:bg-secondary grow"
@@ -27,7 +27,7 @@ async function Messenger() {
               <Search size={16} />
             </button>
           </form>
-        </div>
+        </div> */}
       </div>
       <div className="flex flex-col gap-2 ">
         <div className="flex justify-between border-b-[1px] pb-2 border-primary/20">

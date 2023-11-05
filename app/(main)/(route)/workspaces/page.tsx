@@ -31,16 +31,16 @@ const DocumentsPage = () => {
     <div className="h-full flex flex-col items-center justify-center space-y-4">
       <Image
         src="/assets/empty.png"
-        height="300"
-        width="300"
-        alt="Empty"
+        height={300}
+        width={300} // replace with the actual width of the image
+        alt="empty"
         className="dark:hidden"
       />
       <Image
         src="/assets/empty-dark.png"
-        height="300"
-        width="300"
-        alt="Empty"
+        height={300}
+        width={300} // replace with the actual width of the image
+        alt="empty"
         className="hidden dark:block"
       />
       <h2 className="text-lg font-medium">

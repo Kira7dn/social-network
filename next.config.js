@@ -6,6 +6,7 @@ const nextConfig = {
       "images.clerk.dev",
       "www.gravatar.com",
       "files.edgestore.dev",
+      "i.ytimg.com",
     ],
   },
 };

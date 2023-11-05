@@ -17,7 +17,7 @@ export const Topbar = () => {
   return (
     <div
       className={cn(
-        "z-50 bg-background dark:bg-[#1F1F1F] fixed top-0 w-full  flex justify-center items-center transition-all duration-300",
+        "z-50 bg-card fixed top-0 w-full flex justify-center items-center transition-all duration-300 h-14",
         scrolled && "border-b shadow-sm"
       )}
     >

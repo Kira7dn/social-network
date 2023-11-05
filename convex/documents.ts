@@ -84,17 +84,24 @@ export const create = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
+    console.log("identity", identity);
 
     if (!identity) {
       throw new Error("Not authenticated");
     }
 
     const userId = identity.subject;
+    const userFullname = identity.name
+      ? identity.name
+      : identity.givenName || "" + " " + identity.familyName || "";
+    const userPicture = identity.pictureUrl || "";
 
     const document = await ctx.db.insert("documents", {
       title: args.title,
       parentDocument: args.parentDocument,
       userId,
+      userFullname,
+      userPicture,
       isArchived: false,
       isPublished: false,
     });
@@ -236,7 +243,6 @@ export const getPublish = query({
       .filter((q) => q.eq(q.field("isPublished"), true))
       .order("desc")
       .collect();
-
     return documents;
   },
 });

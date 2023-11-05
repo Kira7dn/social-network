@@ -53,9 +53,9 @@ export default function RootLayout({
             >
               <Toaster position="bottom-center" />
               <ModalProvider />
-              <div className="h-full">
+              <div className="h-full bg-background">
                 <Topbar />
-                <main className="flex justify-center h-full pt-[72px] ">
+                <main className="flex justify-center h-full pt-[72px] overflow-y-auto">
                   <div className="flex flex-row h-full w-full justify-between max-w-screen-2xl">
                     <LeftSideBar />
                     {children}

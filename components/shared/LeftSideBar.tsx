@@ -19,7 +19,7 @@ const LeftSideBar = (props: Props) => {
   return (
     <aside
       className={cn(
-        "rounded-lg bg-background dark:bg-[#1F1F1F] overflow-y-auto w-60 h-full",
+        "rounded-lg overflow-y-auto w-60 h-full",
         !isHome && "hidden"
       )}
     >

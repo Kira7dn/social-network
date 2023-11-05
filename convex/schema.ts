@@ -5,6 +5,8 @@ export default defineSchema({
   documents: defineTable({
     title: v.string(),
     userId: v.string(),
+    userFullname: v.optional(v.string()),
+    userPicture: v.optional(v.string()),
     isArchived: v.boolean(),
     parentDocument: v.optional(v.id("documents")),
     content: v.optional(v.string()),
@@ -12,6 +14,6 @@ export default defineSchema({
     icon: v.optional(v.string()),
     isPublished: v.boolean(),
   })
-  .index("by_user", ["userId"])
-  .index("by_user_parent", ["userId", "parentDocument"])
+    .index("by_user", ["userId"])
+    .index("by_user_parent", ["userId", "parentDocument"]),
 });
