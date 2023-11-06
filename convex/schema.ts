@@ -5,8 +5,8 @@ export default defineSchema({
   documents: defineTable({
     title: v.string(),
     userId: v.string(),
-    userFullname: v.optional(v.string()),
-    userPicture: v.optional(v.string()),
+    userFullname: v.string(),
+    userPicture: v.string(),
     isArchived: v.boolean(),
     parentDocument: v.optional(v.id("documents")),
     content: v.optional(v.string()),
