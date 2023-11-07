@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 
 type Props = {
   pageNumber: number;
@@ -28,15 +28,15 @@ function Pagination({ pageNumber, iSNext, path }: Props) {
   return (
     <div className="mt-10 flex justify-center gap-5 items-center w-full">
       <Button
-        className="!text-small-regular text-light-2"
+        className="!text-small-regular "
         disabled={pageNumber === 1}
         onClick={() => handleNavigation("prev")}
       >
         Previous
       </Button>
-      <p className="text-small-semibold text-light-1">{pageNumber}</p>
+      <p className="text-small-semibold ">{pageNumber}</p>
       <Button
-        className="!text-small-regular text-light-2"
+        className="!text-small-regular "
         onClick={() => handleNavigation("next")}
       >
         Next

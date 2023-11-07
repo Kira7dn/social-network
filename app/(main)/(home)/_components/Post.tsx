@@ -1,4 +1,5 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Id } from "@/convex/_generated/dataModel";
 import { createdTime } from "@/lib/utils";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
@@ -79,3 +80,19 @@ function Post({ post }: Props) {
 }
 
 export default Post;
+Post.Skeleton = function CoverSkeleton() {
+  return (
+    <div className="flex flex-col rounded-md pt-2 bg-card w-full gap-2">
+      <div className="flex items-center gap-4 flex-start px-4 py-2">
+        <Skeleton className="h-10 w-10 rounded-full" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+      <Skeleton className="h-4 w-full" />
+
+      <Skeleton className="w-full h-72" />
+    </div>
+  );
+};

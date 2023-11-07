@@ -53,17 +53,17 @@ export default function RootLayout({
             >
               <Toaster position="bottom-center" />
               <ModalProvider />
-              <div className="h-full bg-background">
-                <Topbar />
-                <main className="flex justify-center h-full pt-[72px] overflow-y-auto">
-                  <div className="flex flex-row h-full w-full justify-between max-w-screen-2xl">
-                    <LeftSideBar />
-                    {children}
-                    <RightSideBar />
-                  </div>
-                </main>
-                <Bottombar />
-              </div>
+              <Topbar />
+              <main className="flex justify-center pt-[72px]">
+                <div className="w-full max-w-screen-2xl flex justify-between min-h-screen">
+                  <LeftSideBar />
+                  <section className="flex min-h-screen flex-1 flex-col items-center">
+                    <div className="w-full max-w-4xl">{children}</div>
+                  </section>
+                  <RightSideBar />
+                </div>
+              </main>
+              <Bottombar />
             </ThemeProvider>
           </EdgeStoreProvider>
         </ConvexClientProvider>
