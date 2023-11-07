@@ -12,6 +12,7 @@ import { Topbar } from "@/components/shared/Topbar";
 import LeftSideBar from "@/components/shared/LeftSideBar";
 import RightSideBar from "@/components/shared/RightSideBar";
 import Bottombar from "@/components/shared/Bottombar";
+import LayoutComponent from "@/components/hocs/layoutComponent";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,7 +42,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className}`}>
         <ConvexClientProvider>
           <EdgeStoreProvider>
             <ThemeProvider
@@ -53,17 +54,14 @@ export default function RootLayout({
             >
               <Toaster position="bottom-center" />
               <ModalProvider />
-              <Topbar />
-              <main className="flex justify-center pt-[72px]">
-                <div className="w-full max-w-screen-2xl flex justify-between min-h-screen">
-                  <LeftSideBar />
-                  <section className="flex min-h-screen flex-1 flex-col items-center">
-                    <div className="w-full max-w-4xl">{children}</div>
-                  </section>
-                  <RightSideBar />
-                </div>
-              </main>
-              <Bottombar />
+              <LayoutComponent
+                left={<LeftSideBar />}
+                right={<RightSideBar />}
+                top={<Topbar />}
+                bottom={<Bottombar />}
+              >
+                {children}
+              </LayoutComponent>
             </ThemeProvider>
           </EdgeStoreProvider>
         </ConvexClientProvider>

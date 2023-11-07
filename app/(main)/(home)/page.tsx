@@ -28,7 +28,7 @@ export default function Home({
   }
 
   return (
-    <div className="h-auto relative flex flex-col gap-7 px-6 py-4 grow items-center max-w-3xl pb-4">
+    <div className="h-auto w-full relative flex flex-col gap-7 px-6 py-4 grow items-center max-w-4xl pb-4">
       <NewPost />
       {Posts}
       <Pagination pageNumber={pageNumber} iSNext={true} path="/" />

@@ -6,7 +6,6 @@ import {
   Plus,
   PlusCircle,
   Search,
-  Settings,
   Trash,
 } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -23,17 +22,14 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 
-import { useSettings } from "@/hooks/use-setting";
 import { useSearch } from "@/hooks/use-search";
-import { Navbar } from "./Navbar";
-import { UserItem } from "./UserItem";
-import { Item } from "./Item";
-import { DocumentList } from "./DocumentList";
-import { TrashBox } from "./TrashBox";
+import { Navbar } from "../../../../../components/sections/Navbar";
+import { Item } from "../../../../../components/sections/Item";
+import { DocumentList } from "../../../../../components/sections/DocumentList";
+import { TrashBox } from "../../../../../components/sections/TrashBox";
 
 export const Navigation = () => {
   const router = useRouter();
-  const settings = useSettings();
   const search = useSearch();
   const params = useParams();
   const pathname = usePathname();
@@ -65,6 +61,7 @@ export const Navigation = () => {
   ) => {
     event.preventDefault();
     event.stopPropagation();
+    console.log(event.clientX);
 
     isResizingRef.current = true;
     document.addEventListener("mousemove", handleMouseMove);
@@ -74,16 +71,14 @@ export const Navigation = () => {
   const handleMouseMove = (event: MouseEvent) => {
     if (!isResizingRef.current) return;
     let newWidth = event.clientX;
-
     if (newWidth < 240) newWidth = 240;
     if (newWidth > 480) newWidth = 480;
-
     if (sidebarRef.current && navbarRef.current) {
       sidebarRef.current.style.width = `${newWidth}px`;
       navbarRef.current.style.setProperty("left", `${newWidth}px`);
       navbarRef.current.style.setProperty(
         "width",
-        `calc(100% - ${newWidth}px)`
+        `calc(100%  - ${newWidth}px)`
       );
     }
   };
@@ -113,7 +108,6 @@ export const Navigation = () => {
     if (sidebarRef.current && navbarRef.current) {
       setIsCollapsed(true);
       setIsResetting(true);
-
       sidebarRef.current.style.width = "0";
       navbarRef.current.style.setProperty("width", "100%");
       navbarRef.current.style.setProperty("left", "0");
@@ -138,9 +132,10 @@ export const Navigation = () => {
       <aside
         ref={sidebarRef}
         className={cn(
-          "group/sidebar h-full bg-background dark:bg-[#1F1F1F] border-t-2 border-r-2 border-secondary overflow-y-auto relative flex w-60 flex-col z-[1]",
+          "group/sidebar h-full  overflow-y-auto relative flex w-60 flex-col z-[1]",
           isResetting && "transition-all ease-in-out duration-300",
-          isMobile && "w-0"
+          isMobile && "w-0",
+          !isCollapsed && "border-r-[1px] border-secondary"
         )}
       >
         <div
@@ -154,9 +149,7 @@ export const Navigation = () => {
           <ChevronsLeft className="h-6 w-6" />
         </div>
         <div className="pt-10">
-          {/* <UserItem /> */}
           <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
-          {/* <Item label="Settings" icon={Settings} onClick={settings.onOpen} /> */}
           <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
         <div className="mt-4">

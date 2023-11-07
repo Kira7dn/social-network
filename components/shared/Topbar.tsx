@@ -17,16 +17,15 @@ export const Topbar = () => {
   return (
     <div
       className={cn(
-        "z-50 bg-card fixed top-0 w-full flex justify-center items-center transition-all duration-300 h-14",
+        "z-50 bg-card fixed top-0 w-full flex justify-center items-center transition-all duration-300 h-14 pr-4",
         scrolled && "border-b shadow-sm"
       )}
     >
-      <div className="px-6 py-4 max-w-screen-2xl w-full flex justify-between items-center">
+      <div className="px-6 w-full flex justify-between items-center">
         <Link href="/">
           <Logo />
         </Link>
-        {/* <SearchBar /> */}
-        <div className="md:justify-end justify-between flex items-center gap-x-8">
+        <div className="md:justify-end justify-start flex items-center gap-x-8">
           {isLoading && <Spinner />}
           {!isAuthenticated && !isLoading && redirect("/log-in")}
           {isAuthenticated && !isLoading && <UserItem />}

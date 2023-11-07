@@ -7,6 +7,9 @@ body,
 :root {
   height: 100%;
 }
+body {
+  overflow-y: scroll !important;
+}
 @layer base {
   :root {
     --background: 216 20% 95%;
