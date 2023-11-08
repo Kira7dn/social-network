@@ -4,7 +4,7 @@ import { sidebarLinks, workspaceLinks } from "@/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
-import Workspaces from "./Workspaces";
+import Workspaces from "./ParentSpaces";
 
 const MyNavigator = () => {
   const pathname = usePathname();

@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
-import MyNavigator from "../sections/MyNavigator";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
-import { sidebarLinks, workspaceLinks } from "@/constants";
+import { sidebarLinks } from "@/constants";
 import Link from "next/link";
-import Workspaces from "../sections/Workspaces";
+import ParentSpaces from "../sections/ParentSpaces";
+import { useConvexAuth } from "convex/react";
+import { Spinner } from "../spinner";
 
 type Props = {};
 
@@ -15,14 +16,17 @@ const LeftSideBar = (props: Props) => {
   const isHome = path === "/";
   const pathname = usePathname();
   const { userId } = useAuth();
+  const { isLoading } = useConvexAuth();
 
+  if (isLoading) {
+    return (
+      <div className="h-full w-60 max-h-screen flex items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
   return (
-    <aside
-      className={cn(
-        "rounded-lg overflow-y-auto w-60 h-full",
-        !isHome && "hidden"
-      )}
-    >
+    <aside className={cn("rounded-lg w-60 max-h-screen", !isHome && "hidden")}>
       <div className="h-full flex flex-col gap-2 px-6 py-4">
         <div className="flex flex-col border-b-[1px] py-2 gap-2">
           {sidebarLinks.map((link) => {
@@ -54,7 +58,7 @@ const LeftSideBar = (props: Props) => {
             );
           })}
         </div>
-        <Workspaces />
+        <ParentSpaces />
       </div>
     </aside>
   );

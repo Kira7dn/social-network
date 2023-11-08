@@ -23,10 +23,10 @@ import {
 } from "@/components/ui/popover";
 
 import { useSearch } from "@/hooks/use-search";
-import { Navbar } from "../../../../../components/sections/Navbar";
-import { Item } from "../../../../../components/sections/Item";
-import { DocumentList } from "../../../../../components/sections/DocumentList";
-import { TrashBox } from "../../../../../components/sections/TrashBox";
+import { Navbar } from "./Navbar";
+import { Item } from "./Item";
+import { DocumentList } from "./DocumentList";
+import { TrashBox } from "./TrashBox";
 
 export const Navigation = () => {
   const router = useRouter();
@@ -48,6 +48,7 @@ export const Navigation = () => {
     } else {
       resetWidth();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobile]);
 
   useEffect(() => {
@@ -61,7 +62,6 @@ export const Navigation = () => {
   ) => {
     event.preventDefault();
     event.stopPropagation();
-    console.log(event.clientX);
 
     isResizingRef.current = true;
     document.addEventListener("mousemove", handleMouseMove);

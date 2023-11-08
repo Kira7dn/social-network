@@ -67,9 +67,13 @@ function Post({ post }: Props) {
           }
           if (item.type === "paragraph") {
             if (!item.content[0]) return null;
+            let text = item.content.reduce(
+              (acc: string, curr: { text: string }) => acc + curr.text,
+              ""
+            );
             return (
               <p key={item.id} className="px-6">
-                {item.content[0].text}
+                {text}
               </p>
             );
           }

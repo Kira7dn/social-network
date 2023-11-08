@@ -10,7 +10,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Spinner } from "@/components/spinner";
 import { Input } from "@/components/ui/input";
-import { ConfirmModal } from "../modals/ConfirmModal";
+import { ConfirmModal } from "../../../../../components/modals/ConfirmModal";
 
 export const TrashBox = () => {
   const router = useRouter();
