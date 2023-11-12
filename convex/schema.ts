@@ -16,4 +16,9 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_user_parent", ["userId", "parentDocument"]),
+  messages: defineTable({
+    body: v.string(),
+    fromId: v.string(),
+    toId: v.string(),
+  }).index("by_from_to", ["fromId", "toId"]),
 });

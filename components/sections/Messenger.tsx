@@ -1,60 +1,40 @@
-import { Edit, Search } from "lucide-react";
-import Image from "next/image";
+"use client";
 import React from "react";
-import { clerkClient } from "@clerk/nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useChatbox } from "@/hooks/use-chatbox";
 
-async function Messenger() {
-  const users = await clerkClient.users.getUserList();
+type Props = {
+  id: string;
+  username: string | null;
+  name: string;
+  imageUrl: string;
+};
+
+function Messenger({ id, username, name, imageUrl }: Props) {
+  const { onOpen } = useChatbox();
 
   return (
-    <section className="flex flex-col gap-4 p-6 rounded-xl">
-      <div className="flex flex-col gap-2">
-        <div className="flex justify-between">
-          <p className="text-base-semibold ">Messages</p>
-          <Edit size={16} className="text-primary cursor-pointer" />
+    <div
+      className="flex justify-between items-center gap-2 cursor-pointer hover:bg-primary/10 rounded-xl p-2"
+      key={id}
+      onClick={() => onOpen(id, name, imageUrl)}
+    >
+      <div className="flex items-center gap-2">
+        <div className="relative">
+          <Avatar>
+            <AvatarImage src={imageUrl} />
+            <AvatarFallback>{name}</AvatarFallback>
+          </Avatar>
+          <div
+            className={`w-2.5 h-2.5 absolute right-0.5 bottom-0.5 rounded-full bg-sky-500`}
+          ></div>
         </div>
-      </div>
-      <div className="flex flex-col gap-2 ">
-        <div className="flex justify-between border-b-[1px] pb-2 border-primary/20">
-          <p className="text-small-semibold ">Friends</p>
-          <p className="text-small-semibold ">Request(4)</p>
-        </div>
-        <div className="flex flex-col gap-2">
-          {users.map((friend) => (
-            <div
-              className="flex justify-between items-center gap-2"
-              key={friend.id}
-            >
-              <div className="flex items-center gap-2">
-                <div className="relative">
-                  <Avatar>
-                    <AvatarImage src={friend.imageUrl} />
-                    <AvatarFallback>
-                      {friend.firstName && friend.lastName
-                        ? friend.firstName + " " + friend.lastName
-                        : friend.username}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div
-                    className={`w-2.5 h-2.5 absolute right-0.5 bottom-0.5 rounded-full bg-sky-500 `}
-                  ></div>
-                </div>
 
-                <div className="flex flex-col">
-                  <p className="text-small-semibold ">
-                    {friend.firstName && friend.lastName
-                      ? friend.firstName + " " + friend.lastName
-                      : friend.username}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="flex flex-col">
+          <p className="text-small-semibold capitalize text-ellipsis">{name}</p>
         </div>
-        <div className="text-subtle-medium cursor-pointer">View all</div>
       </div>
-    </section>
+    </div>
   );
 }
 
