@@ -8,7 +8,7 @@ type Props = {};
 const ChatboxList = (props: Props) => {
   const { store } = useChatbox();
   return (
-    <div className="fixed bottom-0 right-0 flex gap-2 flex-row">
+    <div className="fixed bottom-0 right-8 flex gap-2 flex-row ">
       {store.map((friend) => (
         <Chatbox
           id={friend.id}
