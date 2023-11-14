@@ -27,7 +27,7 @@ export const Topbar = () => {
         </Link>
         <div className="md:justify-end justify-start flex items-center gap-x-8">
           {isLoading && <Spinner />}
-          {!isAuthenticated && !isLoading && redirect("/log-in")}
+          {!isAuthenticated && !isLoading && redirect("/sign-in")}
           {isAuthenticated && !isLoading && <UserItem />}
           <ModeToggle />
         </div>
