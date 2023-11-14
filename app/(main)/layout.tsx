@@ -13,7 +13,6 @@ import LeftSideBar from "@/components/shared/LeftSideBar";
 import RightSideBar from "@/components/shared/RightSideBar";
 import Bottombar from "@/components/shared/Bottombar";
 import LayoutComponent from "@/components/hocs/layoutComponent";
-import ChatboxList from "@/components/shared/ChatboxList";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -63,7 +62,6 @@ export default function RootLayout({
               >
                 {children}
               </LayoutComponent>
-              <ChatboxList />
             </ThemeProvider>
           </EdgeStoreProvider>
         </ConvexClientProvider>

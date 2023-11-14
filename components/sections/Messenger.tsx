@@ -2,6 +2,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useChatbox } from "@/hooks/use-chatbox";
+import ChatboxList from "../shared/ChatContainer";
 
 type Props = {
   id: string;

@@ -2,9 +2,23 @@ import React from "react";
 import Messenger from "../sections/Messenger";
 import { Edit } from "lucide-react";
 import { clerkClient } from "@clerk/nextjs";
+import ChatboxList from "./ChatContainer";
+import ChatContainer from "./ChatContainer";
 
 const RightSideBar = async () => {
   const users = await clerkClient.users.getUserList();
+  // make function to convert users to plain object
+  const plainUsers = users.map((user) => {
+    return {
+      id: user.id,
+      username: user.username,
+      name:
+        user.firstName && user.lastName
+          ? user.firstName + " " + user.lastName
+          : user.username || "",
+      imageUrl: user.imageUrl,
+    };
+  });
   return (
     <aside className="border-l-2 border-secondary overflow-y-auto w-60">
       <section className="flex flex-col gap-4 py-6 px-2 rounded-xl fixed">
@@ -23,7 +37,9 @@ const RightSideBar = async () => {
             {users.map((friend) => {
               const { id, username, firstName, lastName, imageUrl } = friend;
               const name =
-                firstName && lastName ? firstName + " " + lastName : username;
+                firstName && lastName
+                  ? firstName + " " + lastName
+                  : username || "";
               return (
                 <Messenger
                   key={id}
@@ -38,6 +54,7 @@ const RightSideBar = async () => {
           <div className="text-subtle-medium cursor-pointer">View all</div>
         </div>
       </section>
+      <ChatContainer users={plainUsers} />
     </aside>
   );
 };

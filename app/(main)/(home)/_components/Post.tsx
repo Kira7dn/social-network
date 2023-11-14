@@ -61,7 +61,8 @@ function Post({ post }: Props) {
                         33vw"
                 className="h-full w-full pt-2"
                 alt="image"
-                objectFit="contain"
+                // objectFit="contain"
+                priority
               />
             );
           }

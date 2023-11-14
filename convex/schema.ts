@@ -20,5 +20,8 @@ export default defineSchema({
     body: v.string(),
     fromId: v.string(),
     toId: v.string(),
-  }).index("by_from_to", ["fromId", "toId"]),
+    seen: v.optional(v.boolean()),
+  })
+    .index("by_from_to", ["fromId", "toId"])
+    .index("by_recipient", ["toId", "seen"]),
 });
