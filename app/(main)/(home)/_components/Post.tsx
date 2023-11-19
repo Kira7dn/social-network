@@ -73,7 +73,7 @@ function Post({ post }: Props) {
               ""
             );
             return (
-              <p key={item.id} className="px-6">
+              <p key={item.id} className="px-6 pb-2">
                 {text}
               </p>
             );

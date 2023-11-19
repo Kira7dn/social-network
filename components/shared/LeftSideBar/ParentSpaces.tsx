@@ -4,7 +4,7 @@ import { LucideIcon, MoreHorizontal, PlusCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FileIcon } from "lucide-react";
 import React from "react";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Id } from "@/convex/_generated/dataModel";
 
@@ -42,7 +42,6 @@ function ParentSpaces() {
     <div className="flex flex-col gap-3 py-2 justify-start">
       <div className="text-base-semibold">WorkSpace</div>
       <div className="flex flex-col gap-2">{Workspaces}</div>
-      <div className="text-small-medium cursor-pointer ">View all</div>
     </div>
   );
 }

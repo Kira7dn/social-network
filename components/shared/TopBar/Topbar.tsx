@@ -1,15 +1,14 @@
 "use client";
 
 import { useConvexAuth } from "convex/react";
-
 import { useScrollTop } from "@/hooks/use-scroll-top";
 import { ModeToggle } from "@/components/mode-toggle";
 import { cn } from "@/lib/utils";
-import { Logo } from "./Logo";
-import { Spinner } from "../spinner";
+import { Spinner } from "../../spinner";
 import { redirect } from "next/navigation";
-import { UserItem } from "../sections/UserItem";
+import { UserItem } from "./UserItem";
 import Link from "next/link";
+import { Logo } from "./Logo";
 
 export const Topbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();

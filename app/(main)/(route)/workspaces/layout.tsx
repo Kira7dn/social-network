@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 import { Spinner } from "@/components/spinner";
 import { Navigation } from "@/app/(main)/(route)/workspaces/_components/Navigation";
-import { SearchCommand } from "@/components/sections/SearchCommand";
+import { SearchCommand } from "@/app/(main)/(route)/workspaces/_components/SearchCommand";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading } = useConvexAuth();

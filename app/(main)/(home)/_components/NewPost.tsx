@@ -11,7 +11,7 @@ const NewPost = (props: Props) => {
   const { user } = useUser();
   if (!user)
     return (
-      <div className="w-full rounded-md flex flex-col bg-card px-4 py-6">
+      <div className="w-full rounded-md flex flex-col bg-card px-4 py-6 shadow-md border-gray-500">
         <div className="">
           <div className="flex justify-center items-center gap-2">
             <div className="h-11 w-11 relative">
@@ -35,7 +35,7 @@ const NewPost = (props: Props) => {
     );
 
   return (
-    <div className="w-full rounded-md flex flex-col bg-card px-4 py-6">
+    <div className="w-full rounded-md flex flex-col bg-card px-4 py-6 shadow-md border-gray-500">
       <div className="">
         <div className="flex justify-center items-center gap-2">
           <div className="h-11 w-11 relative">

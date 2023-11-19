@@ -83,10 +83,10 @@ export const Publish = ({ initialData }: PublishProps) => {
             <div className="flex items-center gap-x-2">
               <Globe className="text-sky-500 animate-pulse h-4 w-4" />
               <p className="text-xs font-medium text-sky-500">
-                This note is live on web.
+                This note is published.
               </p>
             </div>
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <input
                 className="flex-1 px-2 text-xs border rounded-l-md h-8 bg-muted truncate"
                 value={url}
@@ -103,7 +103,7 @@ export const Publish = ({ initialData }: PublishProps) => {
                   <Copy className="h-4 w-4" />
                 )}
               </Button>
-            </div>
+            </div> */}
             <Button
               size="sm"
               className="w-full text-xs"
@@ -118,7 +118,7 @@ export const Publish = ({ initialData }: PublishProps) => {
             <Globe className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-sm font-medium mb-2">Publish this note</p>
             <span className="text-xs text-muted-foreground mb-4">
-              Share your work with others.
+              Share your note with others.
             </span>
             <Button
               disabled={isSubmitting}

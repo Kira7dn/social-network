@@ -1,9 +1,9 @@
 "use client";
 import { useChatbox } from "@/hooks/use-chatbox";
 import React from "react";
-import Chatbox from "./ChatBox";
 import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import Chatbox from "./ChatBox";
 
 type Props = {
   users: {

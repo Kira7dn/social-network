@@ -8,9 +8,9 @@ import { EdgeStoreProvider } from "@/lib/edgestore";
 
 import "../globals.css";
 import { ModalProvider } from "@/components/providers/modal-provider";
-import { Topbar } from "@/components/shared/Topbar";
-import LeftSideBar from "@/components/shared/LeftSideBar";
-import RightSideBar from "@/components/shared/RightSideBar";
+import { Topbar } from "@/components/shared/TopBar/Topbar";
+import LeftSideBar from "@/components/shared/LeftSideBar/LeftSideBar";
+import RightSideBar from "@/components/shared/RightSideBar/RightSideBar";
 import Bottombar from "@/components/shared/Bottombar";
 import LayoutComponent from "@/components/hocs/layoutComponent";
 

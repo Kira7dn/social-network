@@ -150,11 +150,14 @@ export const Navigation = () => {
         </div>
         <div className="pt-10">
           <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
-          <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
+          <Item
+            onClick={handleCreate}
+            label="New Workspace"
+            icon={PlusCircle}
+          />
         </div>
         <div className="mt-4">
           <DocumentList />
-          <Item onClick={handleCreate} icon={Plus} label="Add a page" />
           <Popover>
             <PopoverTrigger className="w-full mt-4">
               <Item label="Trash" icon={Trash} />

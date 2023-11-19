@@ -12,7 +12,7 @@ import {
   MenubarMenu,
   MenubarSeparator,
   MenubarTrigger,
-} from "../ui/menubar";
+} from "../../ui/menubar";
 
 export const UserItem = () => {
   const { user } = useUser();

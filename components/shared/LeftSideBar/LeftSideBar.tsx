@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import { sidebarLinks } from "@/constants";
 import Link from "next/link";
-import ParentSpaces from "../sections/ParentSpaces";
+import ParentSpaces from "./ParentSpaces";
 import { useConvexAuth } from "convex/react";
-import { Spinner } from "../spinner";
+import { Spinner } from "../../spinner";
 
 type Props = {};
 
