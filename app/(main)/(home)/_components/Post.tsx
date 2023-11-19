@@ -37,7 +37,7 @@ function Post({ post }: Props) {
           <p className="text-subtle-medium">{timeStamp}</p>
         </div>
       </div>
-      <p className="px-2">{`${post.icon} ${post.title}`}</p>
+      <p className="px-2 text-heading4-medium">{`${post.icon} ${post.title}`}</p>
       {data.map(
         (item: {
           title: string;
