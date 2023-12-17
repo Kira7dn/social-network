@@ -1,5 +1,4 @@
 import { Toaster } from "sonner";
-import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -13,8 +12,33 @@ import LeftSideBar from "@/components/shared/LeftSideBar/LeftSideBar";
 import RightSideBar from "@/components/shared/RightSideBar/RightSideBar";
 import Bottombar from "@/components/shared/Bottombar";
 import LayoutComponent from "@/components/hocs/layoutComponent";
+import createLocalFont from 'next/font/local'
+const LGEI = createLocalFont({
+  src: [
+    {
+      path: './fonts/LGEIText-Light.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/LGEIText-Regular.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './fonts/LGEIText-SemiBold.otf',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: './fonts/LGEIText-Bold.otf',
+      weight: '700',
+      style: 'normal',
+    }
+  ],
+})
 
-const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "Workspace",
@@ -42,7 +66,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className}`}>
+      <body className={`${LGEI.className}`}>
         <ConvexClientProvider>
           <EdgeStoreProvider>
             <ThemeProvider
