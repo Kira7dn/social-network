@@ -11,8 +11,8 @@ import { Topbar } from "@/components/shared/TopBar/Topbar";
 import LeftSideBar from "@/components/shared/LeftSideBar/LeftSideBar";
 import RightSideBar from "@/components/shared/RightSideBar/RightSideBar";
 import Bottombar from "@/components/shared/Bottombar";
-import LayoutComponent from "@/components/hocs/layoutComponent";
 import createLocalFont from 'next/font/local'
+import LayoutComponent2 from "@/components/hocs/layoutComponent2";
 const LGEI = createLocalFont({
   src: [
     {
@@ -78,14 +78,14 @@ export default function RootLayout({
             >
               <Toaster position="bottom-center" />
               <ModalProvider />
-              <LayoutComponent
+              <LayoutComponent2
                 left={<LeftSideBar />}
                 right={<RightSideBar />}
                 top={<Topbar />}
                 bottom={<Bottombar />}
               >
                 {children}
-              </LayoutComponent>
+              </LayoutComponent2>
             </ThemeProvider>
           </EdgeStoreProvider>
         </ConvexClientProvider>

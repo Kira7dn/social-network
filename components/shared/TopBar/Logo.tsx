@@ -1,23 +1,36 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-export const Logo = () => {
+type props = {
+  expanded: boolean;
+};
+export const Logo = ({ expanded }: props) => {
   return (
-    <div className="hidden md:flex items-center gap-x-2">
+    <div className="flex items-center gap-x-4 justify-start">
       <Image
         src="/assets/logo.svg"
-        height="40"
-        width="40"
+        height="48"
+        width="48"
         alt="Logo"
-        className="dark:hidden"
+        className="dark:hidden w-auto"
+        priority
       />
       <Image
         src="/assets/logo-dark.svg"
-        height="40"
-        width="40"
+        height="48"
+        width="48"
         alt="Logo"
-        className="hidden dark:block"
+        className="hidden dark:block w-auto"
+        priority
       />
-      <p className="text-heading4-bold">Workspace</p>
+      <p
+        className={cn(
+          "transition-all ease-out duration-300 overflow-hidden text-secondary text-heading4-bold",
+          !expanded && "opacity-0"
+        )}
+      >
+        Workspace
+      </p>
     </div>
   );
 };

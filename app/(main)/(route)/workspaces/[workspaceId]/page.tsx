@@ -1,39 +1,30 @@
 "use client";
 
 import { useMutation, useQuery } from "convex/react";
-import dynamic from "next/dynamic";
-import { useMemo } from "react";
-
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { Toolbar } from "@/components/toolbar";
-import { Cover } from "@/components/cover";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Cover } from "../_components/cover";
+import TaskList from "../_components/Tasks";
+import TaskActivity from "../_components/TaskActivity";
+import Schedule from "../_components/Schedule";
+import TaskMember from "../_components/TaskMember";
 
-interface DocumentIdPageProps {
+interface WorkspaceIdPageProps {
   params: {
-    workspaceId: Id<"documents">;
+    workspaceId: Id<"workspace">;
   };
 }
 
-const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
-  const Editor = useMemo(
-    () => dynamic(() => import("@/components/editor"), { ssr: false }),
-    []
-  );
-
-  const document = useQuery(api.documents.getById, {
+const DocumentIdPage = ({
+  params,
+}: WorkspaceIdPageProps) => {
+  const workspace = useQuery(api.workspace.getById, {
     workspaceId: params.workspaceId,
   });
+  console.log(workspace);
 
-  const update = useMutation(api.documents.update);
-
-  const onChange = (content: string) => {
-    update({
-      id: params.workspaceId,
-      content,
-    });
-  };
+  const update = useMutation(api.workspace.update);
 
   if (document === undefined) {
     return (
@@ -56,11 +47,20 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   }
 
   return (
-    <div className="pb-40">
-      <Cover url={document.coverImage} />
-      <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-        <Toolbar initialData={document} />
-        <Editor onChange={onChange} initialContent={document.content} />
+    <div className="flex flex-col">
+      <Cover
+        url={workspace?.coverImage}
+        icon={workspace?.iconImage}
+        name={workspace?.name}
+        title={workspace?.title}
+      />
+      <div className="flex flex-col py-2 px-3">
+        <div className="flex justify-between py-2  gap-2 h-60">
+          <TaskList />
+          <TaskActivity />
+          <TaskMember members={workspace?.members} />
+        </div>
+        <Schedule />
       </div>
     </div>
   );

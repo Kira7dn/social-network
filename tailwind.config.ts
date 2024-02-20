@@ -59,6 +59,34 @@ module.exports = {
           fontWeight: "700",
         },
       ],
+      "large-bold": [
+        "20px",
+        {
+          lineHeight: "150%",
+          fontWeight: "700",
+        },
+      ],
+      "large-semibold": [
+        "20px",
+        {
+          lineHeight: "150%",
+          fontWeight: "600",
+        },
+      ],
+      "large-medium": [
+        "20px",
+        {
+          lineHeight: "150%",
+          fontWeight: "500",
+        },
+      ],
+      "large-normal": [
+        "20px",
+        {
+          lineHeight: "150%",
+          fontWeight: "400",
+        },
+      ],
       "body-bold": [
         "18px",
         {
@@ -154,10 +182,6 @@ module.exports = {
 
     extend: {
       colors: {
-        blue: "#0095F6",
-        green: "62A60A",
-        brightGreen: "#C3D500",
-        yellow: "F38A00",
         glassmorphism: "rgba(16, 16, 18, 0.60)",
         border: "var(--border)",
         input: "var(--input)",
@@ -176,6 +200,11 @@ module.exports = {
           DEFAULT: "var(--card)",
           foreground: "var(--card-foreground)",
         },
+        green: "var(--green)",
+        blue: "var(--blue)",
+        yellow: "var(--yellow)",
+        brightGreen: "var(--bright-green)",
+        lightGray: "var(--light-gray)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -183,8 +212,9 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        "count-badge": "0px 0px 6px 2px rgba(0, 0, 0, 0.25)",
-        "groups-sidebar": "-30px 0px 60px 0px rgba(28, 28, 31, 0.50)",
+        "count-badge":
+          "0px 0px 6px 2px rgba(0, 0, 0, 0.25)",
+        sidebar: "0px 0px 6px 2px rgba(0, 0, 0, 0.25)",
       },
       screens: {
         xs: "400px",
@@ -192,10 +222,14 @@ module.exports = {
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
-          to: { height: "var(--radix-accordion-content-height)" },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
         },
         "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
           to: { height: 0 },
         },
       },

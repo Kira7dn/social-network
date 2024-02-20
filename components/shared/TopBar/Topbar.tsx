@@ -5,28 +5,37 @@ import { useScrollTop } from "@/hooks/use-scroll-top";
 import { ModeToggle } from "@/components/mode-toggle";
 import { cn } from "@/lib/utils";
 import { Spinner } from "../../spinner";
-import { redirect } from "next/navigation";
 import { UserItem } from "./UserItem";
-import Link from "next/link";
-import { Logo } from "./Logo";
+import SearchBar from "./SearchBar";
 
 export const Topbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const scrolled = useScrollTop();
+
+  // Get today's date and format it
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString("en-US", {
+    weekday: "short",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
   return (
     <div
       className={cn(
-        "z-50 bg-card fixed top-0 w-full flex justify-center items-center transition-all duration-300 h-14 pr-4",
-        scrolled && "border-b shadow-sm"
+        "w-full flex justify-between items-center transition-all duration-300 h-14 z-50 bg-card sticky top-0",
+        scrolled && "shadow-sm"
       )}
     >
       <div className="px-6 w-full flex justify-between items-center">
-        <Link href="/">
-          <Logo />
-        </Link>
-        <div className="md:justify-end justify-start flex items-center gap-x-8">
+        <div className="text-large-semibold text-secondary w-96">
+          {formattedDate}
+        </div>{" "}
+        {/* Display the formatted date */}
+        <SearchBar />
+        <div className="md:justify-end justify-between flex gap-x-8 w-[400px] items-center">
           {isLoading && <Spinner />}
-          {!isAuthenticated && !isLoading && redirect("/sign-in")}
           {isAuthenticated && !isLoading && <UserItem />}
           <ModeToggle />
         </div>

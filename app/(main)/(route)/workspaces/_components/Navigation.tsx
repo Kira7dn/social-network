@@ -1,203 +1,107 @@
 "use client";
 
-import {
-  ChevronsLeft,
-  MenuIcon,
-  Plus,
-  PlusCircle,
-  Search,
-  Trash,
-} from "lucide-react";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { ElementRef, useEffect, useRef, useState } from "react";
-import { useMediaQuery } from "usehooks-ts";
-import { useMutation } from "convex/react";
+import { usePathname, useRouter } from "next/navigation";
+import { useMutation, useQuery } from "convex/react";
 import { toast } from "sonner";
-
 import { cn } from "@/lib/utils";
 import { api } from "@/convex/_generated/api";
 import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-
-import { useSearch } from "@/hooks/use-search";
-import { Navbar } from "./Navbar";
-import { Item } from "./Item";
-import { DocumentList } from "./DocumentList";
-import { TrashBox } from "./TrashBox";
+  ArrowLeft,
+  ArrowLeftCircle,
+  ChevronLeft,
+  ChevronRight,
+  PlusCircleIcon,
+} from "lucide-react";
+import { useRef } from "react";
 
 export const Navigation = () => {
   const router = useRouter();
-  const search = useSearch();
-  const params = useParams();
   const pathname = usePathname();
-  const isMobile = useMediaQuery("(max-width: 768px)");
-  const create = useMutation(api.documents.create);
-
-  const isResizingRef = useRef(false);
-  const sidebarRef = useRef<ElementRef<"aside">>(null);
-  const navbarRef = useRef<ElementRef<"div">>(null);
-  const [isResetting, setIsResetting] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(isMobile);
-
-  useEffect(() => {
-    if (isMobile) {
-      collapse();
-    } else {
-      resetWidth();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobile]);
-
-  useEffect(() => {
-    if (isMobile) {
-      collapse();
-    }
-  }, [pathname, isMobile]);
-
-  const handleMouseDown = (
-    event: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    isResizingRef.current = true;
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
-
-  const handleMouseMove = (event: MouseEvent) => {
-    if (!isResizingRef.current) return;
-    let newWidth = event.clientX;
-    if (newWidth < 240) newWidth = 240;
-    if (newWidth > 480) newWidth = 480;
-    if (sidebarRef.current && navbarRef.current) {
-      sidebarRef.current.style.width = `${newWidth}px`;
-      navbarRef.current.style.setProperty("left", `${newWidth}px`);
-      navbarRef.current.style.setProperty(
-        "width",
-        `calc(100%  - ${newWidth}px)`
-      );
-    }
-  };
-
-  const handleMouseUp = () => {
-    isResizingRef.current = false;
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  };
-
-  const resetWidth = () => {
-    if (sidebarRef.current && navbarRef.current) {
-      setIsCollapsed(false);
-      setIsResetting(true);
-
-      sidebarRef.current.style.width = isMobile ? "100%" : "240px";
-      navbarRef.current.style.setProperty(
-        "width",
-        isMobile ? "0" : "calc(100% - 240px)"
-      );
-      navbarRef.current.style.setProperty("left", isMobile ? "100%" : "240px");
-      setTimeout(() => setIsResetting(false), 300);
-    }
-  };
-
-  const collapse = () => {
-    if (sidebarRef.current && navbarRef.current) {
-      setIsCollapsed(true);
-      setIsResetting(true);
-      sidebarRef.current.style.width = "0";
-      navbarRef.current.style.setProperty("width", "100%");
-      navbarRef.current.style.setProperty("left", "0");
-      setTimeout(() => setIsResetting(false), 300);
-    }
-  };
-
+  const create = useMutation(api.workspace.create);
+  const workspaces = useQuery(api.workspace.list);
   const handleCreate = () => {
-    const promise = create({ title: "Untitled" }).then((workspaceId) =>
-      router.push(`/workspaces/${workspaceId}`)
+    const promise = create({ name: "Untitled" }).then(
+      (workspaceId) =>
+        router.push(`/workspaces/${workspaceId}`)
     );
-
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created!",
       error: "Failed to create a new note.",
     });
   };
+  const scrollContainer = useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollContainer.current) {
+      scrollContainer.current.scrollLeft -=
+        scrollContainer.current.scrollWidth * 0.16;
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainer.current) {
+      scrollContainer.current.scrollLeft +=
+        scrollContainer.current.scrollWidth * 0.16;
+    }
+  };
 
   return (
     <>
       <aside
-        ref={sidebarRef}
         className={cn(
-          "group/sidebar h-full  overflow-y-auto relative flex w-60 flex-col z-[1]",
-          isResetting && "transition-all ease-in-out duration-300",
-          isMobile && "w-0",
-          !isCollapsed && "border-r-[1px] border-secondary"
+          "h-20 flex w-full bg-background border-b-2 border-primary "
         )}
       >
-        <div
-          onClick={collapse}
-          role="button"
-          className={cn(
-            "h-6 w-6 text-muted-foreground rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600 absolute top-3 right-2 opacity-0 group-hover/sidebar:opacity-100 transition",
-            isMobile && "opacity-100"
-          )}
-        >
-          <ChevronsLeft className="h-6 w-6" />
-        </div>
-        <div className="pt-10">
-          <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
-          <Item
+        <div className="flex w-full gap-2 relative">
+          {/* <button
             onClick={handleCreate}
-            label="New Workspace"
-            icon={PlusCircle}
-          />
-        </div>
-        <div className="mt-4">
-          <DocumentList />
-          <Popover>
-            <PopoverTrigger className="w-full mt-4">
-              <Item label="Trash" icon={Trash} />
-            </PopoverTrigger>
-            <PopoverContent
-              className="p-0 w-72"
-              side={isMobile ? "bottom" : "right"}
+            className="flex-shrink-0 flex items-center justify-center w-14 text-secondary h-full hover:bg-primary hover:text-white bg-card transition-colors duration-200"
+          >
+            <PlusCircleIcon size={24} />
+          </button> */}
+          <div
+            ref={scrollContainer}
+            className=" flex w-full justify-start gap-2 items-center overflow-x-scroll scrollbar-hide group"
+          >
+            <button
+              onClick={scrollLeft}
+              className="absolute left-2 opacity-0 group-hover:opacity-100 hover:text-primary transition-opacity p-2 rounded-full"
             >
-              <TrashBox />
-            </PopoverContent>
-          </Popover>
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              onClick={scrollRight}
+              className="absolute right-2 opacity-0 group-hover:opacity-100 hover:text-primary transition-opacity p-2 rounded-full"
+            >
+              <ChevronRight size={24} />
+            </button>
+            {workspaces?.map((workspace, index) => (
+              <div
+                key={workspace._id}
+                onClick={() =>
+                  router.push(
+                    `/workspaces/${workspace._id}`
+                  )
+                }
+                className={cn(
+                  "flex-shrink-0 flex items-center justify-center w20-minus-05 h-full transition-colors duration-200 cursor-pointer",
+                  {
+                    "bg-primary text-white":
+                      pathname ===
+                      `/workspaces/${workspace._id}`,
+                    "bg-card text-primary hover:bg-primary hover:text-white transition-colors duration-200":
+                      pathname !==
+                      `/workspaces/${workspace._id}`,
+                  }
+                )}
+              >
+                {index}
+              </div>
+            ))}
+          </div>
         </div>
-        <div
-          onMouseDown={handleMouseDown}
-          onClick={resetWidth}
-          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
-        />
       </aside>
-      <div
-        ref={navbarRef}
-        className={cn(
-          "absolute top-0 z-[1] left-60 w-[calc(100%-240px)]",
-          isResetting && "transition-all ease-in-out duration-300",
-          isMobile && "left-0 w-full"
-        )}
-      >
-        {!!params.workspaceId ? (
-          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
-        ) : (
-          <nav className="bg-transparent px-3 py-2 w-full">
-            {isCollapsed && (
-              <MenuIcon
-                onClick={resetWidth}
-                role="button"
-                className="h-6 w-6 text-muted-foreground"
-              />
-            )}
-          </nav>
-        )}
-      </div>
     </>
   );
 };

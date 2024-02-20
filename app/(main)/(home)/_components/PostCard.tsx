@@ -1,10 +1,14 @@
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarImage,
+} from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Id } from "@/convex/_generated/dataModel";
 import { createdTime } from "@/lib/utils";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import React from "react";
+import { motion } from "framer-motion";
 
 type Props = {
   post: {
@@ -23,17 +27,28 @@ type Props = {
   };
 };
 
-function Post({ post }: Props) {
+function PostCard({ post }: Props) {
   let data = JSON.parse(post?.content || "");
   let timeStamp = createdTime(post._creationTime);
+  const variants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
   return (
-    <div className="flex flex-col rounded-md pt-2 bg-card w-full">
+    <motion.div
+      variants={variants}
+      initial="hidden"
+      animate="visible"
+      className="flex flex-col rounded-md pt-2 bg-card w-full"
+    >
       <div className="flex items-center gap-4 flex-start px-4 py-2">
         <Avatar className="h-10 w-10">
           <AvatarImage src={post?.userPicture} />
         </Avatar>
         <div>
-          <p className="text-base-semibold">{post.userFullname}</p>
+          <p className="text-base-semibold">
+            {post.userFullname}
+          </p>
           <p className="text-subtle-medium">{timeStamp}</p>
         </div>
       </div>
@@ -69,7 +84,8 @@ function Post({ post }: Props) {
           if (item.type === "paragraph") {
             if (!item.content[0]) return null;
             let text = item.content.reduce(
-              (acc: string, curr: { text: string }) => acc + curr.text,
+              (acc: string, curr: { text: string }) =>
+                acc + curr.text,
               ""
             );
             return (
@@ -80,12 +96,12 @@ function Post({ post }: Props) {
           }
         }
       )}
-    </div>
+    </motion.div>
   );
 }
 
-export default Post;
-Post.Skeleton = function CoverSkeleton() {
+export default PostCard;
+PostCard.Skeleton = function CoverSkeleton() {
   return (
     <div className="flex flex-col rounded-md pt-2 bg-card w-full gap-2">
       <div className="flex items-center gap-4 flex-start px-4 py-2">

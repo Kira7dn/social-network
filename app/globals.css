@@ -32,8 +32,17 @@ body {
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
+
+    --blue: #0095f6;
+    --green: #62a60a;
+    --brightGreen: #c3d500;
+    --yellow: #f38a00;
+    --light-gray: #f4f4f4;
   }
 
+  .bg-primary-gradient {
+    background: linear-gradient(180deg, #a50034, #ff608c);
+  }
   .dark {
     --background: #656565;
     --foreground: #f4f4f4;
@@ -52,6 +61,50 @@ body {
     --ring: 0 0% 83.1%;
   }
 }
+
+/* Add this to your global CSS file */
+
+/* Scrollbar style 1 */
+/* Scrollbar style 1 */
+.scrollbar-style-1::-webkit-scrollbar {
+  width: 0px;
+  border-radius: 4px;
+}
+
+.scrollbar-style-1:hover::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-style-1::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.scrollbar-style-1::-webkit-scrollbar-thumb {
+  background: #c4c4c4;
+  border-radius: 16px;
+}
+
+.scrollbar-style-1::-webkit-scrollbar-thumb:hover {
+  background: #8e8e8e;
+}
+
+/* Scrollbar style 2 */
+.scrollbar-style-2::-webkit-scrollbar {
+  width: 15px;
+}
+
+.scrollbar-style-2::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.scrollbar-style-2::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+.scrollbar-style-2::-webkit-scrollbar-thumb:hover {
+  background: #111;
+}
+
 .chat header {
   position: fixed;
   top: 0;
@@ -331,4 +384,50 @@ article button:has(span) {
 
 article button span {
   padding-left: 0.2em;
+}
+.scale-up {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1.4);
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.w20-minus-05 {
+  width: calc(20% - 0.4rem);
+}
+.rct-dateHeader {
+  border: none !important;
+}
+.rct-hl-even {
+  background: white !important;
+  border: none !important;
+}
+.rct-hl-odd {
+  background: white !important;
+  border: none !important;
+  border-top: 1px dashed var(--secondary) !important;
+}
+.rct-sidebar-row {
+  background: white !important;
+  border: none !important;
+}
+.rct-vl {
+  border: none !important;
+}
+.react-calendar-timeline .rct-dateHeader-primary {
+  color: var(--card-foreground) !important;
+}
+.react-calendar-timeline .rct-header-root {
+  background: var(--card) !important;
+  color: var(--card-foreground) !important;
+}
+.rct-item {
+  z-index: 40 !important;
 }

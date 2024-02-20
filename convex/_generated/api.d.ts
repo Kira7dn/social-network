@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as documents from "../documents";
 import type * as messages from "../messages";
+import type * as workspace from "../workspace";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -28,6 +29,7 @@ import type * as messages from "../messages";
 declare const fullApi: ApiFromModules<{
   documents: typeof documents;
   messages: typeof messages;
+  workspace: typeof workspace;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

@@ -24,4 +24,33 @@ export default defineSchema({
   })
     .index("by_from_to", ["fromId", "toId"])
     .index("by_recipient", ["toId", "seen"]),
+  workspace: defineTable({
+    name: v.string(),
+    title: v.optional(v.string()),
+    period: v.optional(v.string()),
+    description: v.optional(v.string()),
+    createdBy: v.string(),
+    members: v.optional(v.array(v.string())),
+    iconImage: v.string(),
+    coverImage: v.string(),
+    tasks: v.optional(v.array(v.string())),
+  }).index("by_createdBy", ["createdBy"]),
+  task: defineTable({
+    name: v.string(),
+    description: v.string(),
+    fromDate: v.string(),
+    toDate: v.string(),
+    taskGroup: v.string(),
+    progress: v.float64(),
+    assignTo: v.array(v.string()),
+    createdBy: v.string(),
+    comments: v.array(v.string()),
+    workspace: v.id("workspace"),
+  })
+    .index("by_workspace", ["workspace"])
+    .index("by_createdBy_assignTo", [
+      "createdBy",
+      "assignTo",
+    ])
+    .index("by_toDate", ["toDate"]),
 });

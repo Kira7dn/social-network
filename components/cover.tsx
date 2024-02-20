@@ -18,11 +18,16 @@ interface CoverImageProps {
   preview?: boolean;
 }
 
-export const Cover = ({ url, preview }: CoverImageProps) => {
+export const Cover = ({
+  url,
+  preview,
+}: CoverImageProps) => {
   const { edgestore } = useEdgeStore();
   const params = useParams();
   const coverImage = useCoverImage();
-  const removeCoverImage = useMutation(api.documents.removeCoverImage);
+  const removeCoverImage = useMutation(
+    api.workspace.removeCoverImage
+  );
 
   const onRemove = async () => {
     if (url) {
@@ -31,19 +36,26 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
       });
     }
     removeCoverImage({
-      id: params.workspaceId as Id<"documents">,
+      id: params.workspaceId as Id<"workspace">,
     });
   };
 
   return (
     <div
       className={cn(
-        "relative w-full h-[35vh] group",
+        "relative w-full h-40 group",
         !url && "h-[12vh]",
         url && "bg-muted"
       )}
     >
-      {!!url && <Image src={url} fill alt="Cover" className="object-cover" />}
+      {!!url && (
+        <Image
+          src={url}
+          fill
+          alt="Cover"
+          className="object-cover"
+        />
+      )}
       {url && !preview && (
         <div className="opacity-0 group-hover:opacity-100 absolute bottom-5 right-5 flex items-center gap-x-2">
           <Button

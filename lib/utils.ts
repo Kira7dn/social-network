@@ -7,7 +7,8 @@ export function cn(...inputs: ClassValue[]) {
 
 // create isBase64 function
 export function isBase64Image(imageData: string) {
-  const base64Regex = /^data:image\/(png|jpe?g|gif|webp);base64,/;
+  const base64Regex =
+    /^data:image\/(png|jpe?g|gif|webp);base64,/;
   return base64Regex.test(imageData);
 }
 
@@ -21,10 +22,57 @@ export const createdTime = (time: number) => {
   const days = hours / 24;
   const months = days / 30;
   const years = months / 12;
-  if (seconds < 60) return `${Math.floor(seconds)} seconds ago`;
-  if (minutes < 60) return `${Math.floor(minutes)} minutes ago`;
+  if (seconds < 60)
+    return `${Math.floor(seconds)} seconds ago`;
+  if (minutes < 60)
+    return `${Math.floor(minutes)} minutes ago`;
   if (hours < 24) return `${Math.floor(hours)} hours ago`;
   if (days < 30) return `${Math.floor(days)} days ago`;
-  if (months < 12) return `${Math.floor(months)} months ago`;
+  if (months < 12)
+    return `${Math.floor(months)} months ago`;
   return `${Math.floor(years)} years ago`;
+};
+
+export const resizeImage = (
+  file: File,
+  maxWidth: number,
+  maxHeight: number
+) => {
+  return new Promise((resolve, reject) => {
+    const img = document.createElement("img");
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      let { width, height } = img;
+
+      if (width > height) {
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width *= maxHeight / height;
+          height = maxHeight;
+        }
+      }
+
+      if (ctx) {
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          resolve(
+            new File([blob!], file.name, {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            })
+          );
+        }, "image/jpeg");
+      }
+    };
+    img.onerror = reject;
+    img.src = URL.createObjectURL(file);
+  });
 };

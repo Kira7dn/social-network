@@ -48,7 +48,9 @@ export const list = query({
       .order("desc")
       .take(100);
     const messages = messages1.concat(messages2);
-    return messages.sort((a, b) => a._creationTime - b._creationTime);
+    return messages.sort(
+      (a, b) => a._creationTime - b._creationTime
+    );
   },
 });
 
@@ -61,7 +63,9 @@ export const getUnseen = query({
     const toId = identity.subject;
     const messages = await ctx.db
       .query("messages")
-      .withIndex("by_recipient", (q) => q.eq("toId", toId).eq("seen", false))
+      .withIndex("by_recipient", (q) =>
+        q.eq("toId", toId).eq("seen", false)
+      )
       .order("desc")
       .collect();
     return messages;
@@ -89,5 +93,43 @@ export const updateSeen = mutation({
       seen: true,
     });
     return message;
+  },
+});
+
+// Create query to get 3 last conversations, each conversation should have the last message, the number of unseen messages and the user info
+export const getConversations = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+    const toId = identity.subject;
+    const messages1 = await ctx.db
+      .query("messages")
+      .withIndex("by_recipient", (q) => q.eq("toId", toId))
+      .collect();
+    const messages2 = await ctx.db
+      .query("messages")
+      .withIndex("by_from_to", (q) => q.eq("fromId", toId))
+      .collect();
+    let messages = messages1.concat(messages2);
+    messages = messages.sort(
+      (a, b) => b._creationTime - a._creationTime
+    );
+    // Lọc trong messages ra lấy messages cuối cùng của mỗi conversation
+    const lastMessages: string[] = [];
+    const conversations = [];
+    for (const message of messages) {
+      if (
+        !lastMessages.includes(
+          message.fromId + message.toId
+        )
+      ) {
+        lastMessages.push(message.fromId + message.toId);
+        lastMessages.push(message.toId + message.fromId);
+        conversations.push(message);
+      }
+    }
+    return conversations;
   },
 });
