@@ -15,7 +15,9 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as documents from "../documents";
+import type * as members from "../members";
 import type * as messages from "../messages";
+import type * as tasks from "../tasks";
 import type * as workspace from "../workspace";
 
 /**
@@ -28,7 +30,9 @@ import type * as workspace from "../workspace";
  */
 declare const fullApi: ApiFromModules<{
   documents: typeof documents;
+  members: typeof members;
   messages: typeof messages;
+  tasks: typeof tasks;
   workspace: typeof workspace;
 }>;
 export declare const api: FilterApi<

@@ -35,7 +35,17 @@ export default defineSchema({
     coverImage: v.string(),
     tasks: v.optional(v.array(v.string())),
   }).index("by_createdBy", ["createdBy"]),
-  task: defineTable({
+  members: defineTable({
+    userId: v.string(),
+    name: v.optional(v.string()),
+    avatar: v.optional(v.string()),
+    workspace: v.id("workspace"),
+    role: v.optional(v.string()),
+    workOn: v.optional(v.string()),
+  })
+    .index("by_workspace", ["workspace"])
+    .index("by_user", ["userId"]),
+  tasks: defineTable({
     name: v.string(),
     description: v.string(),
     fromDate: v.string(),

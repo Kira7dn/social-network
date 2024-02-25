@@ -4,11 +4,11 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Cover } from "../_components/cover";
 import TaskList from "../_components/Tasks";
 import TaskActivity from "../_components/TaskActivity";
 import Schedule from "../_components/Schedule";
 import TaskMember from "../_components/TaskMember";
+import { Cover } from "../_components/cover";
 
 interface WorkspaceIdPageProps {
   params: {
