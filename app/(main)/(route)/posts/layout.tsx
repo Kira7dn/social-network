@@ -4,8 +4,8 @@ import { useConvexAuth } from "convex/react";
 import { redirect } from "next/navigation";
 
 import { Spinner } from "@/components/spinner";
-import { Navigation } from "@/app/(main)/(route)/workspaces/_components/Navigation";
-import { SearchCommand } from "@/app/(main)/(route)/workspaces/_components/SearchCommand";
+import { SearchCommand } from "./_components/SearchCommand";
+import { Navigation } from "./_components/Navigation";
 
 const MainLayout = ({
   children,
