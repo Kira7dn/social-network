@@ -16,35 +16,39 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_user_parent", ["userId", "parentDocument"]),
+  users: defineTable({
+    convexId: v.string(),
+    email: v.optional(v.string()),
+    fullname: v.string(),
+    imageUrl: v.optional(v.string()),
+    bio: v.optional(v.string()),
+    onboarded: v.optional(v.boolean()),
+  }).index("by_convexId", ["convexId"]),
   messages: defineTable({
     body: v.string(),
-    fromId: v.string(),
-    toId: v.string(),
+    from: v.id("users"),
+    to: v.id("users"),
     seen: v.optional(v.boolean()),
   })
-    .index("by_from_to", ["fromId", "toId"])
-    .index("by_recipient", ["toId", "seen"]),
+    .index("by_from_to", ["from", "to"])
+    .index("by_recipient", ["to", "seen"]),
   workspace: defineTable({
     name: v.string(),
     title: v.optional(v.string()),
     period: v.optional(v.string()),
     description: v.optional(v.string()),
-    createdBy: v.string(),
-    members: v.optional(v.array(v.string())),
-    iconImage: v.string(),
-    coverImage: v.string(),
-    tasks: v.optional(v.array(v.string())),
-  }).index("by_createdBy", ["createdBy"]),
+    iconImage: v.optional(v.string()),
+    coverImage: v.optional(v.string()),
+  }),
   members: defineTable({
-    userId: v.string(),
-    name: v.optional(v.string()),
-    avatar: v.optional(v.string()),
+    user: v.id("users"),
     workspace: v.id("workspace"),
     role: v.optional(v.string()),
     workOn: v.optional(v.string()),
   })
     .index("by_workspace", ["workspace"])
-    .index("by_user", ["userId"]),
+    .index("by_user", ["user"])
+    .index("by_user_workspace", ["user", "workspace"]),
   tasks: defineTable({
     name: v.string(),
     description: v.string(),
@@ -52,9 +56,8 @@ export default defineSchema({
     toDate: v.string(),
     taskGroup: v.string(),
     progress: v.float64(),
-    assignTo: v.array(v.string()),
-    createdBy: v.string(),
-    comments: v.array(v.string()),
+    assignTo: v.array(v.id("users")),
+    createdBy: v.id("users"),
     workspace: v.id("workspace"),
   })
     .index("by_workspace", ["workspace"])

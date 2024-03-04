@@ -9,8 +9,8 @@ import {
 
 export const sidebarLinks = [
   {
-    route: "/",
-    label: "Feed",
+    route: "/dashboard",
+    label: "Dashboard",
     component: <Home />,
   },
   {

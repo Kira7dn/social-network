@@ -1,27 +1,35 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+
 export const list = query({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Not authenticated");
     }
-    const userId = identity.subject;
-    const workspaces = await ctx.db
-      .query("workspace")
-      .collect();
-    const result = [];
-    for (const workspace of workspaces) {
-      if (
-        workspace.members?.includes(userId) ||
-        workspace.createdBy === userId
-      ) {
-        result.push(workspace);
-      }
+    const currentUser = await ctx.db
+      .query("users")
+      .withIndex("by_convexId", (q) =>
+        q.eq("convexId", identity.subject)
+      )
+      .unique();
+    if (!currentUser) {
+      throw new Error("Not found");
     }
-    return result;
+    const members = await ctx.db
+      .query("members")
+      .withIndex("by_user", (q) =>
+        q.eq("user", currentUser._id)
+      )
+      .collect();
+    return Promise.all(
+      members.map(
+        async (member) => await ctx.db.get(member.workspace)
+      )
+    );
   },
 });
+
 export const create = mutation({
   args: {
     name: v.string(),
@@ -31,16 +39,25 @@ export const create = mutation({
     if (!identity) {
       throw new Error("Not authenticated");
     }
-    const userId = identity.subject;
+    const currentUser = await ctx.db
+      .query("users")
+      .withIndex("by_convexId", (q) =>
+        q.eq("convexId", identity.subject)
+      )
+      .unique();
+    if (!currentUser) {
+      throw new Error("Not found");
+    }
     const workspace = await ctx.db.insert("workspace", {
       name: args.name,
-      createdBy: userId,
-      iconImage:
-        "https://icon-library.com/images/white-icon/white-icon-3.jpg",
-      coverImage:
-        "https://icon-library.com/images/white-icon/white-icon-3.jpg",
     });
-    return workspace;
+    const member = await ctx.db.insert("members", {
+      user: currentUser._id,
+      workspace: workspace,
+      role: "Admin",
+      workOn: "All",
+    });
+    return { workspace, member };
   },
 });
 export const update = mutation({
@@ -53,74 +70,33 @@ export const update = mutation({
     iconImage: v.optional(v.string()),
     coverImage: v.optional(v.string()),
     tasks: v.optional(v.array(v.string())),
-    members: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Not authenticated");
     }
-    const userId = identity.subject;
+    const currentUser = await ctx.db
+      .query("users")
+      .withIndex("by_convexId", (q) =>
+        q.eq("convexId", identity.subject)
+      )
+      .unique();
+    if (!currentUser) {
+      throw new Error("Not found");
+    }
     const existingWorkspace = await ctx.db.get(args.id);
     if (!existingWorkspace) {
       throw new Error("Not found");
     }
-    if (existingWorkspace.createdBy !== userId) {
-      throw new Error("Unauthorized");
-    }
-    const { id, ...rest } = args;
-    const existingDocument = await ctx.db.get(args.id);
-    if (!existingDocument) {
-      throw new Error("Not found");
-    }
     const workspace = await ctx.db.patch(args.id, {
-      ...rest,
+      name: args.name,
+      title: args.title,
+      period: args.period,
+      description: args.description,
+      iconImage: args.coverImage,
+      coverImage: args.coverImage,
     });
-    return workspace;
-  },
-});
-export const removeIcon = mutation({
-  args: { id: v.id("workspace") },
-  handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    if (!identity) {
-      throw new Error("Unauthenticated");
-    }
-
-    const existingWorkspace = await ctx.db.get(args.id);
-
-    if (!existingWorkspace) {
-      throw new Error("Not found");
-    }
-
-    const workspace = await ctx.db.patch(args.id, {
-      iconImage: undefined,
-    });
-
-    return workspace;
-  },
-});
-
-export const removeCoverImage = mutation({
-  args: { id: v.id("workspace") },
-  handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-
-    if (!identity) {
-      throw new Error("Unauthenticated");
-    }
-
-    const existingWorkspace = await ctx.db.get(args.id);
-
-    if (!existingWorkspace) {
-      throw new Error("Not found");
-    }
-
-    const workspace = await ctx.db.patch(args.id, {
-      coverImage: undefined,
-    });
-
     return workspace;
   },
 });
@@ -129,25 +105,14 @@ export const remove = mutation({
   args: { id: v.id("workspace") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
     if (!identity) {
       throw new Error("Not authenticated");
     }
-
-    const userId = identity.subject;
-
     const existingWorkspace = await ctx.db.get(args.id);
-
     if (!existingWorkspace) {
       throw new Error("Not found");
     }
-
-    if (existingWorkspace.createdBy !== userId) {
-      throw new Error("Unauthorized");
-    }
-
     const workspace = await ctx.db.delete(args.id);
-
     return workspace;
   },
 });
@@ -163,6 +128,26 @@ export const getById = query({
     if (!identity) {
       throw new Error("Not authenticated");
     }
-    return workspace;
+    const members = await ctx.db
+      .query("members")
+      .withIndex("by_workspace", (q) =>
+        q.eq("workspace", args.workspaceId)
+      )
+      .collect()
+      .then((members) =>
+        Promise.all(
+          members.map(async (member) => {
+            return {
+              ...member,
+              user: await ctx.db.get(member.user),
+            };
+          })
+        )
+      );
+    const result = {
+      ...workspace,
+      members,
+    };
+    return result;
   },
 });

@@ -16,38 +16,26 @@ import { User } from "@/lib/type";
 import { getUsers } from "@/components/action/action";
 import { motion } from "framer-motion";
 import { Skeleton } from "@/components/ui/skeleton";
+import useFetchUser from "@/hooks/use-fetch-user";
 
 function Conversation() {
   const { onOpen } = useChatbox();
-  const { user: currentUser } = useUser();
-  let [store, setData] = useState<User[]>([]);
-  useEffect(() => {
-    getUsers().then((res) =>
-      setData(
-        res.filter((user) => user.id !== currentUser?.id)
-      )
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const conversation = useQuery(
+  const currentUser = useFetchUser();
+  const conversations = useQuery(
     api.messages.getConversations
   );
-  if (!currentUser || !conversation) return null;
-  let conversationList = conversation.map((conv) => {
-    let friendId: string;
-    if (conv.fromId !== currentUser.id) {
-      friendId = conv.fromId;
+  if (!currentUser || !conversations) return null;
+  let conversationList = conversations.map((conv) => {
+    let friend: User | undefined;
+    if (conv.from?._id !== currentUser._id) {
+      friend = conv.from;
     } else {
-      friendId = conv.toId;
+      friend = conv.to;
     }
-    const user = store.find((user) => user.id === friendId);
-    if (user)
-      return {
-        lastMessage: conv.body,
-        id: friendId,
-        name: user.name,
-        imageUrl: user.imageUrl,
-      };
+    return {
+      body: conv.body,
+      friend: friend,
+    };
   });
   const variants = {
     hidden: { opacity: 0 },
@@ -67,36 +55,34 @@ function Conversation() {
       <SearchBar />
       <div className="w-full overflow-y-auto">
         {conversationList.map((conversation) => {
-          if (!conversation) return null;
+          if (!conversation || !conversation.friend)
+            return null;
           return (
             <div
-              key={conversation.id}
+              key={conversation.friend._id}
               className="w-full py-1 px-2 flex gap-2 hover:bg-lightGray rounded-xl cursor-pointer"
               onClick={() =>
-                onOpen(
-                  conversation.id,
-                  conversation.name,
-                  conversation.imageUrl
-                )
+                conversation.friend &&
+                onOpen(currentUser, conversation.friend)
               }
             >
               <div className="relative h-fit">
                 <Avatar className="border-2 border-lightGray ">
                   <AvatarImage
-                    src={conversation.imageUrl}
+                    src={conversation.friend.imageUrl}
                   />
                   <AvatarFallback>
-                    {conversation.name}
+                    {conversation.friend.fullname}
                   </AvatarFallback>
                 </Avatar>
                 <div className="w-3 h-3 absolute right-[1px] bottom-[-1px] rounded-full bg-green border-2 border-white"></div>
               </div>
               <div className="flex flex-col gap-1 w-full">
                 <div className="text-small-semibold">
-                  {conversation.name}
+                  {conversation.friend.fullname}
                 </div>
                 <p className="text-tiny-medium text-secondary text-ellipsis overflow-hidden line-clamp-1">
-                  {conversation.lastMessage}
+                  {conversation.body}
                 </p>
               </div>
             </div>

@@ -23,27 +23,25 @@ export const list = query({
 
 export const create = mutation({
   args: {
-    workspaceId: v.id("workspace"),
-    userId: v.string(),
-    role: v.optional(v.string()),
-    workOn: v.optional(v.string()),
+    name: v.string(),
+    description: v.string(),
+    fromDate: v.string(),
+    toDate: v.string(),
+    taskGroup: v.string(),
+    progress: v.float64(),
+    assignTo: v.array(v.id("users")),
+    createdBy: v.id("users"),
+    workspace: v.id("workspace"),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Not authenticated");
     }
-    const workspace = await ctx.db.get(args.workspaceId);
+    const workspace = await ctx.db.get(args.workspace);
     if (!workspace) {
       throw new Error("Not found");
     }
-    const member = await ctx.db.insert("members", {
-      userId: args.userId,
-      workspace: args.workspaceId,
-      role: args.role,
-      workOn: args.workOn,
-    });
-    return member;
   },
 });
 

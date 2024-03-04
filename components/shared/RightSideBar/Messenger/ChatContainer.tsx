@@ -1,52 +1,39 @@
 "use client";
 import { useChatbox } from "@/hooks/use-chatbox";
 import React from "react";
-import {
-  useConvexAuth,
-  useMutation,
-  useQuery,
-} from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Chatbox from "./ChatBox";
-import { useUsers } from "@/hooks/use-users";
+import { useCurrentUser } from "@/hooks/use-currrent-user";
+import { User } from "@/lib/type";
 
 const ChatContainer = () => {
-  const { isAuthenticated, isLoading } = useConvexAuth();
-
-  return (
-    <div>
-      {isAuthenticated && !isLoading && <ChatboxList />}
-    </div>
-  );
+  const { user } = useCurrentUser();
+  return <div>{user && <ChatboxList user={user} />}</div>;
 };
 
 export default ChatContainer;
-
-const ChatboxList = () => {
-  const { store: users } = useUsers();
-  const { store, onOpen } = useChatbox();
+type Props = {
+  user: User;
+};
+const ChatboxList = ({ user }: Props) => {
+  const { store: chatBoxList, onOpen } = useChatbox();
   const messages = useQuery(api.messages.getUnseen);
   const updateSeen = useMutation(api.messages.updateSeen);
   if (messages) {
     messages.forEach((message) => {
-      const name = users.filter(
-        (user) => user.id === message.fromId
-      )[0].name;
-      const imageUrl = users.filter(
-        (user) => user.id === message.fromId
-      )[0].imageUrl;
-      onOpen(message.fromId, name, imageUrl);
+      if (!message.from) return;
+      onOpen(user, message.from);
       updateSeen({ id: message._id });
     });
   }
   return (
     <div className="fixed bottom-0 right-8 flex gap-2 flex-row">
-      {store.map((friend) => (
+      {chatBoxList.map((chatbox) => (
         <Chatbox
-          id={friend.id}
-          key={friend.id}
-          name={friend.name}
-          imageUrl={friend.imageUrl}
+          key={chatbox.friend._id}
+          user={user}
+          friend={chatbox.friend}
         />
       ))}
     </div>

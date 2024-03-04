@@ -18,6 +18,7 @@ import type * as documents from "../documents";
 import type * as members from "../members";
 import type * as messages from "../messages";
 import type * as tasks from "../tasks";
+import type * as users from "../users";
 import type * as workspace from "../workspace";
 
 /**
@@ -33,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   members: typeof members;
   messages: typeof messages;
   tasks: typeof tasks;
+  users: typeof users;
   workspace: typeof workspace;
 }>;
 export declare const api: FilterApi<

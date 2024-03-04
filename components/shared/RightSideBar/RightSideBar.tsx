@@ -1,7 +1,7 @@
 import React from "react";
 import SideBarContainer from "./SideBarContainer";
 
-const RightSideBar = async () => {
+const RightSideBar = () => {
   return <SideBarContainer />;
 };
 

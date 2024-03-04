@@ -3,32 +3,31 @@ import React, { useEffect, useRef, useState } from "react";
 import { Send, X } from "lucide-react";
 import { useChatbox } from "@/hooks/use-chatbox";
 import { useMutation, useQuery } from "convex/react";
-import { useUser } from "@clerk/nextjs";
 import { api } from "@/convex/_generated/api";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+import { User } from "@/lib/type";
 
 type Props = {
-  id: string;
-  name: string;
-  imageUrl: string;
+  user: User;
+  friend: User;
 };
-function Chatbox({ id, name, imageUrl }: Props) {
+function Chatbox({ user, friend }: Props) {
   const { onClose } = useChatbox();
   const handleClose = () => {
-    onClose(id);
+    onClose(friend._id);
   };
   const messageSound = useRef(
     new Audio("/assets/messengers.mp3")
   );
   const messages = useQuery(api.messages.list, {
-    toId: id,
+    userId: user._id,
+    friendId: friend._id,
   });
   const sendMessage = useMutation(api.messages.send);
-  const { user } = useUser();
   const [newMessageText, setNewMessageText] = useState("");
   const chatboxRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
@@ -48,7 +47,7 @@ function Chatbox({ id, name, imageUrl }: Props) {
       messages &&
       user &&
       messages[messages.length - 1] &&
-      messages[messages.length - 1].fromId !== user.id
+      messages[messages.length - 1].from !== user._id
     ) {
       messageSound.current.play();
     }
@@ -63,14 +62,16 @@ function Chatbox({ id, name, imageUrl }: Props) {
         <div className="flex gap-2 items-center ">
           <div className="relative">
             <Avatar className="border-2 border-secondary border-">
-              <AvatarImage src={imageUrl} />
-              <AvatarFallback>{name}</AvatarFallback>
+              <AvatarImage src={friend.imageUrl} />
+              <AvatarFallback>
+                {friend.fullname}
+              </AvatarFallback>
             </Avatar>
             <div className="w-3 h-3 absolute right-[1px] bottom-[-1px] rounded-full bg-green border-2 border-white"></div>
           </div>
           <div className="flex flex-col">
             <span className="text-base-regular capitalize">
-              {name}
+              {friend.fullname}
             </span>
             <span className="text-small-regular text-secondary">
               Online
@@ -92,14 +93,12 @@ function Chatbox({ id, name, imageUrl }: Props) {
           <article
             key={message._id}
             className={`flex px-2 ${
-              message.fromId === user.id
-                ? "justify-end"
-                : ""
+              message.from === user._id ? "justify-end" : ""
             }`}
           >
             <div
               className={`${
-                message.fromId === user.id
+                message.from === user._id
                   ? "bg-green text-white rounded-md rounded-tr-none"
                   : "text-secondary rounded-md rounded-tl-none"
               } text-small-regular py-1 px-3 max-w-[80%] shadow-md`}
@@ -114,7 +113,8 @@ function Chatbox({ id, name, imageUrl }: Props) {
           e.preventDefault();
           await sendMessage({
             body: newMessageText,
-            toId: id,
+            from: user._id,
+            to: friend._id,
           });
           setNewMessageText("");
         }}

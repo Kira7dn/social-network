@@ -7,12 +7,12 @@ import { cn } from "@/lib/utils";
 import { Spinner } from "../../spinner";
 import { UserItem } from "./UserItem";
 import SearchBar from "./SearchBar";
+import { Button } from "@/components/ui/button";
+import { SignInButton } from "@clerk/nextjs";
 
 export const Topbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
   const scrolled = useScrollTop();
-
-  // Get today's date and format it
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-US", {
     weekday: "short",
@@ -36,6 +36,21 @@ export const Topbar = () => {
         <SearchBar />
         <div className="md:justify-end justify-between flex gap-x-8 w-[400px] items-center">
           {isLoading && <Spinner />}
+          {!isAuthenticated && !isLoading && (
+            <>
+              <SignInButton
+                mode="redirect"
+                afterSignInUrl="/dashboard"
+              >
+                <Button
+                  size="sm"
+                  className="bg-primary-gradient"
+                >
+                  Login
+                </Button>
+              </SignInButton>
+            </>
+          )}
           {isAuthenticated && !isLoading && <UserItem />}
           <ModeToggle />
         </div>

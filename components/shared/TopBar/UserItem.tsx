@@ -3,7 +3,10 @@
 import { ChevronsLeftRight } from "lucide-react";
 import { useUser, SignOutButton } from "@clerk/clerk-react";
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarImage,
+} from "@/components/ui/avatar";
 
 import {
   Menubar,
@@ -53,7 +56,9 @@ export const UserItem = () => {
                 </Avatar>
               </div>
               <div className="space-y-1">
-                <p className="text-sm line-clamp-2">{user?.fullName}</p>
+                <p className="text-sm line-clamp-2">
+                  {user?.fullName}
+                </p>
               </div>
             </div>
           </div>

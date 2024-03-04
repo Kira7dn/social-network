@@ -23,9 +23,7 @@ function LayoutComponent2({
           {top}
           <section className="flex min-h-screen flex-1 flex-col items-center">
             <div className="w-full h-full flex justify-between bg-background">
-              <div className="grow flex justify-center px-2">
-                {children}
-              </div>
+              <div className="container">{children}</div>
               <div className="w-3/12 h-full pl-2 pr-4">
                 {right}
               </div>

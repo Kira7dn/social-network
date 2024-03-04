@@ -4,27 +4,31 @@ import { mutation, query } from "./_generated/server";
 export const list = query({
   args: { workspaceId: v.id("workspace") },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
     const members = await ctx.db
       .query("members")
       .withIndex("by_workspace", (q) =>
         q.eq("workspace", args.workspaceId)
       )
       .collect();
-    if (!members) {
-      throw new Error("Not found");
+    if ((members.length = 0)) {
+      return null;
     }
-    if (!identity) {
-      throw new Error("Not authenticated");
-    }
-    return members;
+    const membersData = await Promise.all(
+      members.map(async (member) => {
+        return {
+          ...member,
+          user: await ctx.db.get(member.user),
+        };
+      })
+    );
+    return membersData;
   },
 });
 
 export const create = mutation({
   args: {
     workspaceId: v.id("workspace"),
-    userId: v.string(),
+    userId: v.id("users"),
     role: v.optional(v.string()),
     workOn: v.optional(v.string()),
   },
@@ -38,7 +42,7 @@ export const create = mutation({
       throw new Error("Not found");
     }
     const member = await ctx.db.insert("members", {
-      userId: args.userId,
+      user: args.userId,
       workspace: args.workspaceId,
       role: args.role,
       workOn: args.workOn,
@@ -50,8 +54,7 @@ export const create = mutation({
 export const update = mutation({
   args: {
     id: v.id("members"),
-    name: v.optional(v.string()),
-    avatar: v.optional(v.string()),
+    user: v.optional(v.id("users")),
     role: v.optional(v.string()),
     workOn: v.optional(v.string()),
   },
@@ -83,7 +86,7 @@ export const remove = mutation({
     if (!existingMember) {
       throw new Error("Not found");
     }
-    const workspace = await ctx.db.delete(args.id);
-    return workspace;
+    const members = await ctx.db.delete(args.id);
+    return members;
   },
 });

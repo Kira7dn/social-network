@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -8,7 +8,7 @@ import TaskList from "../_components/Tasks";
 import TaskActivity from "../_components/TaskActivity";
 import Schedule from "../_components/Schedule";
 import TaskMember from "../_components/TaskMember";
-import { Cover } from "../_components/cover";
+import { Cover } from "../_components/Cover";
 
 interface WorkspaceIdPageProps {
   params: {
@@ -22,9 +22,6 @@ const DocumentIdPage = ({
   const workspace = useQuery(api.workspace.getById, {
     workspaceId: params.workspaceId,
   });
-  console.log(workspace);
-
-  const update = useMutation(api.workspace.update);
 
   if (document === undefined) {
     return (
@@ -58,7 +55,7 @@ const DocumentIdPage = ({
         <div className="flex justify-between py-2  gap-2 h-60">
           <TaskList />
           <TaskActivity />
-          <TaskMember members={workspace?.members} />
+          <TaskMember />
         </div>
         <Schedule />
       </div>

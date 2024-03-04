@@ -1,13 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@clerk/nextjs";
 import { sidebarLinks } from "@/constants";
 import Link from "next/link";
-import ParentSpaces from "./ParentSpaces";
-import { useConvexAuth } from "convex/react";
-import { Spinner } from "../../spinner";
 import { Logo } from "../TopBar/Logo";
 import ProgressChart from "./ProgressChart";
 
@@ -15,7 +11,7 @@ type Props = {};
 
 const LeftSideBar = (props: Props) => {
   const path = usePathname();
-  const isHome = path === "/";
+  const isHome = path === "/dashboard";
   const pathname = usePathname();
   return (
     <aside
@@ -36,7 +32,7 @@ const LeftSideBar = (props: Props) => {
           </section>
           <section
             className={cn(
-              "flex flex-col transition-all ease-out duration-300 h-2/5 justify-center overflow-hidden",
+              "flex flex-col transition-all ease-out duration-300 justify-center overflow-hidden h-40",
               !isHome && "h-0 opacity-0"
             )}
           >
@@ -48,12 +44,19 @@ const LeftSideBar = (props: Props) => {
             >
               Tasks Progress
             </p>
-            <div className="w-full h-full">
-              <ProgressChart />
-            </div>
+            <ProgressChart />
           </section>
-          <section className="h-full flex flex-col pb-6">
-            <div className="flex flex-col justify-between h-3/5">
+          <section
+            className={cn(
+              "flex flex-col pb-6 h-2/5",
+              isHome && "max-h-64"
+            )}
+          >
+            <div
+              className={cn(
+                "h-full flex flex-col justify-between"
+              )}
+            >
               {sidebarLinks.map((link) => {
                 const isActive =
                   (pathname.includes(link.route) &&
