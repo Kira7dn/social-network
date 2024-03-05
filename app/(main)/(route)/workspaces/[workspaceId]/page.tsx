@@ -8,7 +8,7 @@ import TaskList from "../_components/Tasks";
 import TaskActivity from "../_components/TaskActivity";
 import Schedule from "../_components/Schedule";
 import TaskMember from "../_components/TaskMember";
-import { Cover } from "../_components/Cover";
+import Cover from "../_components/Cover";
 
 interface WorkspaceIdPageProps {
   params: {

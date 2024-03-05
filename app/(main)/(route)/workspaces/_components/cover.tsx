@@ -24,7 +24,7 @@ interface CoverImageProps {
   preview?: boolean;
 }
 
-export const Cover = ({
+const Cover = ({
   url,
   icon,
   name,
@@ -99,3 +99,5 @@ Cover.Skeleton = function CoverSkeleton() {
     </Skeleton>
   );
 };
+
+export default Cover;
