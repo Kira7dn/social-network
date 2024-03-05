@@ -50,6 +50,7 @@ export const create = mutation({
     }
     const workspace = await ctx.db.insert("workspace", {
       name: args.name,
+      title: "untitled",
     });
     const member = await ctx.db.insert("members", {
       user: currentUser._id,

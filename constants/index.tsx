@@ -1,17 +1,22 @@
 import {
   CalendarCheck,
-  Home,
   Folders,
   UserCircle,
   Package,
-  Settings,
+  LayoutTemplateIcon,
+  HomeIcon,
 } from "lucide-react";
 
 export const sidebarLinks = [
   {
+    route: "/",
+    label: "Home",
+    component: <HomeIcon />,
+  },
+  {
     route: "/dashboard",
     label: "Dashboard",
-    component: <Home />,
+    component: <LayoutTemplateIcon />,
   },
   {
     route: "/profile",

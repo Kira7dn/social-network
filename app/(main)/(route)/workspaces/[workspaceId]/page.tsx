@@ -23,7 +23,7 @@ const DocumentIdPage = ({
     workspaceId: params.workspaceId,
   });
 
-  if (document === undefined) {
+  if (workspace === undefined) {
     return (
       <div>
         <Cover.Skeleton />
@@ -39,17 +39,25 @@ const DocumentIdPage = ({
     );
   }
 
-  if (document === null) {
+  if (workspace === null) {
     return <div>Not found</div>;
   }
 
   return (
     <div className="flex flex-col">
       <Cover
-        url={workspace?.coverImage}
-        icon={workspace?.iconImage}
-        name={workspace?.name}
-        title={workspace?.title}
+        url={
+          workspace.coverImage
+            ? workspace.coverImage
+            : "/assets/default-cover-image.jpg"
+        }
+        icon={
+          workspace.iconImage
+            ? workspace.iconImage
+            : "/assets/logo.svg"
+        }
+        name={workspace.name}
+        title={workspace.title}
       />
       <div className="flex flex-col py-2 px-3">
         <div className="flex justify-between py-2  gap-2 h-60">

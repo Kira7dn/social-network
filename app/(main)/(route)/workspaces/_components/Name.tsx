@@ -56,26 +56,25 @@ export const Name = ({ initialName }: NameProps) => {
   };
 
   return (
-    <div className="flex items-center w-full h-1/2 text-large-normal">
+    <div className="flex items-center w-full h-full text-large-normal">
       {isEditing ? (
         <Input
+          type="text"
           ref={inputRef}
           onClick={enableInput}
           onBlur={disableInput}
           onChange={onChange}
           onKeyDown={onKeyDown}
           value={name}
-          className="appearance-none outline-none ring-0 h-auto p-1 w-full flex justify-start focus:border-transparent focus:bg-transparent focus:ring-transparent"
+          className="w-full flex justify-start p-0 border-0 h-8 rounded-none text-large-semibold bg-transparent"
         />
       ) : (
-        <Button
+        <div
           onClick={enableInput}
-          variant="ghost"
-          size="sm"
-          className="h-auto p-1 w-full flex justify-start cursor-text"
+          className="w-full flex justify-start p-0 border-0 cursor-text h-8 items-center text-large-semibold"
         >
           <span className="truncate">{initialName}</span>
-        </Button>
+        </div>
       )}
     </div>
   );

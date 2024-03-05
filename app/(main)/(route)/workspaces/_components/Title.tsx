@@ -65,17 +65,15 @@ export const Title = ({ initialTitle }: TitleProps) => {
           onChange={onChange}
           onKeyDown={onKeyDown}
           value={title}
-          className="h-auto p-1 w-full flex justify-start focus:border-transparent focus:bg-transparent focus:ring-transparent"
+          className="w-full flex justify-start p-0 border-0 h-6 rounded-none text-body-medium bg-transparent"
         />
       ) : (
-        <Button
+        <div
           onClick={enableInput}
-          variant="ghost"
-          size="sm"
-          className="h-auto p-1 w-full flex justify-start cursor-text"
+          className="w-full flex justify-start p-0 border-0 cursor-text h-6 items-center text-body-medium"
         >
           <span className="truncate">{initialTitle}</span>
-        </Button>
+        </div>
       )}
     </div>
   );

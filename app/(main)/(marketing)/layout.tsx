@@ -1,5 +1,5 @@
 import LayoutComponent from "@/components/hocs/layoutComponent";
-import { Topbar } from "@/components/shared/TopBar/Topbar";
+import { TopbarMarketing } from "@/components/shared/TopBar/MarketingTopbar";
 
 export default function RootLayout({
   children,
@@ -7,7 +7,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <LayoutComponent top={<Topbar />}>
+    <LayoutComponent top={<TopbarMarketing />}>
       {children}
     </LayoutComponent>
   );

@@ -13,9 +13,9 @@ const DocumentsPage = () => {
   const router = useRouter();
   const create = useMutation(api.workspace.create);
   const onCreate = () => {
-    const promise = create({ name: "Untitled" }).then(
-      (workspaceId) =>
-        router.push(`/workspaces/${workspaceId}`)
+    const promise = create({ name: "Click to edit" }).then(
+      ({ workspace, member }) =>
+        router.push(`/workspaces/${workspace}`)
     );
 
     toast.promise(promise, {

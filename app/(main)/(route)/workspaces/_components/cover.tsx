@@ -57,7 +57,7 @@ export const Cover = ({
           />
           <AvatarFallback className="bg-card"></AvatarFallback>
         </Avatar>
-        <div className="w-52 h-16 bg-card shadow-sm shadow-secondary rounded-lg py-2 px-4">
+        <div className="w-52 h-auto bg-card shadow-sm shadow-secondary rounded-lg py-1 px-4">
           {<Name initialName={name} />}
           {<Title initialTitle={title} />}
         </div>

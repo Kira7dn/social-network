@@ -28,7 +28,7 @@ const LeftSideBar = (props: Props) => {
       >
         <article className="h-screen px-3 flex flex-col gap-10 shadow-sidebar rounded-tr-2xl pt-3">
           <section className="w-full">
-            <Logo expanded={isHome} />
+            <Logo expanded={isHome} size={50} />
           </section>
           <section
             className={cn(
@@ -48,8 +48,8 @@ const LeftSideBar = (props: Props) => {
           </section>
           <section
             className={cn(
-              "flex flex-col pb-6 h-2/5",
-              isHome && "max-h-64"
+              "flex flex-col pb-6 h-3/5",
+              isHome && "max-h-72"
             )}
           >
             <div

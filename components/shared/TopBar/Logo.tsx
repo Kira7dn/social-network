@@ -1,26 +1,31 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 
 type props = {
   expanded: boolean;
+  size: number;
 };
-export const Logo = ({ expanded }: props) => {
+export const Logo = ({ expanded, size }: props) => {
   return (
-    <div className="flex items-center gap-x-4 justify-start">
+    <Link
+      className="flex items-center gap-x-4 justify-start"
+      href="/dashboard"
+    >
       <Image
         src="/assets/logo.svg"
-        height="48"
-        width="48"
+        height={size}
+        width={size}
         alt="Logo"
-        className="dark:hidden w-auto"
+        className="dark:hidden"
         priority
       />
       <Image
         src="/assets/logo-dark.svg"
-        height="48"
-        width="48"
+        height={size}
+        width={size}
         alt="Logo"
-        className="hidden dark:block w-auto"
+        className="hidden dark:block"
         priority
       />
       <p
@@ -31,6 +36,6 @@ export const Logo = ({ expanded }: props) => {
       >
         Workspace
       </p>
-    </div>
+    </Link>
   );
 };
