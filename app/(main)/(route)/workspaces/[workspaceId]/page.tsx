@@ -8,7 +8,7 @@ import TaskList from "../_components/Tasks";
 import TaskActivity from "../_components/TaskActivity";
 import Schedule from "../_components/Schedule";
 import TaskMember from "../_components/TaskMember";
-import Cover from "../_components/Cover";
+import WallPaper from "../_components/WallPaper";
 
 interface WorkspaceIdPageProps {
   params: {
@@ -26,7 +26,7 @@ const DocumentIdPage = ({
   if (workspace === undefined) {
     return (
       <div>
-        <Cover.Skeleton />
+        <WallPaper.Skeleton />
         <div className="md:max-w-3xl lg:max-w-4xl mx-auto mt-10">
           <div className="space-y-4 pl-8 pt-4">
             <Skeleton className="h-14 w-[50%]" />
@@ -45,7 +45,7 @@ const DocumentIdPage = ({
 
   return (
     <div className="flex flex-col">
-      <Cover
+      <WallPaper
         url={
           workspace.coverImage
             ? workspace.coverImage

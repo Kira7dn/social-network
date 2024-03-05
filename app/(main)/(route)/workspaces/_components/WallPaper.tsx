@@ -24,7 +24,7 @@ interface CoverImageProps {
   preview?: boolean;
 }
 
-const Cover = ({
+const WallPaper = ({
   url,
   icon,
   name,
@@ -89,7 +89,7 @@ const Cover = ({
   );
 };
 
-Cover.Skeleton = function CoverSkeleton() {
+WallPaper.Skeleton = function CoverSkeleton() {
   return (
     <Skeleton className="relative w-full h-40 rounded-none">
       <div className="absolute bottom-4 left-16 flex items-center gap-9">
@@ -100,4 +100,4 @@ Cover.Skeleton = function CoverSkeleton() {
   );
 };
 
-export default Cover;
+export default WallPaper;
