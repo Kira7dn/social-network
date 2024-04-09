@@ -31,10 +31,7 @@ export const list = query({
 });
 
 export const create = mutation({
-  args: {
-    name: v.string(),
-  },
-  handler: async (ctx, args) => {
+  handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Not authenticated");
@@ -49,8 +46,8 @@ export const create = mutation({
       throw new Error("Not found");
     }
     const workspace = await ctx.db.insert("workspace", {
-      name: args.name,
-      title: "untitled",
+      name: "Workspace Name",
+      title: "Mission Title",
     });
     const member = await ctx.db.insert("members", {
       user: currentUser._id,
@@ -86,34 +83,14 @@ export const update = mutation({
     if (!currentUser) {
       throw new Error("Not found");
     }
+    const { id, ...rest } = args;
     const existingWorkspace = await ctx.db.get(args.id);
     if (!existingWorkspace) {
       throw new Error("Not found");
     }
     const workspace = await ctx.db.patch(args.id, {
-      name: args.name,
-      title: args.title,
-      period: args.period,
-      description: args.description,
-      iconImage: args.coverImage,
-      coverImage: args.coverImage,
+      ...rest,
     });
-    return workspace;
-  },
-});
-
-export const remove = mutation({
-  args: { id: v.id("workspace") },
-  handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Not authenticated");
-    }
-    const existingWorkspace = await ctx.db.get(args.id);
-    if (!existingWorkspace) {
-      throw new Error("Not found");
-    }
-    const workspace = await ctx.db.delete(args.id);
     return workspace;
   },
 });
@@ -150,5 +127,32 @@ export const getById = query({
       members,
     };
     return result;
+  },
+});
+
+export const remove = mutation({
+  args: { id: v.id("workspace") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+    const existingWorkspace = await ctx.db.get(args.id);
+    if (!existingWorkspace) {
+      throw new Error("Workspace Not found");
+    }
+    const workspace = await ctx.db.delete(args.id);
+    const members = await ctx.db
+      .query("members")
+      .withIndex("by_workspace", (q) =>
+        q.eq("workspace", args.id)
+      )
+      .collect();
+    await Promise.all(
+      members.map(async (member) =>
+        ctx.db.delete(member._id)
+      )
+    );
+    return workspace;
   },
 });

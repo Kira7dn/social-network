@@ -1,189 +1,170 @@
-import React, { PureComponent, useState } from "react";
+import { Spinner } from '@/components/spinner'
+import { api } from '@/convex/_generated/api'
+import { Id } from '@/convex/_generated/dataModel'
+import { TaskSummary } from '@/lib/type'
+import { useQuery } from 'convex/react'
+import React, {
+  FunctionComponent,
+} from 'react'
 import {
-  PieChart,
-  Pie,
-  Sector,
-  Cell,
   ResponsiveContainer,
   Legend,
-} from "recharts";
+  BarChart,
+  XAxis,
+  YAxis,
+  Bar,
+  Rectangle,
+  ReferenceLine,
+  CartesianGrid,
+} from 'recharts'
 
-type ActivitiesProps = {
-  data: {
-    task: string;
-    name: string;
-    value: number;
-  }[];
-};
+const ActivityChart = ({
+  data,
+}: {
+  data: TaskSummary[]
+}) => {
+  const renderColorfulLegendText = (
+    value: string,
+    entry: any
+  ) => {
+    const { color } = entry
 
-const data = [
-  { task: "System Design", name: "Completed", value: 400 },
-  {
-    task: "System Design",
-    name: "In Progress",
-    value: 400,
-  },
-  { task: "Coding/Program", name: "Completed", value: 400 },
-  {
-    task: "Coding/Program",
-    name: "In Progress",
-    value: 400,
-  },
-];
-const COLORS = [
-  "var(--green)",
-  "var(--yellow)",
-  "var(--brightGreen)",
-];
-
-const renderActiveShape = (props: unknown) => {
-  const specificProps = props as {
-    cx: number;
-    cy: number;
-    midAngle: number;
-    innerRadius: number;
-    outerRadius: number;
-    startAngle: number;
-    endAngle: number;
-    fill: any;
-    payload: { name: string; value: number };
-    percent: number;
-    value: number;
-  };
-  const RADIAN = Math.PI / 180;
-  const {
-    cx,
-    cy,
-    midAngle,
-    innerRadius,
-    outerRadius,
-    startAngle,
-    endAngle,
-    fill,
-    payload,
-    percent,
-    value,
-  } = specificProps;
-  const sin = Math.sin(-RADIAN * midAngle);
-  const cos = Math.cos(-RADIAN * midAngle);
-  const sx = cx + (outerRadius + 6) * cos;
-  const sy = cy + (outerRadius + 6) * sin;
-  const mx = cx + (outerRadius + 6) * cos;
-  const my = cy + (outerRadius + 6) * sin;
-  const ex = mx + (cos >= 0 ? 1 : -1) * 4;
-  const ey = my;
-  const textAnchor = cos >= 0 ? "start" : "end";
-
-  return (
-    <g>
-      <text
-        className="text-large-bold"
-        x={cx}
-        y={cy}
-        dy={0}
-        textAnchor="middle"
-        fill={fill}
+    return (
+      <span
+        style={{ color }}
+        className="text-tiny-medium capitalize"
       >
-        {payload.value}
-      </text>
-      <text
-        className="text-tiny-semibold"
-        x={cx}
-        y={cy}
-        dy={20}
-        textAnchor="middle"
-        fill={fill}
+        {value}
+      </span>
+    )
+  }
+  const CustomizedAxisTick: FunctionComponent<
+    any
+  > = (props: any) => {
+    const { x, y, payload } = props
+
+    return (
+      <g
+        transform={`translate(${x},${y})`}
       >
-        {`${payload.name} ${(percent * 100).toFixed(0)}%`}
-      </text>
-      <Sector
-        cx={cx}
-        cy={cy}
-        innerRadius={innerRadius}
-        outerRadius={outerRadius}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        fill={fill}
-      />
-      <Sector
-        cx={cx}
-        cy={cy}
-        startAngle={startAngle}
-        endAngle={endAngle}
-        innerRadius={outerRadius + 6}
-        outerRadius={outerRadius + 10}
-        fill={fill}
-      />
-    </g>
-  );
-};
-const renderLegend = (props: any) => {
-  const { payload } = props;
-
-  return (
-    <ul className="flex justify-between w-full px-4">
-      {payload.map((entry: any, index: number) => {
-        if (entry.value === "Completed")
-          return (
-            <li
-              key={`item-${index}`}
-              className="text-small-semibold"
-              style={{ color: entry.color }}
-            >
-              {entry.payload.task}
-            </li>
-          );
-      })}
-    </ul>
-  );
-};
-const ActivityChart = ({ data }: ActivitiesProps) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const onPieEnter = (_: any, index: any) => {
-    setActiveIndex(index);
-  };
-  return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart width={340} height={340}>
-        <Pie
-          activeIndex={activeIndex}
-          activeShape={renderActiveShape}
-          data={data}
-          innerRadius={40}
-          outerRadius={60}
-          fill="#8884d8"
-          paddingAngle={5}
-          dataKey="value"
-          onMouseEnter={onPieEnter}
+        <text
+          x={0}
+          y={10}
+          dy={0}
+          textAnchor="middle"
+          fill="#666"
+          className="truncate text-tiny-medium"
+          width={20}
         >
-          {data.map((_entry: any, index: number) => (
-            <Cell
-              key={`cell-${index}`}
-              fill={COLORS[index % COLORS.length]}
-            />
-          ))}
-        </Pie>
-        <Legend
-          content={renderLegend}
-          verticalAlign="bottom"
-        />
-      </PieChart>
-    </ResponsiveContainer>
-  );
-};
+          {payload.value.slice(0, 10)}
+        </text>
+      </g>
+    )
+  }
+  const CustomLabel: FunctionComponent<
+    any
+  > = (props: {
+    x: any
+    y: any
+    value: any
+  }) => {
+    const { x, y, value } = props
 
-function TaskActivity() {
+    return (
+      <text
+        x={x + 20}
+        y={y - 5}
+        dy={0}
+        fill="#666"
+        fontSize={10}
+        textAnchor="middle"
+        className="text-tiny-medium"
+      >
+        {value}
+      </text>
+    )
+  }
   return (
-    <section className="w-4/12 flex flex-col items-center p-2 bg-card rounded-md border border-solid border-card-foreground text-body-normal text-secondary">
-      <header className="self-start text-large-semibold text-card-foreground">
-        Task Activity
-      </header>
-      <div className="w-full h-44">
-        <ActivityChart data={data} />
-      </div>
-    </section>
-  );
+    <ResponsiveContainer
+      width="100%"
+      height="100%"
+    >
+      <BarChart
+        data={data}
+        barGap="-60%"
+        barCategoryGap="20%"
+        margin={{
+          top: 5,
+          right: 5,
+          bottom: 0,
+          left: 5,
+        }}
+      >
+        <Legend
+          wrapperStyle={{
+            top: 0,
+            right: 0,
+          }}
+          height={1}
+          formatter={
+            renderColorfulLegendText
+          }
+        />
+        <XAxis
+          dataKey="group"
+          angle={90}
+          className="text-tiny-semibold"
+          tick={<CustomizedAxisTick />}
+        />
+        <YAxis
+          width={20}
+          type="number"
+          domain={[
+            (dataMin: number) =>
+              0 - Math.abs(dataMin),
+            (dataMax: number) =>
+              Math.round(dataMax * 1.2),
+          ]}
+          className="text-tiny-medium"
+        />
+        <CartesianGrid strokeDasharray="1 3" />
+
+        <Bar
+          dataKey="total"
+          fill="var(--secondary)"
+          strokeDasharray={2}
+          strokeWidth={0.5}
+          label={<CustomLabel />}
+        />
+        <Bar
+          dataKey="completed"
+          fill="var(--blue)"
+          strokeWidth={0.5}
+        />
+      </BarChart>
+    </ResponsiveContainer>
+  )
 }
 
-export default TaskActivity;
+function TaskActivity({
+  workspaceId,
+}: {
+  workspaceId: Id<'workspace'>
+}) {
+  const data = useQuery(
+    api.tasks.getTaskSummary,
+    {
+      workspaceId,
+    }
+  )
+  if (!data) {
+    return <Spinner />
+  }
+  return (
+    <div className="h-44 w-full">
+      <ActivityChart data={data} />
+    </div>
+  )
+}
+
+export default TaskActivity

@@ -4,27 +4,60 @@ import { mutation, query } from "./_generated/server";
 export const list = query({
   args: { workspaceId: v.id("workspace") },
   handler: async (ctx, args) => {
+    const workspace = await ctx.db.get(args.workspaceId);
+    if (!workspace) {
+      throw new Error("Workspace Not found");
+    }
     const members = await ctx.db
       .query("members")
       .withIndex("by_workspace", (q) =>
         q.eq("workspace", args.workspaceId)
       )
       .collect();
-    if ((members.length = 0)) {
-      return null;
-    }
     const membersData = await Promise.all(
       members.map(async (member) => {
-        return {
-          ...member,
-          user: await ctx.db.get(member.user),
-        };
+        const user = await ctx.db.get(member.user);
+        if (user) {
+          return {
+            ...member,
+            user: user,
+          };
+        }
       })
     );
     return membersData;
   },
 });
-
+export const listSet = query({
+  args: { workspaceId: v.id("workspace") },
+  handler: async (ctx, args) => {
+    const members = await ctx.db
+      .query("members")
+      .withIndex("by_workspace", (q) =>
+        q.eq("workspace", args.workspaceId)
+      )
+      .collect();
+    const users = await ctx.db.query("users").collect();
+    const filteredUsers = users.filter((u) => {
+      if (members.some((m) => m.user === u._id)) {
+        return false;
+      }
+      return true;
+    });
+    const membersData = await Promise.all(
+      members.map(async (member) => {
+        const user = await ctx.db.get(member.user);
+        if (user) {
+          return {
+            ...member,
+            user: user,
+          };
+        }
+      })
+    );
+    return { membersData, filteredUsers };
+  },
+});
 export const create = mutation({
   args: {
     workspaceId: v.id("workspace"),
@@ -41,13 +74,22 @@ export const create = mutation({
     if (!workspace) {
       throw new Error("Not found");
     }
-    const member = await ctx.db.insert("members", {
-      user: args.userId,
-      workspace: args.workspaceId,
-      role: args.role,
-      workOn: args.workOn,
-    });
-    return member;
+    const isIncludes = await ctx.db
+      .query("members")
+      .withIndex("by_user_workspace", (q) =>
+        q
+          .eq("user", args.userId)
+          .eq("workspace", args.workspaceId)
+      )
+      .unique();
+    if (!isIncludes) {
+      await ctx.db.insert("members", {
+        user: args.userId,
+        workspace: args.workspaceId,
+        role: args.role,
+        workOn: args.workOn,
+      });
+    }
   },
 });
 
@@ -67,9 +109,9 @@ export const update = mutation({
     if (!existingMember) {
       throw new Error("Not found");
     }
+    const { id, user, ...rest } = args;
     const member = await ctx.db.patch(args.id, {
-      role: args.role,
-      workOn: args.workOn,
+      ...rest,
     });
     return member;
   },

@@ -1,107 +1,127 @@
-"use client";
+'use client'
 
-import { usePathname, useRouter } from "next/navigation";
-import { useMutation, useQuery } from "convex/react";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { api } from "@/convex/_generated/api";
 import {
-  ArrowLeft,
-  ArrowLeftCircle,
+  usePathname,
+  useRouter,
+} from 'next/navigation'
+import { useQuery } from 'convex/react'
+import { cn } from '@/lib/utils'
+import { api } from '@/convex/_generated/api'
+import {
   ChevronLeft,
   ChevronRight,
-  PlusCircleIcon,
-} from "lucide-react";
-import { useRef } from "react";
+} from 'lucide-react'
+import { useRef } from 'react'
+import Image from 'next/image'
 
 export const Navigation = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const create = useMutation(api.workspace.create);
-  const workspaces = useQuery(api.workspace.list);
-  const handleCreate = () => {
-    const promise = create({ name: "Untitled" }).then(
-      (workspaceId) =>
-        router.push(`/workspaces/${workspaceId}`)
-    );
-    toast.promise(promise, {
-      loading: "Creating a new note...",
-      success: "New note created!",
-      error: "Failed to create a new note.",
-    });
-  };
-  const scrollContainer = useRef<HTMLDivElement>(null);
+  const router = useRouter()
+  const pathname = usePathname()
+  const workspaces = useQuery(
+    api.workspace.list
+  )
+  const scrollContainer =
+    useRef<HTMLDivElement>(null)
 
   const scrollLeft = () => {
     if (scrollContainer.current) {
       scrollContainer.current.scrollLeft -=
-        scrollContainer.current.scrollWidth * 0.16;
+        scrollContainer.current
+          .scrollWidth * 0.16
     }
-  };
+  }
 
   const scrollRight = () => {
     if (scrollContainer.current) {
       scrollContainer.current.scrollLeft +=
-        scrollContainer.current.scrollWidth * 0.16;
+        scrollContainer.current
+          .scrollWidth * 0.16
     }
-  };
+  }
 
   return (
     <>
       <aside
         className={cn(
-          "h-20 flex w-full bg-background border-b-2 border-primary "
+          'flex h-20 w-full border-b-2 border-primary p-2'
         )}
       >
-        <div className="flex w-full gap-2 relative">
-          {/* <button
-            onClick={handleCreate}
-            className="flex-shrink-0 flex items-center justify-center w-14 text-secondary h-full hover:bg-primary hover:text-white bg-card transition-colors duration-200"
-          >
-            <PlusCircleIcon size={24} />
-          </button> */}
+        <div className="relative flex w-full gap-2">
           <div
             ref={scrollContainer}
-            className=" flex w-full justify-start gap-2 items-center overflow-x-scroll scrollbar-hide group"
+            className="scrollbar-hide group flex w-full items-center justify-start gap-2 overflow-x-scroll"
           >
             <button
               onClick={scrollLeft}
-              className="absolute left-2 opacity-0 group-hover:opacity-100 hover:text-primary transition-opacity p-2 rounded-full"
+              className="absolute left-2 rounded-full p-2 opacity-0 transition-opacity hover:text-primary group-hover:opacity-100"
             >
               <ChevronLeft size={24} />
             </button>
             <button
               onClick={scrollRight}
-              className="absolute right-2 opacity-0 group-hover:opacity-100 hover:text-primary transition-opacity p-2 rounded-full"
+              className="absolute right-2 rounded-full p-2 opacity-0 transition-opacity hover:text-primary group-hover:opacity-100"
             >
               <ChevronRight size={24} />
             </button>
-            {workspaces?.map((workspace, index) => (
-              <div
-                key={workspace._id}
-                onClick={() =>
-                  router.push(
-                    `/workspaces/${workspace._id}`
+            {workspaces?.map(
+              (workspace, index) => {
+                if (workspace) {
+                  return (
+                    <div
+                      key={
+                        workspace._id
+                      }
+                      onClick={() =>
+                        router.push(
+                          `/workspaces/${workspace._id}`
+                        )
+                      }
+                      className={cn(
+                        'w20-minus-05 flex h-full flex-shrink-0 cursor-pointer items-center justify-start gap-2 rounded-lg px-2 transition-colors duration-200',
+                        {
+                          'bg-primary text-white':
+                            pathname ===
+                            `/workspaces/${workspace._id}`,
+                          'transition-colors duration-200 hover:bg-primary hover:text-white':
+                            pathname !==
+                            `/workspaces/${workspace._id}`,
+                        }
+                      )}
+                    >
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={
+                            workspace.iconImage
+                              ? workspace.iconImage
+                              : '/assets/logo.svg'
+                          }
+                          fill
+                          alt={
+                            workspace.name
+                          }
+                          className="rounded-lg object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="truncate text-base-semibold">
+                          {
+                            workspace.name
+                          }
+                        </p>
+                        <p className="truncate text-small-medium font-light">
+                          {
+                            workspace.title
+                          }
+                        </p>
+                      </div>
+                    </div>
                   )
                 }
-                className={cn(
-                  "flex-shrink-0 flex items-center justify-center w20-minus-05 h-full transition-colors duration-200 cursor-pointer",
-                  {
-                    "bg-primary text-white":
-                      pathname ===
-                      `/workspaces/${workspace._id}`,
-                    "bg-card text-primary hover:bg-primary hover:text-white transition-colors duration-200":
-                      pathname !==
-                      `/workspaces/${workspace._id}`,
-                  }
-                )}
-              >
-                {index}
-              </div>
-            ))}
+              }
+            )}
           </div>
         </div>
       </aside>
     </>
-  );
-};
+  )
+}

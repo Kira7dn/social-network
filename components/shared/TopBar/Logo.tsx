@@ -1,15 +1,18 @@
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
+import clsx from 'clsx'
+import Image from 'next/image'
+import Link from 'next/link'
 
 type props = {
-  expanded: boolean;
-  size: number;
-};
-export const Logo = ({ expanded, size }: props) => {
+  expanded: boolean
+  size: number
+}
+export const Logo = ({
+  expanded,
+  size,
+}: props) => {
   return (
     <Link
-      className="flex items-center gap-x-4 justify-start"
+      className="flex items-center justify-start gap-x-4"
       href="/dashboard"
     >
       <Image
@@ -29,13 +32,13 @@ export const Logo = ({ expanded, size }: props) => {
         priority
       />
       <p
-        className={cn(
-          "transition-all ease-out duration-300 overflow-hidden text-secondary text-heading4-bold",
-          !expanded && "opacity-0"
+        className={clsx(
+          'overflow-hidden text-heading4-bold text-secondary transition-all duration-300 ease-out',
+          !expanded && 'opacity-0'
         )}
       >
         Workspace
       </p>
     </Link>
-  );
-};
+  )
+}

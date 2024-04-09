@@ -1,19 +1,18 @@
+import { Id } from "@/convex/_generated/dataModel";
 import { create } from "zustand";
 
 type MemberStore = {
-  members?: string[];
+  workspaceId?: Id<"workspace">;
   isOpen: boolean;
-  onOpen: (members?: string[]) => void;
+  onOpen: (workspaceId: Id<"workspace">) => void;
   onClose: () => void;
-  onReplace: (url: string[]) => void;
 };
 
 export const useMembers = create<MemberStore>((set) => ({
-  url: undefined,
+  workspaceId: undefined,
   isOpen: false,
-  onOpen: (members?: string[]) =>
-    set({ isOpen: true, members: members }),
-  onClose: () => set({ isOpen: false, members: undefined }),
-  onReplace: (members: string[]) =>
-    set({ isOpen: true, members }),
+  onOpen: (workspaceId: Id<"workspace">) =>
+    set({ isOpen: true, workspaceId: workspaceId }),
+  onClose: () =>
+    set({ isOpen: false, workspaceId: undefined }),
 }));

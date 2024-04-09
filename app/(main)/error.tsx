@@ -1,13 +1,10 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
-
-import { Button } from "@/components/ui/button";
+import Image from 'next/image'
 
 const Error = () => {
   return (
-    <div className="h-full flex flex-col items-center justify-center space-y-4">
+    <div className="flex h-full flex-col items-center justify-center space-y-4">
       <Image
         src="/assets/error.png"
         height="300"
@@ -26,7 +23,7 @@ const Error = () => {
         Something went wrong!
       </h2>
     </div>
-  );
-};
+  )
+}
 
-export default Error;
+export default Error

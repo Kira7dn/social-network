@@ -18,3 +18,10 @@ export interface Message {
   to: User | undefined;
   seen: boolean;
 }
+
+export interface TaskSummary {
+  group: string;
+  total: number;
+  completed: number;
+  inProgress: number;
+}

@@ -1,12 +1,13 @@
-import React from "react";
+import React from 'react'
+import ChatContainer from '../shared/Messenger/ChatContainer'
 
 type Props = {
-  top?: React.ReactNode;
-  left?: React.ReactNode;
-  right?: React.ReactNode;
-  bottom?: React.ReactNode;
-  children: React.ReactNode;
-};
+  top?: React.ReactNode
+  left?: React.ReactNode
+  right?: React.ReactNode
+  bottom?: React.ReactNode
+  children: React.ReactNode
+}
 
 function LayoutComponent2({
   left,
@@ -17,23 +18,26 @@ function LayoutComponent2({
 }: Props) {
   return (
     <>
-      <main className="flex justify-center">
+      <main className="flex w-full justify-center bg-background">
         {left}
-        <div className="w-full flex flex-col justify-between relative">
+        <div className="relative flex w-full flex-col justify-between">
           {top}
           <section className="flex min-h-screen flex-1 flex-col items-center">
-            <div className="w-full h-full flex justify-between bg-background">
-              <div className="container">{children}</div>
-              <div className="w-4/12 h-full pl-2 pr-4">
+            <div className="container flex h-full w-full">
+              <div className="w-full">
+                {children}
+              </div>
+              <div className="ml-6 h-full w-3/12 pl-2">
                 {right}
               </div>
             </div>
           </section>
+          <ChatContainer />
         </div>
       </main>
       {bottom}
     </>
-  );
+  )
 }
 
-export default LayoutComponent2;
+export default LayoutComponent2

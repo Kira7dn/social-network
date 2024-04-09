@@ -1,45 +1,47 @@
-"use client";
-import React from "react";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { sidebarLinks } from "@/constants";
-import Link from "next/link";
-import { Logo } from "../TopBar/Logo";
-import ProgressChart from "./ProgressChart";
+'use client'
+import React from 'react'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/utils'
+import { sidebarLinks } from '@/constants'
+import Link from 'next/link'
+import { Logo } from '../TopBar/Logo'
+import ProgressChart from './ProgressChart'
 
-type Props = {};
-
-const LeftSideBar = (props: Props) => {
-  const path = usePathname();
-  const isHome = path === "/dashboard";
-  const pathname = usePathname();
+const LeftSideBar = () => {
+  const path = usePathname()
+  const isHome = path === '/dashboard'
+  const pathname = usePathname()
   return (
     <aside
       className={cn(
-        "w-28 pr-2 transition-all ease-out duration-300",
-        isHome && "w-3/12"
+        'w-28 transition-all duration-300 ease-out',
+        isHome && 'w-3/12'
       )}
     >
       <div
         className={cn(
-          "pt-3 fixed top-0 w-24 transition-all ease-out duration-300",
-          isHome && "w-72"
+          'fixed top-0 z-50 w-28 pr-10 pt-4 transition-all duration-300 ease-out dark:pt-7',
+          isHome && 'w-80'
         )}
       >
-        <article className="h-screen px-3 flex flex-col gap-10 shadow-sidebar rounded-tr-2xl pt-3">
+        <article className="glass-container flex h-screen flex-col gap-10 rounded-tr-2xl bg-card from-gray-900 to-gray-950 px-3 pt-3 shadow-sidebar dark:bg-gradient-to-b">
           <section className="w-full">
-            <Logo expanded={isHome} size={50} />
+            <Logo
+              expanded={isHome}
+              size={50}
+            />
           </section>
           <section
             className={cn(
-              "flex flex-col transition-all ease-out duration-300 justify-center overflow-hidden h-40",
-              !isHome && "h-0 opacity-0"
+              'flex h-40 flex-col justify-center overflow-hidden transition-all duration-300 ease-out',
+              !isHome && 'h-0 opacity-0'
             )}
           >
             <p
               className={cn(
-                "text-large-bold",
-                !isHome && "opacity-0 text-[0px]"
+                'text-large-bold',
+                !isHome &&
+                  'text-[0px] opacity-0'
               )}
             >
               Tasks Progress
@@ -48,55 +50,63 @@ const LeftSideBar = (props: Props) => {
           </section>
           <section
             className={cn(
-              "flex flex-col pb-6 h-3/5",
-              isHome && "max-h-72"
+              'flex h-3/5 flex-col pb-6',
+              isHome && 'max-h-72'
             )}
           >
             <div
               className={cn(
-                "h-full flex flex-col justify-between"
+                'flex h-full flex-col justify-between'
               )}
             >
-              {sidebarLinks.map((link) => {
-                const isActive =
-                  (pathname.includes(link.route) &&
-                    link.route.length > 1) ||
-                  pathname === link.route;
-                return (
-                  <Link
-                    href={link.route}
-                    key={link.label}
-                    className={`rounded-sm hover:text-primary flex gap-2 py-1 px-2 ${
-                      isActive && "bg-primary"
-                    } ${!isHome && "scale-up"}`}
-                  >
-                    <div
-                      className={`${
+              {sidebarLinks.map(
+                (link) => {
+                  const isActive =
+                    (pathname.includes(
+                      link.route
+                    ) &&
+                      link.route
+                        .length > 1) ||
+                    pathname ===
+                      link.route
+                  return (
+                    <Link
+                      href={link.route}
+                      key={link.label}
+                      className={`flex gap-2 rounded-sm px-2 py-1 hover:text-primary ${
                         isActive &&
-                        "text-primary-foreground"
-                      } `}
+                        'bg-primary'
+                      } ${!isHome && 'scale-up justify-center'}`}
                     >
-                      {link.component}
-                    </div>
-                    <p
-                      className={cn(
-                        "max-md:hidden text-base-semibold",
-                        isActive &&
-                          "text-primary-foreground",
-                        !isHome && "hidden"
-                      )}
-                    >
-                      {link.label}
-                    </p>
-                  </Link>
-                );
-              })}
+                      <div
+                        className={`${
+                          isActive &&
+                          'text-primary-foreground'
+                        } `}
+                      >
+                        {link.component}
+                      </div>
+                      <p
+                        className={cn(
+                          'text-base-semibold max-md:hidden',
+                          isActive &&
+                            'text-primary-foreground',
+                          !isHome &&
+                            'hidden'
+                        )}
+                      >
+                        {link.label}
+                      </p>
+                    </Link>
+                  )
+                }
+              )}
             </div>
           </section>
         </article>
       </div>
     </aside>
-  );
-};
+  )
+}
 
-export default LeftSideBar;
+export default LeftSideBar

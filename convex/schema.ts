@@ -52,18 +52,37 @@ export default defineSchema({
   tasks: defineTable({
     name: v.string(),
     description: v.string(),
-    fromDate: v.string(),
-    toDate: v.string(),
+    duration: v.object({
+      from: v.float64(),
+      to: v.float64(),
+    }),
     taskGroup: v.string(),
-    progress: v.float64(),
-    assignTo: v.array(v.id("users")),
-    createdBy: v.id("users"),
+    progress: v.number(),
     workspace: v.id("workspace"),
+    executor: v.id("users"),
+    initiator: v.optional(v.id("users")),
+    supporter: v.optional(v.id("users")),
   })
     .index("by_workspace", ["workspace"])
-    .index("by_createdBy_assignTo", [
-      "createdBy",
-      "assignTo",
+    .index("by_workspace_progress", [
+      "workspace",
+      "progress",
     ])
-    .index("by_toDate", ["toDate"]),
+    .index("by_executor", ["executor"])
+    .index("by_executor_workspace", [
+      "executor",
+      "workspace",
+    ]),
+  taskMembers: defineTable({
+    user: v.id("users"),
+    task: v.id("tasks"),
+    role: v.union(
+      v.literal("Executor"),
+      v.literal("Initiator"),
+      v.literal("Supporter ")
+    ),
+  })
+    .index("by_task", ["task"])
+    .index("by_user_role", ["user", "role"])
+    .index("by_user_task_role", ["user", "task", "role"]),
 });

@@ -15,8 +15,9 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as documents from "../documents";
-import type * as members from "../members";
 import type * as messages from "../messages";
+import type * as spacemember from "../spacemember";
+import type * as taskmembers from "../taskmembers";
 import type * as tasks from "../tasks";
 import type * as users from "../users";
 import type * as workspace from "../workspace";
@@ -31,8 +32,9 @@ import type * as workspace from "../workspace";
  */
 declare const fullApi: ApiFromModules<{
   documents: typeof documents;
-  members: typeof members;
   messages: typeof messages;
+  spacemember: typeof spacemember;
+  taskmembers: typeof taskmembers;
   tasks: typeof tasks;
   users: typeof users;
   workspace: typeof workspace;

@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body,
-:root {
-  height: 100%;
-}
-body {
-  overflow-y: scroll !important;
-}
 @layer base {
   :root {
     --background: #f4f4f4;
@@ -35,17 +27,21 @@ body {
 
     --blue: #0095f6;
     --green: #62a60a;
-    --brightGreen: #c3d500;
+    --bright-green: #c3d500;
     --yellow: #f38a00;
     --light-gray: #f4f4f4;
   }
 
   .bg-primary-gradient {
-    background: linear-gradient(180deg, #a50034, #ff608c);
+    background: linear-gradient(
+      180deg,
+      #a50034,
+      #ff608c
+    );
   }
   .dark {
-    --background: #656565;
-    --foreground: #f4f4f4;
+    --background: #070815;
+    --foreground: #ffffff;
 
     --card: #000000;
     --card-foreground: #ffffff;
@@ -61,11 +57,6 @@ body {
     --ring: 0 0% 83.1%;
   }
 }
-
-/* Add this to your global CSS file */
-
-/* Scrollbar style 1 */
-/* Scrollbar style 1 */
 .scrollbar-style-1::-webkit-scrollbar {
   width: 0px;
   border-radius: 4px;
@@ -87,8 +78,6 @@ body {
 .scrollbar-style-1::-webkit-scrollbar-thumb:hover {
   background: #8e8e8e;
 }
-
-/* Scrollbar style 2 */
 .scrollbar-style-2::-webkit-scrollbar {
   width: 15px;
 }
@@ -126,7 +115,7 @@ body {
 .chat header::before,
 .chat header::after {
   display: block;
-  content: "";
+  content: '';
   position: absolute;
   top: 75px;
   box-shadow: 0 -40px 0 0 var(--primary);
@@ -166,7 +155,7 @@ body {
   left: 0;
   display: inline-block;
 
-  content: "";
+  content: '';
   width: 0.7em;
   height: 0.7em;
   margin-right: 0.5em;
@@ -174,11 +163,13 @@ body {
   border-radius: 50%;
   margin-bottom: 1px;
 
-  animation: pulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation: pulse 2s
+    cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 .chat header p::after {
-  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  animation: ping 2s
+    cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 @media (prefers-reduced-motion) {
@@ -243,7 +234,9 @@ body {
 
 .chat article p {
   color: var(--secondary-text);
-  background-color: var(--bubbles-background);
+  background-color: var(
+    --bubbles-background
+  );
   margin-bottom: 1em;
   padding: 20px;
   margin: 0.5em 0;
@@ -275,7 +268,9 @@ body {
 .chat article.message-mine p {
   border-radius: 16px;
   border-bottom-right-radius: 0;
-  background: var(--bubbles-mine-background);
+  background: var(
+    --bubbles-mine-background
+  );
   color: white;
   justify-self: end;
 }
@@ -289,7 +284,12 @@ body {
   box-shadow:
     0 20px 25px -5px rgb(0 0 0 / 0.1),
     0 8px 10px -6px rgb(0 0 0 / 0.1);
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  );
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 16px;
@@ -299,7 +299,12 @@ body {
 
 @media (prefers-color-scheme: dark) {
   .chat form {
-    background-color: rgba(55, 65, 81, 0.8);
+    background-color: rgba(
+      55,
+      65,
+      81,
+      0.8
+    );
   }
 }
 
@@ -404,30 +409,91 @@ article button span {
 }
 .rct-dateHeader {
   border: none !important;
+  background: transparent !important;
+  color: var(
+    --card-foreground
+  ) !important;
 }
 .rct-hl-even {
-  background: white !important;
+  color: var(
+    --card-foreground
+  ) !important;
+  background: transparent !important;
   border: none !important;
 }
 .rct-hl-odd {
-  background: white !important;
+  color: var(
+    --card-foreground
+  ) !important;
+  background: transparent !important;
   border: none !important;
-  border-top: 1px dashed var(--secondary) !important;
+  border-top: 1px dashed
+    var(--secondary) !important;
 }
-.rct-sidebar-row {
+.rct-sidebar-row .rct-scroll {
   background: white !important;
   border: none !important;
+  color: var(
+    --card-foreground
+  ) !important;
+  background: var(--card) !important;
+}
+.rct-scroll {
+  border: none !important;
+  color: var(
+    --card-foreground
+  ) !important;
+  background: transparent !important;
 }
 .rct-vl {
   border: none !important;
 }
-.react-calendar-timeline .rct-dateHeader-primary {
-  color: var(--card-foreground) !important;
+.react-calendar-timeline
+  .rct-dateHeader-primary {
+  color: var(
+    --card-foreground
+  ) !important;
+  background: transparent !important;
 }
-.react-calendar-timeline .rct-header-root {
-  background: var(--card) !important;
-  color: var(--card-foreground) !important;
+.react-calendar-timeline
+  .rct-header-root {
+  background: transparent !important;
+  color: var(
+    --card-foreground
+  ) !important;
 }
 .rct-item {
   z-index: 40 !important;
+}
+.glass-container {
+  @apply relative;
+}
+
+.glass-container::before {
+  @apply absolute -inset-[10px] -z-10 rounded-xl border border-slate-100/20 bg-slate-200/10 backdrop-blur-md;
+  content: '';
+}
+
+.signal-line {
+  --rotation: 90deg;
+  @apply h-[20px] w-[1.5px] bg-gradient-to-t md:h-[1.5px] md:w-[30px] lg:w-[40px] xl:w-[50px];
+  background-color: hsla(
+    0,
+    0%,
+    100%,
+    0.1
+  );
+  background-image: linear-gradient(
+    var(--rotation),
+    rgba(255, 255, 255, 0) 50%,
+    #bfdbfe 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  background-size: 400% 400%;
+}
+
+@media (max-width: 767px) {
+  .signal-line {
+    --rotation: 0deg;
+  }
 }
