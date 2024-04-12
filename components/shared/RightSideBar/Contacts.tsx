@@ -11,12 +11,17 @@ import { motion } from 'framer-motion'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useQuery } from 'convex/react'
 import { api } from '@/convex/_generated/api'
-
+import { ScrollArea } from '@/components/ui/scroll-area'
+const variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+}
 function Contacts() {
-  const { user } = useUser()
   const { onOpen } = useChatbox()
+  const { user } = useUser()
   const users = useQuery(api.users.list)
-  if (!user || !users) return null
+  if (!user || !users)
+    return Contacts.Skeleton()
   const friends = users.filter(
     (friend) =>
       friend.convexId !== user.id
@@ -32,21 +37,17 @@ function Contacts() {
     imageUrl: currentUser.imageUrl,
   }
 
-  const variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  }
   return (
     <motion.div
       variants={variants}
       initial="hidden"
       animate="visible"
-      className="flex h-full flex-col gap-2 rounded-lg p-3 shadow-sm"
+      className="flex h-full flex-col gap-2 rounded-lg p-3"
     >
       <p className="text-large-bold ">
         Contacts
       </p>
-      <div className="scrollbar-style-1 flex flex-col gap-2 overflow-y-auto py-2">
+      <ScrollArea className="h-72 w-full py-2">
         {friends.map((friend) => {
           const friendInfo = {
             _id: friend._id,
@@ -55,7 +56,7 @@ function Contacts() {
           }
           return (
             <div
-              className="flex cursor-pointer items-center justify-between gap-2 rounded-xl px-2 hover:bg-lightGray dark:hover:bg-slate-800/50"
+              className="my-2 flex cursor-pointer items-center justify-between gap-2 rounded-l-xl px-2 hover:bg-lightGray dark:hover:bg-slate-800/50"
               key={friend._id}
               onClick={() =>
                 onOpen(
@@ -64,7 +65,7 @@ function Contacts() {
                 )
               }
             >
-              <div className="flex items-center gap-2">
+              <div className="flex w-full items-center gap-2">
                 <div className="relative">
                   <Avatar className="border-2 border-lightGray">
                     <AvatarImage
@@ -78,14 +79,14 @@ function Contacts() {
                   </Avatar>
                   <div className="absolute bottom-[-1px] right-[1px] h-3 w-3 rounded-full border-2 border-white bg-green-500"></div>
                 </div>
-                <p className="text-ellipsis text-body-normal capitalize">
+                <p className="truncate text-body-normal capitalize">
                   {friend.fullname}
                 </p>
               </div>
             </div>
           )
         })}
-      </div>
+      </ScrollArea>
     </motion.div>
   )
 }
@@ -94,26 +95,31 @@ export default Contacts
 Contacts.Skeleton =
   function ConversationSkeleton() {
     return (
-      <div className="flex h-full flex-col gap-2 rounded-lg bg-card p-3 shadow-sm">
+      <motion.div
+        variants={variants}
+        initial="hidden"
+        animate="visible"
+        className="flex h-full flex-col gap-2 rounded-lg p-3 shadow-sm"
+      >
         <p className="text-large-bold ">
           Contacts
         </p>
 
-        <div className="scrollbar-style-1 flex flex-col gap-2 overflow-y-auto py-2">
-          {[...Array(5)].map(
+        <ScrollArea className="h-72 w-full py-2">
+          {[...Array(3)].map(
             (_, index) => (
               <div
                 key={index}
-                className="flex cursor-pointer items-center justify-between gap-2 rounded-xl px-2 hover:bg-lightGray"
+                className="my-2 flex cursor-pointer items-center justify-between gap-2 rounded-l-xl px-2"
               >
-                <div className="flex items-center gap-2">
-                  <Skeleton className="h-10 w-10 rounded-full" />
-                  <Skeleton className="h-4 w-[250px]" />
+                <div className="flex w-full items-center gap-2">
+                  <Skeleton className="h-10 w-10 rounded-full border-2 border-lightGray" />
+                  <Skeleton className="h-6 w-3/4" />
                 </div>
               </div>
             )
           )}
-        </div>
-      </div>
+        </ScrollArea>
+      </motion.div>
     )
   }

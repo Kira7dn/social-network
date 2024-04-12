@@ -5,7 +5,6 @@ import { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import usePrefersReducedMotion from '@/hooks/usePrefersReducedMotion'
-import StylizedLogoMark from './StylizedLogoMark'
 import clsx from 'clsx'
 
 import {
@@ -18,21 +17,13 @@ import {
 } from 'react-icons/fa6'
 import { projecLinks } from '@/constants'
 import Link from 'next/link'
+import LogoSVG from '../LogoSVG'
 
 export default function AnimatedContent() {
   const container = useRef(null)
   const prefersReducedMotion =
     usePrefersReducedMotion()
   gsap.registerPlugin(useGSAP)
-
-  const icons = {
-    digitalocean: <FaDigitalOcean />,
-    cloudflare: <FaCloudflare />,
-    npm: <FaNpm />,
-    github: <FaGithub />,
-    figma: <FaFigma />,
-    fly: <FaFly />,
-  }
 
   useGSAP(
     () => {
@@ -122,7 +113,7 @@ export default function AnimatedContent() {
                 projecLinks.length / 2
               ) && (
               <>
-                <StylizedLogoMark />
+                <LogoSVG />
                 <div className="signal-line rotate-180 bg-gradient-to-t" />
               </>
             )}

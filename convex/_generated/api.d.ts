@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as documents from "../documents";
 import type * as messages from "../messages";
+import type * as posts from "../posts";
 import type * as spacemember from "../spacemember";
 import type * as taskmembers from "../taskmembers";
 import type * as tasks from "../tasks";
@@ -33,6 +34,7 @@ import type * as workspace from "../workspace";
 declare const fullApi: ApiFromModules<{
   documents: typeof documents;
   messages: typeof messages;
+  posts: typeof posts;
   spacemember: typeof spacemember;
   taskmembers: typeof taskmembers;
   tasks: typeof tasks;

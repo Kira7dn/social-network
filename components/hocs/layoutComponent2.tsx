@@ -24,10 +24,10 @@ function LayoutComponent2({
           {top}
           <section className="flex min-h-screen flex-1 flex-col items-center">
             <div className="container flex h-full w-full">
-              <div className="w-full">
+              <div className="mr-6 w-full">
                 {children}
               </div>
-              <div className="ml-6 h-full w-3/12 pl-2">
+              <div className="ml-6 h-full w-96">
                 {right}
               </div>
             </div>

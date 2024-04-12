@@ -470,7 +470,8 @@ article button span {
 }
 
 .glass-container::before {
-  @apply absolute -inset-[10px] -z-10 rounded-xl border border-slate-100/20 bg-slate-200/10 backdrop-blur-md;
+  /* @apply absolute -inset-[10px] -z-10 rounded-xl border border-slate-100/20 bg-slate-200/10 backdrop-blur-md; */
+  @apply absolute -inset-[10px] -z-10 rounded-xl border border-slate-100/80 bg-slate-200/80 backdrop-blur-md dark:border-slate-100/20 dark:bg-slate-200/10;
   content: '';
 }
 

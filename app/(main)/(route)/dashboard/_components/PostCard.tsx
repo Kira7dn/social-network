@@ -9,30 +9,13 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import React from 'react'
 import { motion } from 'framer-motion'
+import { Post } from '@/lib/type'
 
 type Props = {
-  post: {
-    _id: Id<'documents'>
-    _creationTime: number
-    content?: string | undefined
-    parentDocument?:
-      | Id<'documents'>
-      | undefined
-    coverImage?: string | undefined
-    icon?: string | undefined
-    title: string
-    userId: string
-    userPicture: string
-    userFullname: string
-    isArchived: boolean
-    isPublished: boolean
-  }
+  post: Post
 }
 
 function PostCard({ post }: Props) {
-  let data = JSON.parse(
-    post?.content || ''
-  )
   let timeStamp = createdTime(
     post._creationTime
   )
@@ -50,73 +33,31 @@ function PostCard({ post }: Props) {
       <div className="flex-start flex items-center gap-4 px-4 py-2">
         <Avatar className="h-10 w-10">
           <AvatarImage
-            src={post?.userPicture}
+            src={post.user.imageUrl}
           />
         </Avatar>
         <div>
           <p className="text-base-semibold">
-            {post.userFullname}
+            {post.user.fullname}
           </p>
           <p className="text-subtle-medium">
             {timeStamp}
           </p>
         </div>
       </div>
-      <p className="text-heading4-medium px-2">{`${post.icon} ${post.title}`}</p>
-      {data.map(
-        (item: {
-          title: string
-          content: any
-          type: string
-          id:
-            | React.Key
-            | null
-            | undefined
-          props: {
-            url: string | StaticImport
-            width: number
-          }
-        }) => {
-          if (item.type === 'image') {
-            return (
-              <Image
-                key={item.id}
-                src={item.props.url}
-                width={200}
-                height={160}
-                sizes="(max-width: 768px) 100vw,
-                        (max-width: 1200px) 50vw,
-                        33vw"
-                className="h-full w-full pt-2"
-                alt="image"
-                // objectFit="contain"
-                priority
-              />
-            )
-          }
-          if (
-            item.type === 'paragraph'
-          ) {
-            if (!item.content[0])
-              return null
-            let text =
-              item.content.reduce(
-                (
-                  acc: string,
-                  curr: { text: string }
-                ) => acc + curr.text,
-                ''
-              )
-            return (
-              <p
-                key={item.id}
-                className="px-6 pb-2"
-              >
-                {text}
-              </p>
-            )
-          }
-        }
+      <p className="px-6 pb-2">
+        {post.content}
+      </p>
+      {post.image && (
+        <Image
+          src={post.image}
+          width={200}
+          height={160}
+          sizes="(max-width: 768px) 100vw,(max-width: 1200px) 50vw,33vw"
+          className="h-full w-full pt-2"
+          alt="image"
+          priority
+        />
       )}
     </motion.div>
   )

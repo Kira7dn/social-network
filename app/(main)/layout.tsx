@@ -24,7 +24,6 @@ export default function RootLayout({
   const { isAuthenticated, isLoading } =
     useConvexAuth()
   if (!isLoading && !isAuthenticated) {
-    // router.push('/')
     return (
       <AlertDialogDemo
         navigate={() =>

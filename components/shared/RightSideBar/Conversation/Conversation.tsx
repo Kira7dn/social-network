@@ -13,7 +13,11 @@ import { User } from '@/lib/type'
 import { motion } from 'framer-motion'
 import { Skeleton } from '@/components/ui/skeleton'
 import useFetchUser from '@/hooks/use-fetch-user'
-
+import { ScrollArea } from '@/components/ui/scroll-area'
+const variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+}
 function Conversation() {
   const { onOpen } = useChatbox()
   const currentUser = useFetchUser()
@@ -21,7 +25,7 @@ function Conversation() {
     api.messages.getConversations
   )
   if (!currentUser || !conversations)
-    return null
+    return Conversation.Skeleton()
   let conversationList =
     conversations.map((conv) => {
       let friend: User | undefined
@@ -38,16 +42,13 @@ function Conversation() {
         friend: friend,
       }
     })
-  const variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  }
+
   return (
     <motion.div
       variants={variants}
       initial="hidden"
       animate="visible"
-      className=" flex h-full flex-col gap-2 rounded-lg p-3 pt-2 shadow-sm"
+      className="flex flex-col gap-2 rounded-lg p-3 shadow-sm"
     >
       <div className="flex items-center gap-2 text-large-bold">
         <MessagesSquareIcon />
@@ -56,7 +57,7 @@ function Conversation() {
         </p>
       </div>
       <SearchBar />
-      <div className="w-full overflow-y-auto">
+      <ScrollArea className="h-40 w-full py-2">
         {conversationList.map(
           (conversation) => {
             if (
@@ -113,7 +114,7 @@ function Conversation() {
             )
           }
         )}
-      </div>
+      </ScrollArea>
     </motion.div>
   )
 }
@@ -122,7 +123,12 @@ export default Conversation
 Conversation.Skeleton =
   function ConversationSkeleton() {
     return (
-      <div className="flex h-full flex-col gap-2 rounded-lg bg-card p-3 pt-2 shadow-sm">
+      <motion.div
+        variants={variants}
+        initial="hidden"
+        animate="visible"
+        className="flex h-fit flex-col gap-2 rounded-lg p-3 shadow-sm"
+      >
         <div className="flex items-center gap-2 text-large-bold">
           <MessagesSquareIcon />
           <p className="">
@@ -130,24 +136,22 @@ Conversation.Skeleton =
           </p>
         </div>
         <SearchBar />
-        <div className="w-full overflow-y-auto">
+        <ScrollArea className="h-40 w-full py-2">
           {[...Array(5)].map(
             (_, index) => (
               <div
                 key={index}
                 className="flex w-full gap-2 rounded-xl px-2 py-1"
               >
-                <div className="relative h-fit">
-                  <Skeleton className="h-10 w-10 rounded-full" />
-                </div>
+                <Skeleton className="h-10 w-10 rounded-full" />
                 <div className="flex w-full flex-col gap-1">
-                  <Skeleton className="h-4 w-[200px]" />
-                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-full" />
                 </div>
               </div>
             )
           )}
-        </div>
-      </div>
+        </ScrollArea>
+      </motion.div>
     )
   }

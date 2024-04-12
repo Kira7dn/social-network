@@ -10,11 +10,11 @@ import {
   DialogHeader,
 } from '@/components/ui/dialog'
 import { useCoverImage } from '@/hooks/use-cover-image'
-import { SingleImageDropzone } from '@/components/single-image-dropzone'
 import { useEdgeStore } from '@/lib/edgestore'
 import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { resizeImage } from '@/lib/utils'
+import { SingleImageDropzone } from '../single-image-dropzone'
 
 export const CoverImageSpaceModal =
   () => {
@@ -61,7 +61,6 @@ export const CoverImageSpaceModal =
               },
             }
           )
-        console.log(file)
 
         await update({
           id: params.workspaceId as Id<'workspace'>,
