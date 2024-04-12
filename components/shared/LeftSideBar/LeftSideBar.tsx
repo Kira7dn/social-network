@@ -6,11 +6,15 @@ import { sidebarLinks } from '@/constants'
 import Link from 'next/link'
 import { Logo } from '../TopBar/Logo'
 import ProgressChart from './ProgressChart'
+import { useConvexAuth } from 'convex/react'
 
 const LeftSideBar = () => {
   const path = usePathname()
   const isHome = path === '/dashboard'
   const pathname = usePathname()
+  const { isAuthenticated, isLoading } =
+    useConvexAuth()
+
   return (
     <aside
       className={cn(
@@ -46,7 +50,10 @@ const LeftSideBar = () => {
             >
               Tasks Progress
             </p>
-            <ProgressChart />
+            {isAuthenticated &&
+              !isLoading && (
+                <ProgressChart />
+              )}
           </section>
           <section
             className={cn(

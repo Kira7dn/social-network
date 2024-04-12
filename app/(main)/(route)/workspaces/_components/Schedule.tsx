@@ -49,9 +49,9 @@ function Schedule({
     data: TaskItem[]
   }) {
     const colors = [
-      '!bg-green-600',
-      '!bg-brightGreen',
-      '!bg-yellow-500',
+      'bg-green-600',
+      'bg-brightGreen',
+      'bg-yellow-500',
     ]
     const groupCounts: {
       [key: string]: number
