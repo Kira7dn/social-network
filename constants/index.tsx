@@ -23,11 +23,11 @@ export const sidebarLinks = [
     label: 'Profile',
     component: <UserCircle />,
   },
-  {
-    route: '/tasks',
-    label: 'My Tasks',
-    component: <Folders />,
-  },
+  // {
+  //   route: '/tasks',
+  //   label: 'My Tasks',
+  //   component: <Folders />,
+  // },
   // {
   //   route: "/setting",
   //   label: "Settings",
@@ -135,7 +135,7 @@ export const projecLinks = [
   },
   {
     icon: <Folders />,
-    route: '/tasks',
+    route: '/workspaces',
   },
   {
     icon: <CalendarCheck />,

@@ -2,7 +2,6 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUser } from '@clerk/nextjs'
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Separator } from '@/components/ui/separator'
@@ -73,7 +72,7 @@ const NewPost = (props: Props) => {
           </div>
         </div>
         <Separator className="my-1" />
-        <div className="flex w-3/5 flex-row items-center justify-between pb-2">
+        <div className="flex w-full flex-row items-center justify-between pb-2 md:w-3/5">
           {postBtn.map((btn) => (
             <div
               key={btn.title}

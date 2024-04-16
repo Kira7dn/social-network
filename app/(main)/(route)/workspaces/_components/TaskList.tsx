@@ -72,6 +72,11 @@ function TaskList({
 
   return (
     <ScrollArea className="h-full w-full">
+      {tasks.length === 0 && (
+        <div className="text-center text-base-medium font-light">
+          No tasks for today
+        </div>
+      )}
       {tasks.map((task) => (
         <TaskItemContent
           key={task._id}

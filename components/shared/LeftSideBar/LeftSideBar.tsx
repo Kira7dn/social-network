@@ -18,7 +18,7 @@ const LeftSideBar = () => {
   return (
     <aside
       className={cn(
-        'w-28 transition-all duration-300 ease-out',
+        'hidden w-28 transition-all duration-300 ease-out md:block',
         isHome && 'w-3/12'
       )}
     >

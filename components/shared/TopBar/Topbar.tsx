@@ -8,12 +8,15 @@ import { Spinner } from '../../spinner'
 import { UserItem } from './UserItem'
 import SearchBar from './SearchBar'
 import { Button } from '@/components/ui/button'
-import { SignInButton } from '@clerk/nextjs'
+import {
+  ClerkLoading,
+  SignInButton,
+} from '@clerk/nextjs'
+import { Logo } from './Logo'
 
 export const Topbar = () => {
   const { isAuthenticated, isLoading } =
     useConvexAuth()
-  const scrolled = useScrollTop()
   const today = new Date()
   const formattedDate =
     today.toLocaleDateString('en-US', {
@@ -30,12 +33,20 @@ export const Topbar = () => {
       )}
     >
       <div className="flex w-full items-center justify-between px-6">
-        <div className="w-96 text-large-semibold text-secondary">
+        <Logo
+          expanded
+          size={40}
+          name={false}
+          className="md:hidden"
+        />
+        <div className="hidden w-96 text-large-semibold text-secondary md:block">
           {formattedDate}
-        </div>{' '}
+        </div>
         <SearchBar />
-        <div className="flex w-[400px] items-center justify-between gap-x-8 md:justify-end">
-          {isLoading && <Spinner />}
+        <div className="flex w-[400px] items-center justify-end gap-x-8">
+          <ClerkLoading>
+            <Spinner />
+          </ClerkLoading>
           {!isAuthenticated &&
             !isLoading && (
               <>

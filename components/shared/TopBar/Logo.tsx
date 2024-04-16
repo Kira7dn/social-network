@@ -4,15 +4,22 @@ import Link from 'next/link'
 
 type props = {
   expanded: boolean
+  name?: boolean
   size: number
+  className?: string
 }
 export const Logo = ({
   expanded,
+  name = true,
   size,
+  className,
 }: props) => {
   return (
     <Link
-      className="flex items-center justify-start gap-x-4"
+      className={clsx(
+        'flex items-center justify-start gap-x-4',
+        className
+      )}
       href="/dashboard"
     >
       <Image
@@ -31,14 +38,16 @@ export const Logo = ({
         className="hidden dark:block"
         priority
       />
-      <p
-        className={clsx(
-          'overflow-hidden text-heading4-bold text-secondary transition-all duration-300 ease-out',
-          !expanded && 'opacity-0'
-        )}
-      >
-        Workspace
-      </p>
+      {name && (
+        <p
+          className={clsx(
+            'overflow-hidden text-heading4-bold text-secondary transition-all duration-300 ease-out',
+            !expanded && 'opacity-0'
+          )}
+        >
+          Workspace
+        </p>
+      )}
     </Link>
   )
 }

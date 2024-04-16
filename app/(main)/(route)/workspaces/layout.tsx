@@ -9,7 +9,7 @@ const MainLayout = ({
 }) => {
   const { isSignedIn, user } = useUser()
   return (
-    <div className="relative z-10 mt-4 flex h-full w-full flex-1 flex-col rounded-t-3xl">
+    <div className="relative z-10 mb-20 mt-4 flex h-full w-full flex-1 flex-col rounded-t-3xl md:mb-0">
       <div className="glass-container flex w-full flex-col rounded-md bg-card from-gray-900 to-gray-950 dark:bg-gradient-to-b">
         {isSignedIn && user && (
           <Navigation />

@@ -13,6 +13,7 @@ import ReactCalendarTimeline, {
   CustomMarker,
   CursorMarker,
   ReactCalendarItemRendererProps,
+  SidebarHeader,
 } from 'react-calendar-timeline'
 import { TaskSheet } from './TaskSheet'
 import { Button } from '@/components/ui/button'
@@ -23,6 +24,7 @@ import {
   AvatarImage,
 } from '@/components/ui/avatar'
 import clsx from 'clsx'
+import { useMediaQuery } from 'react-responsive'
 
 const TaskDistribution = ({
   groups,
@@ -31,6 +33,9 @@ const TaskDistribution = ({
   groups: TimelineGroupBase[]
   items: MergedTaskItem[]
 }) => {
+  const isMobile = useMediaQuery({
+    query: '(max-width: 768px)',
+  })
   const [defaultTimeStart] = useState(
     moment().add(-12, 'day')
   )
@@ -55,6 +60,7 @@ const TaskDistribution = ({
       left: leftResizeProps,
       right: rightResizeProps,
     } = getResizeProps()
+    // make isMobile
 
     return (
       <div
@@ -138,9 +144,11 @@ const TaskDistribution = ({
                 >
                   <EditIcon
                     size={18}
-                    className="mr-2"
+                    className="md:mr-2"
                   />
-                  Edit Task
+                  <span className="hidden md:block">
+                    Edit Task
+                  </span>
                 </Button>
               </TaskSheet>
             </>
@@ -153,9 +161,11 @@ const TaskDistribution = ({
             >
               <CopyPlus
                 size={18}
-                className="mr-2"
+                className="md:mr-2"
               />
-              New Task
+              <span className="hidden md:block">
+                New Task
+              </span>
             </Button>
           </TaskSheet>
         </div>
@@ -167,6 +177,9 @@ const TaskDistribution = ({
         items={items}
         defaultTimeStart={
           defaultTimeStart
+        }
+        sidebarWidth={
+          isMobile ? 0 : 200
         }
         canMove={false}
         canResize={false}
@@ -201,11 +214,16 @@ const TaskDistribution = ({
           }}
         >
           <DateHeader
-            unit="primaryHeader"
-            className="border-none bg-card text-large-semibold"
+            unit="month"
+            className="border-none text-large-semibold"
           />
-          <DateHeader />
+          <DateHeader
+            unit={
+              isMobile ? 'week' : 'day'
+            }
+          />
         </TimelineHeaders>
+
         <TimelineMarkers>
           <CustomMarker date={today}>
             {({ styles, date }) => {

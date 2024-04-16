@@ -1,72 +1,87 @@
-'use client'
-import { useConvexAuth } from 'convex/react'
-import { useRouter } from 'next/navigation'
-import { AlertCircle } from 'lucide-react'
+import { Toaster } from 'sonner'
+import type { Metadata } from 'next'
+import createLocalFont from 'next/font/local'
+import { ModalProvider } from '@/components/providers/modal-provider'
+import { ThemeProvider } from '@/components/providers/theme-provider'
+import { ConvexClientProvider } from '@/components/providers/convex-provider'
+import { EdgeStoreProvider } from '@/lib/edgestore'
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogOverlay,
-  AlertDialogPortal,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
+import '@/app/globals.css'
+const LGEI = createLocalFont({
+  src: [
+    {
+      path: '../fonts/LGEIText-Light.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/LGEIText-Regular.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/LGEIText-SemiBold.otf',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/LGEIText-Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+})
+
+export const metadata: Metadata = {
+  title: 'Workspace',
+  description:
+    'The connected workspace where better, faster work happens.',
+  icons: {
+    icon: [
+      {
+        media:
+          '(prefers-color-scheme: light)',
+        url: 'assets/logo.svg',
+        href: 'assets/logo.svg',
+      },
+      {
+        media:
+          '(prefers-color-scheme: dark)',
+        url: 'assets/logo-dark.svg',
+        href: 'assets/logo-dark.svg',
+      },
+    ],
+  },
+}
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const router = useRouter()
-  const { isAuthenticated, isLoading } =
-    useConvexAuth()
-  if (!isLoading && !isAuthenticated) {
-    return (
-      <AlertDialogDemo
-        navigate={() =>
-          router.push('/')
-        }
-      />
-    )
-  }
-
-  return <>{children}</>
-}
-
-export function AlertDialogDemo({
-  navigate,
-}: {
-  navigate: () => void
-}) {
   return (
-    <AlertDialog defaultOpen>
-      <AlertDialogPortal>
-        <AlertDialogOverlay className="bg-black opacity-100" />
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              You did not Sign In
-            </AlertDialogTitle>
-            <AlertDialogDescription className="flex items-center space-x-2">
-              <AlertCircle size={24} />
-              <span>
-                You need to sign in to
-                continue
-              </span>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction
-              onClick={navigate}
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${LGEI.className}`}
+    >
+      <body>
+        <ConvexClientProvider>
+          <EdgeStoreProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+              storageKey="theme"
             >
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialogPortal>
-    </AlertDialog>
+              <Toaster position="bottom-center" />
+              <ModalProvider />
+              {children}
+            </ThemeProvider>
+          </EdgeStoreProvider>
+        </ConvexClientProvider>
+      </body>
+    </html>
   )
 }

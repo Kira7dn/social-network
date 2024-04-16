@@ -70,8 +70,8 @@ const DocumentIdPage = ({
         name={workspace.name}
         title={workspace.title}
       />
-      <div className="flex flex-col gap-2">
-        <div className="grid h-60 grid-rows-[auto_auto_auto] justify-between gap-2 py-2 md:grid-cols-3">
+      <div className="flex flex-col gap-2 ">
+        <div className="grid grid-cols-1 grid-rows-[auto_auto_auto] justify-between gap-2 py-2 md:h-60 md:grid-cols-3">
           <div className="row-span-2 grid grid-rows-subgrid rounded-md border border-solid border-card-foreground p-2">
             <h2 className="items-center text-large-semibold text-card-foreground">
               Today Task
@@ -108,11 +108,13 @@ const DocumentIdPage = ({
             <TaskMember />
           </div>
         </div>
-        <Schedule
-          workspaceId={
-            params.workspaceId
-          }
-        />
+        <div className="">
+          <Schedule
+            workspaceId={
+              params.workspaceId
+            }
+          />
+        </div>
       </div>
     </div>
   )

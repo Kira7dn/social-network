@@ -20,7 +20,6 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Textarea } from '@/components/ui/textarea'
 import { api } from '@/convex/_generated/api'
 import { useCurrentUser } from '@/hooks/use-currrent-user'

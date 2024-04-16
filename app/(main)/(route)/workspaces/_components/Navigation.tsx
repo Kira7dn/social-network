@@ -43,28 +43,28 @@ export const Navigation = () => {
     <>
       <aside
         className={cn(
-          'flex h-20 w-full border-b-2 border-primary p-2'
+          'flex w-full border-b-2 border-primary py-2 md:h-20'
         )}
       >
         <div className="relative flex w-full gap-2">
           <div
             ref={scrollContainer}
-            className="scrollbar-hide group flex w-full items-center justify-start gap-2 overflow-x-scroll"
+            className="scrollbar-hide group flex w-full items-center justify-start overflow-x-scroll md:gap-2"
           >
             <button
               onClick={scrollLeft}
-              className="absolute left-2 rounded-full p-2 opacity-0 transition-opacity hover:text-primary group-hover:opacity-100"
+              className="absolute left-0 rounded-full  opacity-0 transition-opacity hover:text-primary group-hover:opacity-100 md:left-2"
             >
               <ChevronLeft size={24} />
             </button>
             <button
               onClick={scrollRight}
-              className="absolute right-2 rounded-full p-2 opacity-0 transition-opacity hover:text-primary group-hover:opacity-100"
+              className="absolute right-0 rounded-full  opacity-0 transition-opacity hover:text-primary group-hover:opacity-100 md:right-2"
             >
               <ChevronRight size={24} />
             </button>
             {workspaces?.map(
-              (workspace, index) => {
+              (workspace) => {
                 if (workspace) {
                   return (
                     <div
@@ -77,7 +77,7 @@ export const Navigation = () => {
                         )
                       }
                       className={cn(
-                        'w20-minus-05 flex h-full flex-shrink-0 cursor-pointer items-center justify-start gap-2 rounded-lg px-2 transition-colors duration-200',
+                        'md:w20-minus-05 flex h-full flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg px-1 transition-colors duration-200 md:justify-start md:px-2',
                         {
                           'bg-primary text-white':
                             pathname ===
@@ -102,7 +102,7 @@ export const Navigation = () => {
                           className="rounded-lg object-cover"
                         />
                       </div>
-                      <div>
+                      <div className="hidden md:block">
                         <p className="truncate text-base-semibold">
                           {
                             workspace.name

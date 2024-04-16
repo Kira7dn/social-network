@@ -79,8 +79,8 @@ const WallPaper = ({
           className="object-cover opacity-30 dark:opacity-60"
         />
       )}
-      <div className="absolute bottom-4 left-16 flex items-center gap-9">
-        <Avatar className="h-24 w-24 border-[3px] border-card shadow-sm shadow-secondary">
+      <div className="absolute bottom-4 left-2 flex items-center gap-2 md:left-16 md:gap-9">
+        <Avatar className="h-14 w-14 border-[3px] border-card shadow-sm shadow-secondary md:h-24 md:w-24">
           <AvatarImage
             src={icon}
             className="border-[1px] border-secondary object-cover"
@@ -100,7 +100,7 @@ const WallPaper = ({
       {url && (
         // create delete button at top right of cover image
         <>
-          <div className="absolute right-5 top-5 opacity-0 group-hover:opacity-100">
+          <div className="absolute right-5 top-5 md:opacity-0 md:group-hover:opacity-100">
             <div
               onClick={onDelete}
               className="cursor-pointer text-secondary opacity-40 transition-all duration-200 ease-in-out hover:text-red-500 hover:opacity-100"
@@ -108,17 +108,19 @@ const WallPaper = ({
               <Trash2Icon />
             </div>
           </div>
-          <div className="absolute bottom-5 right-5 flex items-center gap-x-2 opacity-0 group-hover:opacity-100">
+          <div className="absolute bottom-28 right-56 flex items-center gap-2 md:bottom-5 md:right-5 md:opacity-0 md:group-hover:opacity-100">
             <Button
               onClick={() =>
                 iconImage.onReplace(url)
               }
-              className="text-secondary opacity-50 transition-all duration-200 ease-in-out hover:text-primary hover:opacity-100 dark:hover:text-white"
+              className="p-2 text-secondary opacity-50 transition-all duration-200 ease-in-out hover:text-primary hover:opacity-100 dark:hover:text-white"
               variant="outline"
               size="sm"
             >
-              <SmileIcon className="mr-2 h-4 w-4" />
-              Change Icon
+              <SmileIcon className="h-4 w-4 md:mr-2" />
+              <span className="hidden md:block">
+                Change Icon
+              </span>
             </Button>
             <Button
               onClick={() =>
@@ -126,12 +128,14 @@ const WallPaper = ({
                   url
                 )
               }
-              className="text-secondary opacity-50 transition-all duration-200 ease-in-out hover:text-primary hover:opacity-100 dark:hover:text-white"
+              className="p-2 text-secondary opacity-50 transition-all duration-200 ease-in-out hover:text-primary hover:opacity-100 dark:hover:text-white"
               variant="outline"
               size="sm"
             >
-              <ImageIcon className="mr-2 h-4 w-4" />
-              Change Cover
+              <ImageIcon className="h-4 w-4 md:mr-2" />
+              <span className="hidden md:block">
+                Change Cover
+              </span>
             </Button>
           </div>
         </>
