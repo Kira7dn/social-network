@@ -165,7 +165,7 @@ export function TaskSheet({
       <SheetTrigger>
         {children}
       </SheetTrigger>
-      <SheetContent className="h-full pb-0 pr-4 sm:max-w-xl">
+      <SheetContent className="h-full w-full pb-0 pr-4 md:max-w-xl">
         <SheetHeader className="mr-4 flex flex-row items-center justify-between">
           <SheetTitle className="text-large-semibold">
             {title
@@ -176,7 +176,7 @@ export function TaskSheet({
         <ScrollArea className="h-full w-full pb-8 pr-4 ">
           <Form {...form}>
             <form
-              className="flex flex-col justify-start gap-4 px-2"
+              className="flex w-full flex-col justify-start gap-4 px-2"
               onSubmit={form.handleSubmit(
                 onSubmit
               )}
@@ -193,14 +193,14 @@ export function TaskSheet({
               >
                 <Save />
               </Button>
-              <div className="text-sm flex flex-row items-start space-x-4">
+              <div className="text-sm flex flex-col items-start justify-start gap-4 md:flex-row">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({
                     field,
                   }) => (
-                    <FormItem className="w-3/5">
+                    <FormItem className="w-full md:w-3/5">
                       <FormLabel>
                         Name
                       </FormLabel>
@@ -221,7 +221,7 @@ export function TaskSheet({
                   render={({
                     field,
                   }) => (
-                    <FormItem className="w-2/5">
+                    <FormItem className="w-full md:w-2/5">
                       <FormLabel>
                         Task Group
                       </FormLabel>
@@ -379,7 +379,7 @@ export function TaskSheet({
                 )}
               />
 
-              <div className="flex flex-row items-start space-x-4">
+              <div className="flex flex-col gap-4 md:flex-row md:items-start">
                 <FormField
                   control={form.control}
                   name="duration"
@@ -478,16 +478,16 @@ export function TaskSheet({
                               'h-5 w-9 p-0 font-normal aria-selected:opacity-100'
                             ),
                             cell: 'h-5 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-slate-100/50 [&:has([aria-selected])]:bg-slate-100 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 dark:[&:has([aria-selected].day-outside)]:bg-slate-800/50 dark:[&:has([aria-selected])]:bg-slate-800',
+                            day_today:
+                              'bg-slate-100 text-slate-90 dark:bg-slate-800 dark:text-slate-50',
                           }}
                         />
                       </div>
-                      <FormMessage>
-                        {' '}
-                      </FormMessage>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
-                <div className="flex w-full flex-col gap-8">
+                <div className="text-s mb-4 flex w-full flex-col gap-8">
                   <FormField
                     control={
                       form.control

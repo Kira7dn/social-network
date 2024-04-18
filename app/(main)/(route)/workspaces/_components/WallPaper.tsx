@@ -148,9 +148,9 @@ WallPaper.Skeleton =
   function CoverSkeleton() {
     return (
       <Skeleton className="relative h-40 w-full rounded-none">
-        <div className="absolute bottom-4 left-16 flex items-center gap-9">
-          <Skeleton className="h-24 w-24 rounded-full shadow-sm shadow-secondary"></Skeleton>
-          <div className="flex h-16 w-52 flex-col justify-between rounded-lg px-4 py-2 shadow-sm shadow-secondary"></div>
+        <div className="absolute bottom-4 left-2 flex items-center gap-2 md:left-16 md:gap-9">
+          <Skeleton className="h-14 w-14 rounded-full shadow-sm shadow-secondary"></Skeleton>
+          <Skeleton className="flex h-16 w-52 flex-col justify-between rounded-lg px-4 py-2 shadow-sm shadow-secondary"></Skeleton>
         </div>
       </Skeleton>
     )

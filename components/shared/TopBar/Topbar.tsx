@@ -29,7 +29,7 @@ export const Topbar = () => {
   return (
     <div
       className={cn(
-        'sticky top-0 z-50 flex h-14 w-full items-center justify-between bg-background transition-all duration-300'
+        'sticky top-0 z-20 flex h-14 w-full items-center justify-between bg-background transition-all duration-300'
       )}
     >
       <div className="flex w-full items-center justify-between px-6">
